@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class Mover : MonoBehaviour
 {
@@ -21,8 +22,11 @@ public class Mover : MonoBehaviour
     private void Move() 
     {
         var input = _moveInput.MoveInput;
+        Debug.Log(input);
         Vector3 movement = new Vector3(input.x, 0f, input.y);
         movement = transform.TransformDirection(movement.normalized);
+
+        Debug.Log(movement);
 
         _rb.AddForce(movement * _speed, ForceMode.Force);
     }
@@ -36,7 +40,7 @@ public class Mover : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 2f);
+        return Physics.Raycast(transform.position, Vector3.down, 0.3f);
     }
 
     public void SetInput(IMoveInput moveInput)
