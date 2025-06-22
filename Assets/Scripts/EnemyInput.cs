@@ -13,7 +13,7 @@ namespace Assets.Scripts
         {
             if (_playerObject == null)
             {
-                FindPlayer();
+                var _playerObject = Helpers.FindPlayer();
             }
 
             if (_playerObject != null)
@@ -25,16 +25,6 @@ namespace Assets.Scripts
             }
 
             return Vector2.zero;
-        }
-
-        private void FindPlayer()
-        {
-            _playerObject = GameObject.FindWithTag("Player");
-
-            if (_playerObject == null)
-            {
-                Debug.LogWarning($"[EnemyInput] »грок с тегом 'Player' не найден!");
-            }
         }
     }
 }

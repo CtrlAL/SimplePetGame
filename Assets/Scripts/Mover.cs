@@ -25,14 +25,12 @@ namespace Assets.Scripts
         private void Move()
         {
             var input = _moveInput.MoveInput;
-            Debug.Log(input);
             Vector3 movement = new Vector3(input.x, 0f, input.y);
             movement = transform.TransformDirection(movement.normalized);
 
-            Debug.Log(movement);
-
             _rb.AddForce(movement * _speed, ForceMode.Force);
         }
+
         private void Jump()
         {
             if (_moveInput.JumpPerformed && IsGrounded())
