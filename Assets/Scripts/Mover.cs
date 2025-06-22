@@ -50,5 +50,4 @@ namespace Assets.Scripts
             _moveInput = moveInput;
         }
     }
-
 }

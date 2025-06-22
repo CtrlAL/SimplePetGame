@@ -38,21 +38,11 @@ namespace Assets.Scripts
         public void OnTriggerEnter(Collider other)
         {
             _closeObjects.Add(other.gameObject);
-
-            if (other.CompareTag("Enemy"))
-            {
-                
-            }
         }
 
         private void OnTriggerExit(Collider other)
         {
             _closeObjects.Remove(other.gameObject);
-
-            if (other.CompareTag("Enemy"))
-            {
-                
-            }
         }
     }
 }
