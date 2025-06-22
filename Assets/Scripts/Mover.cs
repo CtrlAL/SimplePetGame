@@ -12,6 +12,7 @@ namespace Assets.Scripts
 
         public void Awake()
         {
+            //TODO: Убрать привязку к gameObject'у
             _rb = GetComponent<Rigidbody>();
         }
 

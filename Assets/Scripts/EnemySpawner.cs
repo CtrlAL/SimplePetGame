@@ -38,5 +38,4 @@ namespace Assets.Scripts
             }
         }
     }
-
 }
