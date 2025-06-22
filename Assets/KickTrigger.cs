@@ -10,16 +10,16 @@ namespace Assets.Scripts
 
         private List<GameObject> _closeObjects = new List<GameObject>();
 
-        private readonly PlayerInputActions input;
+        private PlayerInputActions _input;
 
         public void Awake()
         {
-            PlayerInput input = FindObjectOfType<PlayerInput>();
+            _input = PlayerInputProvider.GetInputActions();
         }
 
         public void FixedUpdate()
         {
-            if (input.Inputs.Kick.IsPressed())
+            if (_input.Inputs.Kick.IsPressed())
             {
                 _closeObjects.ForEach(go =>
                 {
@@ -38,11 +38,21 @@ namespace Assets.Scripts
         public void OnTriggerEnter(Collider other)
         {
             _closeObjects.Add(other.gameObject);
+
+            if (other.CompareTag("Enemy"))
+            {
+                
+            }
         }
 
         private void OnTriggerExit(Collider other)
         {
             _closeObjects.Remove(other.gameObject);
+
+            if (other.CompareTag("Enemy"))
+            {
+                
+            }
         }
     }
 }
