@@ -2,37 +2,41 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+namespace Assets.Scripts
 {
-    [SerializeField]
-    private GameObject _enemyPrefub;
-
-    private List<GameObject> _enemyObjects = new List<GameObject>();
-
-    private Transform[] _spawnPoints;
-
-    private int _maxEnemyCount = 10;
-
-    private float timer = 0f;
-
-    public void Awake()
+    public class EnemySpawner : MonoBehaviour
     {
-        _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint")
-            .Select(x => x.transform)
-            .ToArray();
-    }
+        [SerializeField]
+        private GameObject _enemyPrefub;
 
-    void Update()
-    {
-        timer += Time.deltaTime;
+        private List<GameObject> _enemyObjects = new List<GameObject>();
 
-        if (timer >= 10f && _enemyObjects.Count < _maxEnemyCount)
+        private Transform[] _spawnPoints;
+
+        private int _maxEnemyCount = 10;
+
+        private float timer = 0f;
+
+        public void Awake()
         {
-            var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
-            var enemy = Instantiate(_enemyPrefub, spawnPoint);
-            _enemyObjects.Add(enemy);
+            _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint")
+                .Select(x => x.transform)
+                .ToArray();
+        }
 
-            timer = 0f;
+        void Update()
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= 10f && _enemyObjects.Count < _maxEnemyCount)
+            {
+                var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
+                var enemy = Instantiate(_enemyPrefub, spawnPoint.position, spawnPoint.rotation);
+                _enemyObjects.Add(enemy);
+
+                timer = 0f;
+            }
         }
     }
+
 }

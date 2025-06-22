@@ -1,0 +1,49 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+
+namespace Assets.Scripts
+{
+    public class KickTrigger : MonoBehaviour
+    {
+        private float _kickPower = 5f;
+
+        private List<GameObject> _closeObjects = new List<GameObject>();
+
+        private readonly PlayerInputActions input;
+
+        public void Awake()
+        {
+            PlayerInput input = FindObjectOfType<PlayerInput>();
+        }
+
+        public void FixedUpdate()
+        {
+            if (input.Inputs.Kick.IsPressed())
+            {
+                _closeObjects.ForEach(go =>
+                {
+                    var rb = go.GetComponent<Rigidbody>();
+
+                    if (rb != null)
+                    {
+                        var kicker = gameObject.transform;
+                        Vector3 direction = (go.transform.position - kicker.position).normalized;
+                        rb.AddForce(direction * _kickPower, ForceMode.Impulse);
+                    }
+                });
+            }
+        }
+
+        public void OnTriggerEnter(Collider other)
+        {
+            _closeObjects.Add(other.gameObject);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            _closeObjects.Remove(other.gameObject);
+        }
+    }
+}
+

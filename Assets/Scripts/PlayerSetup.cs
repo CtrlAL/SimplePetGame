@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public class PlayerSetup : MonoBehaviour
+
+namespace Assets.Scripts
 {
-    void Awake()
+    public class PlayerSetup : MonoBehaviour
     {
-        var input = FindObjectOfType<PlayerInput>();
-        var mover = gameObject.GetComponent<Mover>();
-        mover.SetInput(input);
+        void Awake()
+        {
+            var input = FindObjectOfType<PlayerInput>();
+            var mover = gameObject.GetComponent<Mover>();
+            mover.SetInput(input);
+        }
     }
 }
+

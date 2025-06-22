@@ -1,36 +1,40 @@
+using Assets.Scripts.Interfaces;
 using UnityEngine;
 
-public class EnemyInput : MonoBehaviour, IMoveInput
+namespace Assets.Scripts
 {
-    private GameObject _playerObject;
-    public Vector2 MoveInput => GetMoveInput();
-    public bool JumpPerformed => false;
-
-    private Vector2 GetMoveInput()
+    public class EnemyInput : MonoBehaviour, IMoveInput
     {
-        if (_playerObject == null)
+        private GameObject _playerObject;
+        public Vector2 MoveInput => GetMoveInput();
+        public bool JumpPerformed => false;
+
+        private Vector2 GetMoveInput()
         {
-            FindPlayer();
+            if (_playerObject == null)
+            {
+                FindPlayer();
+            }
+
+            if (_playerObject != null)
+            {
+                var targetPosition = _playerObject.transform.position;
+                Vector3 direction = (targetPosition - transform.position).normalized;
+
+                return new Vector2(direction.x, direction.z);
+            }
+
+            return Vector2.zero;
         }
 
-        if (_playerObject != null)
+        private void FindPlayer()
         {
-            var targetPosition = _playerObject.transform.position;
-            Vector3 direction = (targetPosition - transform.position).normalized;
+            _playerObject = GameObject.FindWithTag("Player");
 
-            return new Vector2(direction.x, direction.z);
-        }
-
-        return Vector2.zero;
-    }
-
-    private void FindPlayer()
-    {
-        _playerObject = GameObject.FindWithTag("Player");
-
-        if (_playerObject == null)
-        {
-            Debug.LogWarning($"[EnemyInput] »грок с тегом 'Player' не найден!");
+            if (_playerObject == null)
+            {
+                Debug.LogWarning($"[EnemyInput] »грок с тегом 'Player' не найден!");
+            }
         }
     }
 }

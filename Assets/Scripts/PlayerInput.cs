@@ -1,21 +1,25 @@
+using Assets.Scripts.Interfaces;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour, IMoveInput
+namespace Assets.Scripts
 {
-    private PlayerInputActions _inputActions;
-
-    public Vector2 MoveInput => _inputActions.Inputs.Move.ReadValue<Vector2>();
-
-    public bool JumpPerformed => _inputActions.Inputs.Jump.IsPressed();
-
-    public void Awake()
+    public class PlayerInput : MonoBehaviour, IMoveInput
     {
-        _inputActions = new PlayerInputActions();
-        _inputActions.Enable();
-    }
+        private PlayerInputActions _inputActions;
+        public Vector2 MoveInput => _inputActions.Inputs.Move.ReadValue<Vector2>();
 
-    public void OnDestroy()
-    {
-        _inputActions.Disable();
+        public bool JumpPerformed => _inputActions.Inputs.Jump.IsPressed();
+
+        public void Awake()
+        {
+            _inputActions = PlayerInputProvider.GetInputActions();
+            _inputActions.Enable();
+        }
+
+        public void OnDestroy()
+        {
+            _inputActions.Disable();
+        }
     }
 }
+

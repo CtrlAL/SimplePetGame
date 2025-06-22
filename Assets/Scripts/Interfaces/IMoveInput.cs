@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public interface IMoveInput
+namespace Assets.Scripts.Interfaces
 {
-    Vector2 MoveInput { get; }
-    bool JumpPerformed { get; }
+    public interface IMoveInput
+    {
+        Vector2 MoveInput { get; }
+        bool JumpPerformed { get; }
+    }
 }

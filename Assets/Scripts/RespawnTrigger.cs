@@ -1,28 +1,32 @@
 using UnityEngine;
 
-public class RespawnTrigger : MonoBehaviour
+namespace Assets.Scripts
 {
-    [SerializeField]
-    private GameObject _playerSpawnPoint;
-    private void OnTriggerEnter(Collider other)
+    public class RespawnTrigger : MonoBehaviour
     {
-        if (other.CompareTag("Player") && CheckTag())
+        [SerializeField]
+        private GameObject _playerSpawnPoint;
+        private void OnTriggerEnter(Collider other)
         {
-            other.gameObject.transform.position = _playerSpawnPoint.transform.position;
+            if (other.CompareTag("Player") && CheckTag())
+            {
+                other.gameObject.transform.position = _playerSpawnPoint.transform.position;
+            }
+
+            else if (other.CompareTag("Enemy"))
+            {
+                Destroy(other.gameObject);
+            }
         }
 
-        else if(other.CompareTag("Enemy"))
+        private bool CheckTag()
         {
-            Destroy(other.gameObject);
+            if (_playerSpawnPoint.tag == "SpawnPoint")
+            {
+                return true;
+            }
+            return false;
         }
-    }
-
-    private bool CheckTag()
-    {
-        if (_playerSpawnPoint.tag == "SpawnPoint")
-        {
-            return true;
-        }
-        return false;
     }
 }
+

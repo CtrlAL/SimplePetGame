@@ -1,11 +1,15 @@
+using Assets.Scripts.Interfaces;
 using UnityEngine;
 
-public class EnemySetup : MonoBehaviour
+namespace Assets.Scripts
 {
-    void Awake()
+    public class EnemySetup : MonoBehaviour
     {
-        var input = gameObject.GetComponent<IMoveInput>();
-        var mover = gameObject.GetComponent<Mover>();
-        mover.SetInput(input);
+        void Awake()
+        {
+            var input = gameObject.GetComponent<IMoveInput>();
+            var mover = gameObject.GetComponent<Mover>();
+            mover.SetInput(input);
+        }
     }
 }
