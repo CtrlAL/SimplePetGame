@@ -26,7 +26,7 @@ namespace Assets.Scripts
                 .ToArray();
         }
 
-        void Update()
+        public void PublicUpdate()
         {
             _timer += Time.deltaTime;
 

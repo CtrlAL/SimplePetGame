@@ -23,15 +23,20 @@ namespace Assets.Scripts
             {
                 _closeObjects.ForEach(go =>
                 {
-                    var rb = go.GetComponent<Rigidbody>();
-
-                    if (rb != null)
-                    {
-                        var kicker = gameObject.transform;
-                        Vector3 direction = (go.transform.position - kicker.position).normalized;
-                        rb.AddForce(direction * _kickPower, ForceMode.Impulse);
-                    }
+                    Kick(go, gameObject);
                 });
+            }
+        }
+
+        private void Kick(GameObject kickedObject, GameObject kicker)
+        {
+            var rb = kickedObject.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                var kickerTransform = kicker.transform;
+                Vector3 direction = (kickedObject.transform.position - kickerTransform.position).normalized;
+                rb.AddForce(direction * _kickPower, ForceMode.Impulse);
             }
         }
 

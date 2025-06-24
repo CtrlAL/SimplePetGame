@@ -1,14 +1,16 @@
 using UnityEngine;
 
-public class GameRoot : MonoBehaviour
+namespace Assets.Scripts
 {
-    //TODO: Положить сюда спавнер, возможно следить отсюда за энеми. И вызывать у них update вручную
-    public void Awake()
+    public class GameRoot : MonoBehaviour
     {
-        
-    }
-    void Update()
-    {
-        
+        [SerializeField] EnemySpawner _enemySpawner;
+
+        void Update()
+        {
+            _enemySpawner.PublicUpdate();
+        }
     }
 }
+
+
