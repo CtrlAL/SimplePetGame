@@ -2,18 +2,51 @@ using System;
 using UnityEngine;
 
 public class MoveEventPublisher : MonoBehaviour
-{
-    public event EventHandler<MoveEventArgs> MoveEvent;
+{    
+    private static MoveEventPublisher _instance;
+    public static MoveEventPublisher Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<MoveEventPublisher>();
 
+                if (_instance == null)
+                {
+                    GameObject singletonObject = new GameObject("MoveEventPublisher");
+                    _instance = singletonObject.AddComponent<MoveEventPublisher>();
+                    DontDestroyOnLoad(singletonObject);
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    public event EventHandler<MoveEventArgs> MoveEvent;
     public event EventHandler<JumpEventArgs> JumpEvent;
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void PublishMoveEvent(Vector2 input, GameObject objectForMove)
     {
-        MoveEvent?.Invoke(this, new(input, objectForMove));
+        MoveEvent?.Invoke(this, new MoveEventArgs(input, objectForMove));
     }
+
     public void PublishJumpEvent(GameObject objectForMove)
     {
-        JumpEvent?.Invoke(this, new(objectForMove));
+        JumpEvent?.Invoke(this, new JumpEventArgs(objectForMove));
     }
 }
 

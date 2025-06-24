@@ -5,8 +5,6 @@ namespace Assets.Scripts
 {
     public class PlayerInput : MonoBehaviour
     {
-        [SerializeField] MoveEventPublisher _moveEventPublisher;
-
         private PlayerInputActions _inputActions;
 
         public void Awake()
@@ -22,13 +20,13 @@ namespace Assets.Scripts
             if (_inputActions.Inputs.Move.IsPressed())
             {
                 var input = _inputActions.Inputs.Move.ReadValue<Vector2>();
-                _moveEventPublisher.PublishMoveEvent(input, Helpers.FindPlayer());
+                MoveEventPublisher.Instance.PublishMoveEvent(input, Helpers.FindPlayer());
             }
         }
 
         private void PublishJump(InputAction.CallbackContext context)
         {
-            _moveEventPublisher.PublishJumpEvent(Helpers.FindPlayer());
+            MoveEventPublisher.Instance.PublishJumpEvent(Helpers.FindPlayer());
         }
 
         public void OnDestroy()

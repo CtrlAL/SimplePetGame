@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 6747974691370669870}
   - component: {fileID: 5297810660424664109}
   - component: {fileID: 8380873335004917412}
-  - component: {fileID: 5084547141245582819}
-  - component: {fileID: 7118274914175993095}
   - component: {fileID: 4628389803517780288}
   m_Layer: 0
   m_Name: Enemy
@@ -136,32 +134,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &5084547141245582819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094300149607204258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f83293339ea12b4680d740316475cb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7118274914175993095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094300149607204258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce6c2b2d76f862844aefcc258c464e9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 20
-  _jumpForce: 0.5
 --- !u!114 &4628389803517780288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,3 +146,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738475f102bc1f74189fad609dc0748e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveEventPublisher: {fileID: 0}

@@ -4,9 +4,6 @@ namespace Assets.Scripts
 {
     public class EnemyInput : MonoBehaviour
     {
-        [SerializeField]
-        private MoveEventPublisher _moveEventPublisher;
-
         private GameObject _playerObject;
 
         public void FixedUpdate()
@@ -22,7 +19,7 @@ namespace Assets.Scripts
                 Vector3 direction = (targetPosition - transform.position).normalized;
                 var input = new Vector2(direction.x, direction.z);
 
-                _moveEventPublisher.PublishMoveEvent(input, gameObject);
+                MoveEventPublisher.Instance.PublishMoveEvent(input, gameObject);
             }
         }
     }

@@ -5,9 +5,6 @@ namespace Assets.Scripts
     public class Mover : MonoBehaviour
     {
         [SerializeField]
-        MoveEventPublisher _movePublisher;
-
-        [SerializeField]
         private float _speed = 20f;
 
         [SerializeField]
@@ -15,8 +12,8 @@ namespace Assets.Scripts
 
         public void Awake()
         {
-            _movePublisher.MoveEvent += Move;
-            _movePublisher.JumpEvent += Jump;
+            MoveEventPublisher.Instance.MoveEvent += Move;
+            MoveEventPublisher.Instance.JumpEvent += Jump;
         }
 
         private void Jump(object sender, JumpEventArgs args)
@@ -48,6 +45,12 @@ namespace Assets.Scripts
         private bool IsGrounded(GameObject gameObject)
         {
             return Physics.Raycast(gameObject.transform.position, Vector3.down, 0.3f);
+        }
+
+        public void OnDestroy()
+        {
+            MoveEventPublisher.Instance.MoveEvent -= Move;
+            MoveEventPublisher.Instance.JumpEvent -= Jump;
         }
     }
 }
