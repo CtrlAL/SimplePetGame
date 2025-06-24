@@ -8,7 +8,7 @@ namespace Assets.Scripts
 
         void Update()
         {
-            _enemySpawner.PublicUpdate();
+            //_enemySpawner.PublicUpdate();
         }
     }
 }
