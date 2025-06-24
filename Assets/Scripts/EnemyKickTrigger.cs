@@ -10,17 +10,9 @@ namespace Assets.Scripts
         private float delayBeforeKick = 1f;
         private Coroutine _delayCoroutine;
 
-        private GameObject _player;
-
-
-        public void Awake()
-        {
-            _player = Helpers.FindPlayer();
-        }
-
         public void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject == _player)
+            if (other.gameObject == PlayerInstanse.Instance)
             {
                 var rb = other.GetComponent<Rigidbody>();
 
@@ -33,7 +25,7 @@ namespace Assets.Scripts
 
         public void OnTriggerExit(Collider other)
         {
-            if (other.gameObject == _player && _delayCoroutine != null)
+            if (other.gameObject == PlayerInstanse.Instance && _delayCoroutine != null)
             {
                 StopCoroutine(_delayCoroutine);
                 _delayCoroutine = null;

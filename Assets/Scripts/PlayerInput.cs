@@ -20,13 +20,13 @@ namespace Assets.Scripts
             if (_inputActions.Inputs.Move.IsPressed())
             {
                 var input = _inputActions.Inputs.Move.ReadValue<Vector2>();
-                MoveEventPublisher.Instance.PublishMoveEvent(input, Helpers.FindPlayer());
+                MoveEventPublisher.Instance.PublishMoveEvent(input, PlayerInstanse.Instance);
             }
         }
 
         private void PublishJump(InputAction.CallbackContext context)
         {
-            MoveEventPublisher.Instance.PublishJumpEvent(Helpers.FindPlayer());
+            MoveEventPublisher.Instance.PublishJumpEvent(PlayerInstanse.Instance);
         }
 
         public void OnDestroy()

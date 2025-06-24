@@ -4,21 +4,13 @@ namespace Assets.Scripts
 {
     public class EnemyInput : MonoBehaviour
     {
-        private GameObject _playerObject;
-
         public void FixedUpdate()
         {
-            if (_playerObject == null)
+            if (PlayerInstanse.Instance != null)
             {
-                _playerObject = Helpers.FindPlayer();
-            }
-
-            if (_playerObject != null)
-            {
-                var targetPosition = _playerObject.transform.position;
+                var targetPosition = PlayerInstanse.Instance.transform.position;
                 Vector3 direction = (targetPosition - transform.position).normalized;
                 var input = new Vector2(direction.x, direction.z);
-
                 MoveEventPublisher.Instance.PublishMoveEvent(input, gameObject);
             }
         }
