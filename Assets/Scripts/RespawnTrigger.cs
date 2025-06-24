@@ -15,7 +15,7 @@ namespace Assets.Scripts
 
             else if (other.CompareTag("Enemy"))
             {
-                Destroy(other.gameObject);
+                DestroyEnemyEventPublisher.Instance.PublishEvent(other.gameObject);
             }
         }
 

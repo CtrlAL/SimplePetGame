@@ -24,6 +24,14 @@ namespace Assets.Scripts
             _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint")
                 .Select(x => x.transform)
                 .ToArray();
+
+            DestroyEnemyEventPublisher.Instance.DestroyEnemy += DestroyEnemy;
+        }
+
+        private void DestroyEnemy(object sender, GameObject args)
+        {
+            _enemyObjects.Remove(args);
+            Destroy(args);
         }
 
         public void PublicUpdate()
@@ -32,12 +40,16 @@ namespace Assets.Scripts
 
             if (_timer >= _maxTimer && _enemyObjects.Count < _maxEnemyCount)
             {
-                var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
-                var enemy = Instantiate(_enemyPrefub, spawnPoint.position, spawnPoint.rotation);
-                _enemyObjects.Add(enemy);
-
+                CreateEnemy();
                 _timer = 0f;
             }
+        }
+
+        private void CreateEnemy()
+        {
+            var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
+            var enemy = Instantiate(_enemyPrefub, spawnPoint.position, spawnPoint.rotation);
+            _enemyObjects.Add(enemy);
         }
     }
 }

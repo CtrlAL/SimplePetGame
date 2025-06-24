@@ -1,18 +1,22 @@
 using UnityEngine;
 
-public class PlayerInstanse : MonoBehaviour
+namespace Assets.Scripts
 {
-    private static GameObject _instance;
-    public static GameObject Instance
+    public class PlayerInstanse : MonoBehaviour
     {
-        get
+        private static GameObject _instance;
+        public static GameObject Instance
         {
-            if (_instance == null)
+            get
             {
-                _instance = GameObject.FindWithTag("Player");
-            }
+                if (_instance == null)
+                {
+                    _instance = GameObject.FindWithTag("Player");
+                }
 
-            return _instance;
+                return _instance;
+            }
         }
     }
 }
+

@@ -166,6 +166,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &191622843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 191622845}
+  - component: {fileID: 191622844}
+  m_Layer: 0
+  m_Name: KickEventPublisher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &191622844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191622843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3768f47ec5e16f24496c0de09b22c008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &191622845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191622843}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3910513, y: 0, z: 0.4154816}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3ad8bb99304234ea0a251352bddf61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveEventPublisher: {fileID: 33807911}
 --- !u!4 &389289732
 Transform:
   m_ObjectHideFlags: 0
@@ -728,6 +771,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc588ff2e3ecbaf42a7b536e6d54aac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1557227724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557227726}
+  - component: {fileID: 1557227725}
+  m_Layer: 0
+  m_Name: Kicker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1557227725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557227724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19cb2ab5b6612ab4697b9f98681f8eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _kickPower: 3
+--- !u!4 &1557227726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557227724}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3910513, y: 0, z: 0.4154816}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1647730537
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b8f864156e8b94ab14d16e5b3864d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemySpawner: {fileID: 1834138831}
 --- !u!4 &1647730539
 Transform:
   m_ObjectHideFlags: 0
@@ -951,7 +1040,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce6c2b2d76f862844aefcc258c464e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movePublisher: {fileID: 33807911}
   _speed: 20
   _jumpForce: 3
 --- !u!4 &1947428194
@@ -1434,6 +1522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c385a57848bbe47b60d3b1cbbf79e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayBeforeKick: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1448,4 +1537,6 @@ SceneRoots:
   - {fileID: 1019180397}
   - {fileID: 1647730539}
   - {fileID: 33807912}
+  - {fileID: 191622845}
   - {fileID: 1947428194}
+  - {fileID: 1557227726}

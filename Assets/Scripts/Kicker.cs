@@ -4,6 +4,7 @@ namespace Assets.Scripts
 {
     public class Kicker : MonoBehaviour
     {
+        [SerializeField]
         private float _kickPower = 3f;
         private void Awake()
         {
