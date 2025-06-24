@@ -4,12 +4,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ObjectPickuper : MonoBehaviour
+public class PlayerThrowableInteractor : MonoBehaviour
 {
     [SerializeField]
     private GameObject _throwablesSlot;
 
     private List<GameObject> _allowThrowables;
+
+    private GameObject _pickedObject;
 
     public void Awake()
     {
@@ -31,7 +33,17 @@ public class ObjectPickuper : MonoBehaviour
         if (closestThrowable != null)
         {
             closestThrowable.transform.position = _throwablesSlot.transform.position;
+            closestThrowable.transform.SetParent(_throwablesSlot.transform);
+            _pickedObject = closestThrowable;
         }
+    }
+
+    private void Put(InputAction.CallbackContext context)
+    {
+    }
+
+    private void Throw(InputAction.CallbackContext context)
+    {
     }
 
     private void OnTriggerEnter(Collider other)
