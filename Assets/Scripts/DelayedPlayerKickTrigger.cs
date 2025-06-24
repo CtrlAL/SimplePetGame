@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Assets.Scripts 
 {
-    public class EnemyKickTrigger : MonoBehaviour
+    public class DelayedPlayerKickTrigger : MonoBehaviour
     {
-
-        private float _kickPower = 3f;
+        [SerializeField] 
         private float delayBeforeKick = 1f;
+
         private Coroutine _delayCoroutine;
 
         public void OnTriggerEnter(Collider other)
@@ -18,7 +18,7 @@ namespace Assets.Scripts
 
                 if (rb != null)
                 {
-                    _delayCoroutine = StartCoroutine(DelayedKick(rb));
+                    _delayCoroutine = StartCoroutine(DelayedKick());
                 }
             }
         }
@@ -32,13 +32,14 @@ namespace Assets.Scripts
             }
         }
 
-        private IEnumerator DelayedKick(Rigidbody other)
+        private IEnumerator DelayedKick()
         {
             yield return new WaitForSeconds(delayBeforeKick);
 
-            var kicker = gameObject.transform;
-            Vector3 direction = (other.transform.position - kicker.position).normalized;
-            other.AddForce(direction * _kickPower, ForceMode.Impulse);
+            if (PlayerInstanse.Instance != null)
+            {
+                KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance);
+            }
         }
     }
 }

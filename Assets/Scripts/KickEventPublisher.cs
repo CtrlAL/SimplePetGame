@@ -39,9 +39,9 @@ namespace Assets.Scripts
             _instance = this;
         }
 
-        public void PublishKickEvent(GameObject objectForMove)
+        public void PublishKickEvent(GameObject kicker, GameObject kicked)
         {
-            KickEvent?.Invoke(this, new KickEventArgs(objectForMove));
+            KickEvent?.Invoke(this, new KickEventArgs(kicker, kicked));
         }
     }
 
@@ -49,9 +49,12 @@ namespace Assets.Scripts
     {
         public GameObject Kicker;
 
-        public KickEventArgs(GameObject kicker)
+        public GameObject Kicked;
+
+        public KickEventArgs(GameObject kicker, GameObject kicked)
         {
             Kicker = kicker;
+            Kicked = kicked;
         }
     }
 }
