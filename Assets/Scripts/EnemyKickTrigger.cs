@@ -6,7 +6,7 @@ namespace Assets.Scripts
     public class EnemyKickTrigger : MonoBehaviour
     {
 
-        private float _kickPower = 5f;
+        private float _kickPower = 3f;
         private float delayBeforeKick = 1f;
         private Coroutine _delayCoroutine;
 

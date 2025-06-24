@@ -6,7 +6,7 @@ namespace Assets.Scripts
 {
     public class KickTrigger : MonoBehaviour
     {
-        private float _kickPower = 5f;
+        private float _kickPower = 3f;
 
         private List<GameObject> _closeObjects = new List<GameObject>();
 

@@ -1,52 +1,53 @@
-using Assets.Scripts.Interfaces;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
     public class Mover : MonoBehaviour
     {
-        public float _speed = 20f;
-        public float _jumpForce = 0.5f;
-        private IMoveInput _moveInput;
-        private Rigidbody _rb;
+        [SerializeField]
+        MoveEventPublisher _movePublisher;
+
+        [SerializeField]
+        private float _speed = 20f;
+
+        [SerializeField]
+        private float _jumpForce = 0.5f;
 
         public void Awake()
         {
-            //TODO: Убрать привязку к gameObject'у
-            _rb = GetComponent<Rigidbody>();
+            _movePublisher.MoveEvent += Move;
+            _movePublisher.JumpEvent += Jump;
         }
 
-        void FixedUpdate()
+        private void Jump(object sender, JumpEventArgs args)
         {
-            Move();
-            Jump();
-        }
-
-        private void Move()
-        {
-            var input = _moveInput.MoveInput;
-            Vector3 movement = new Vector3(input.x, 0f, input.y);
-            movement = transform.TransformDirection(movement.normalized);
-
-            _rb.AddForce(movement * _speed, ForceMode.Force);
-        }
-
-        private void Jump()
-        {
-            if (_moveInput.JumpPerformed && IsGrounded())
+            if (IsGrounded(args.ObjectForJump))
             {
-                _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+                var rb = args.ObjectForJump.GetComponent<Rigidbody>();
+                rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
             }
         }
 
-        private bool IsGrounded()
+        private void Move(object sender, MoveEventArgs args)
         {
-            return Physics.Raycast(transform.position, Vector3.down, 0.3f);
+            var input = args.Input;
+            var objectForMove = args.ObjectForMove;
+
+            var rb = objectForMove.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                Vector3 movement = new Vector3(input.x, 0f, input.y);
+                movement = transform.TransformDirection(movement.normalized);
+                movement.y = 0f;
+
+                rb.AddForce(movement * _speed, ForceMode.Force);
+            }
         }
 
-        public void SetInput(IMoveInput moveInput)
+        private bool IsGrounded(GameObject gameObject)
         {
-            _moveInput = moveInput;
+            return Physics.Raycast(gameObject.transform.position, Vector3.down, 0.3f);
         }
     }
 }

@@ -15,7 +15,9 @@ namespace Assets.Scripts
 
         private int _maxEnemyCount = 10;
 
-        private float timer = 0f;
+        private float _timer = 0f;
+
+        private float _maxTimer = 4f;
 
         public void Awake()
         {
@@ -26,15 +28,15 @@ namespace Assets.Scripts
 
         void Update()
         {
-            timer += Time.deltaTime;
+            _timer += Time.deltaTime;
 
-            if (timer >= 10f && _enemyObjects.Count < _maxEnemyCount)
+            if (_timer >= _maxTimer && _enemyObjects.Count < _maxEnemyCount)
             {
                 var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
                 var enemy = Instantiate(_enemyPrefub, spawnPoint.position, spawnPoint.rotation);
                 _enemyObjects.Add(enemy);
 
-                timer = 0f;
+                _timer = 0f;
             }
         }
     }

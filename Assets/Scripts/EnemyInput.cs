@@ -1,30 +1,29 @@
-using Assets.Scripts.Interfaces;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class EnemyInput : MonoBehaviour, IMoveInput
+    public class EnemyInput : MonoBehaviour
     {
-        private GameObject _playerObject;
-        public Vector2 MoveInput => GetMoveInput();
-        public bool JumpPerformed => false;
+        [SerializeField]
+        private MoveEventPublisher _moveEventPublisher;
 
-        private Vector2 GetMoveInput()
+        private GameObject _playerObject;
+
+        public void FixedUpdate()
         {
             if (_playerObject == null)
             {
-                var _playerObject = Helpers.FindPlayer();
+                _playerObject = Helpers.FindPlayer();
             }
 
             if (_playerObject != null)
             {
                 var targetPosition = _playerObject.transform.position;
                 Vector3 direction = (targetPosition - transform.position).normalized;
+                var input = new Vector2(direction.x, direction.z);
 
-                return new Vector2(direction.x, direction.z);
+                _moveEventPublisher.PublishMoveEvent(input, gameObject);
             }
-
-            return Vector2.zero;
         }
     }
 }
