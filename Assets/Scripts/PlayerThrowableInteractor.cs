@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerThrowableInteractor : MonoBehaviour
 {
+    [SerializeField]
+    private CharacterFSM _fsm;
+
     [SerializeField]
     private GameObject _throwablesSlot;
 
@@ -28,16 +32,18 @@ public class PlayerThrowableInteractor : MonoBehaviour
 
     private void PickOrPut(InputAction.CallbackContext context)
     {
-        if (_pickedObject == null)
+        if (_fsm.GetCurrentState() is IdleState)
         {
-            Pickup(context);
-        }
-        else
-        {
-            Put(context);
+            if (_pickedObject == null)
+            {
+                Pickup(context);
+            }
+            else
+            {
+                Put(context);
+            }
         }
     }
-
 
     private void Pickup(InputAction.CallbackContext context)
     {
@@ -72,7 +78,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
 
     private void Throw(InputAction.CallbackContext context)
     {
-        if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb))
+        if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb) && _fsm.GetCurrentState() is IdleState)
         {
             Vector3 throwDirection = transform.forward.normalized;
 

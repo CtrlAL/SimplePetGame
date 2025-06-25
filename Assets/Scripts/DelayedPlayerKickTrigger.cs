@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections;
 using UnityEngine;
 
@@ -5,6 +6,9 @@ namespace Assets.Scripts
 {
     public class DelayedPlayerKickTrigger : MonoBehaviour
     {
+        [SerializeField]
+        private CharacterFSM _fsm;
+
         [SerializeField] 
         private float delayBeforeKick = 1f;
 
@@ -36,7 +40,7 @@ namespace Assets.Scripts
         {
             yield return new WaitForSeconds(delayBeforeKick);
 
-            if (PlayerInstanse.Instance != null)
+            if (PlayerInstanse.Instance != null && _fsm.GetCurrentState() is IdleState)
             {
                 KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance);
             }

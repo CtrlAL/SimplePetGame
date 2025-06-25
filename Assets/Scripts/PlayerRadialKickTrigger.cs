@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ namespace Assets.Scripts
 {
     public class PlayerRadialKickTrigger : MonoBehaviour
     {
+        [SerializeField]
+        private CharacterFSM _fsm;
+
         private List<GameObject> _closeObjects = new List<GameObject>();
 
         private PlayerInputActions _input;
@@ -17,7 +21,7 @@ namespace Assets.Scripts
 
         public void FixedUpdate()
         {
-            if (_input.Inputs.Kick.IsPressed())
+            if (_input.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
             {
                 _closeObjects.ForEach(go =>
                 {
