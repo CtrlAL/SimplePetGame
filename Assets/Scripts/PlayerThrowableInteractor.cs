@@ -12,6 +12,9 @@ public class PlayerThrowableInteractor : MonoBehaviour
     [SerializeField]
     private float _dropDistance = 0.5f;
 
+    [SerializeField]
+    private float _throwForce = 1.5f;
+
     private List<GameObject> _allowThrowables;
 
     private GameObject _pickedObject;
@@ -50,9 +53,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
         {
             closestThrowable.transform.position = _throwablesSlot.transform.position;
             closestThrowable.transform.SetParent(_throwablesSlot.transform);
-            rb.useGravity = false;
-            rb.isKinematic = true;
-            _pickedObject = closestThrowable;
+            PinItem(rb, closestThrowable);
         }
     }
 
@@ -63,18 +64,31 @@ public class PlayerThrowableInteractor : MonoBehaviour
             Vector3 dropPosition = gameObject.transform.position - gameObject.transform.forward * _dropDistance;
             _pickedObject.transform.position = dropPosition;
             _pickedObject.transform.SetParent(null);
-            rb.useGravity = true;
-            rb.isKinematic = false;
-            _pickedObject = null;
+            UnpinItem(rb);
         }
     }
 
     private void Throw(InputAction.CallbackContext context)
     {
-        if (_pickedObject != null)
+        if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb))
         {
-
+            var throwVector = gameObject.transform.position + gameObject.transform.forward * _throwForce;
+            UnpinItem(rb);
         }
+    }
+
+    private void UnpinItem(Rigidbody rb)
+    {
+        rb.useGravity = true;
+        rb.isKinematic = false;
+        _pickedObject = null;
+    }
+
+    private void PinItem(Rigidbody rb, GameObject gameObject)
+    {
+        rb.useGravity = false;
+        rb.isKinematic = true;
+        _pickedObject = gameObject;
     }
 
     private void OnTriggerEnter(Collider other)
