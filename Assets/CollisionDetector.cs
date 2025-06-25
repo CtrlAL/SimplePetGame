@@ -8,28 +8,42 @@ public class CollisionDetector : MonoBehaviour
     [SerializeField]
     private CharacterFSM _characterFSM;
 
-    [SerializeField]
-    private int _maxHitCount = 0;
+    [SerializeField] 
+    private float _strongImpactThreshold = 5f;
 
-    private int _currentHitCount = 0;
+    [SerializeField] 
+    private int _weakHitCountNeeded = 3;
+
+    private int _currentWeakHitCount = 0;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (_characterFSM.GetCurrentState() is IdleState)
         {
-            if (collision.gameObject.CompareTag("Environment"))
+            float impactForce = collision.relativeVelocity.magnitude;
+
+            if (collision.gameObject.CompareTag("Environment") || collision.gameObject.CompareTag("Throwable"))
             {
-                _characterFSM.ChangeToState(CharacterState.Stuned);
+                CheckHit(impactForce);
             }
+        }
+    }
 
-            else if (collision.gameObject.CompareTag("Throwable"))
+    private void CheckHit(float impactForce)
+    {
+        if (impactForce > _strongImpactThreshold)
+        {
+            _currentWeakHitCount = 0;
+            _characterFSM.ChangeToState(CharacterState.Stuned);
+        }
+        else
+        {
+            _currentWeakHitCount++;
+
+            if (_currentWeakHitCount >= _weakHitCountNeeded)
             {
-                _currentHitCount++;
-
-                if (_currentHitCount == _maxHitCount)
-                {
-                    _characterFSM.ChangeToState(CharacterState.Stuned);
-                }
+                _currentWeakHitCount = 0;
+                _characterFSM.ChangeToState(CharacterState.Stuned);
             }
         }
     }
