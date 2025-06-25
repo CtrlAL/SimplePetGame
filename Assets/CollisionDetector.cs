@@ -1,3 +1,6 @@
+using Assets.Scripts;
+using Assets.Scripts.Enums;
+using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections;
 using UnityEngine;
 
@@ -7,19 +10,20 @@ public class CollisionDetector : MonoBehaviour
     private GameObject _stunnedIcon;
 
     [SerializeField]
+    private CharacterFSM _characterFSM;
+
+    [SerializeField]
     private int _maxHitCount = 0;
 
     private int _currentHitCount = 0;
 
-    private bool _isStuned = false;
-
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_isStuned)
+        if (_characterFSM.GetCurrentState() is IdleState)
         {
             if (collision.gameObject.CompareTag("Environment"))
             {
-                StartCoroutine(ObjectStuned());
+                _characterFSM.ChangeToState(CharacterState.Stuned);
             }
 
             else if (collision.gameObject.CompareTag("Throwable"))
@@ -28,37 +32,9 @@ public class CollisionDetector : MonoBehaviour
 
                 if (_currentHitCount == _maxHitCount)
                 {
-                    StartCoroutine(ObjectStuned());
+                    _characterFSM.ChangeToState(CharacterState.Stuned);
                 }
             }
         }
-    }
-
-    private IEnumerator ObjectStuned()
-    {
-        _isStuned = true;
-        _currentHitCount = 0;
-
-        var rb = gameObject.GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-            _stunnedIcon.SetActive(true);
-            gameObject.tag = "Throwable";
-        }
-
-        yield return new WaitForSeconds(10f);
-
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-        }
-
-        gameObject.tag = "Enemy";
-        _stunnedIcon.SetActive(false);
-        _isStuned = false;
     }
 }
