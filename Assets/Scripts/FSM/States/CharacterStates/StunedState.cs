@@ -11,15 +11,18 @@ namespace Assets.Scripts.FSM.States
 
         private readonly Rigidbody _rigidbody;
 
-        private float _stunDuration = 3f;
+        private readonly GameObject _stunedIcon;
+
+        private float _stunDuration = 50f;
 
         private float _timer;
 
-        public StunedState(CharacterFSM fsm)
+        public StunedState(CharacterFSM fsm, GameObject stunedIcon)
         {
             _fsm = fsm;
             _gameObject = _fsm.gameObject;
             _rigidbody = _fsm.GetComponent<Rigidbody>();
+            _stunedIcon = stunedIcon;
         }
 
         public void Enter()
@@ -29,6 +32,7 @@ namespace Assets.Scripts.FSM.States
                 _rigidbody.velocity = Vector3.zero;
                 _rigidbody.angularVelocity = Vector3.zero;
                 _rigidbody.isKinematic = true;
+                _rigidbody.useGravity = false;
                 _gameObject.tag = "Throwable";
             }
         }
@@ -48,6 +52,7 @@ namespace Assets.Scripts.FSM.States
             if (_rigidbody != null)
             {
                 _rigidbody.isKinematic = false;
+                _rigidbody.useGravity = true;
             }
 
             _gameObject.tag = "Enemy";

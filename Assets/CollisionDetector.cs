@@ -1,14 +1,10 @@
 using Assets.Scripts;
 using Assets.Scripts.Enums;
 using Assets.Scripts.FSM.States.CharacterStates;
-using System.Collections;
 using UnityEngine;
 
 public class CollisionDetector : MonoBehaviour
 {
-    [SerializeField] 
-    private GameObject _stunnedIcon;
-
     [SerializeField]
     private CharacterFSM _characterFSM;
 

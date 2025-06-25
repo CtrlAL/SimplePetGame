@@ -9,6 +9,8 @@ namespace Assets.Scripts
 {
     public class CharacterFSM : MonoBehaviour
     {
+        [SerializeField] GameObject _stunedIcon;
+
         private StateMachine _stateMachine;
         private Dictionary<CharacterState, IState> _states;
 
@@ -19,7 +21,7 @@ namespace Assets.Scripts
             _states = new()
             {
                 [CharacterState.Idle] = new IdleState(),
-                [CharacterState.Stuned] = new StunedState(this),
+                [CharacterState.Stuned] = new StunedState(this, _stunedIcon),
             };
         }
 
