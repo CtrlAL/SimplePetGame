@@ -47,6 +47,7 @@ public class CollisionDetector : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
             rb.isKinematic = true;
             _stunnedIcon.SetActive(true);
+            gameObject.tag = "Throwable";
         }
 
         yield return new WaitForSeconds(10f);
@@ -56,6 +57,7 @@ public class CollisionDetector : MonoBehaviour
             rb.isKinematic = false;
         }
 
+        gameObject.tag = "Enemy";
         _stunnedIcon.SetActive(false);
         _isStuned = false;
     }
