@@ -10,6 +10,15 @@ namespace Assets.Scripts
         [SerializeField]
         private float _jumpForce = 0.5f;
 
+        private Vector3[] _ofsets = new Vector3[]
+        {
+            Vector3.zero,
+            new Vector3(0.3f, 0, 0.3f),
+            new Vector3(-0.3f, 0, 0.3f),
+            new Vector3(0.3f, 0, -0.3f),
+            new Vector3(-0.3f, 0, -0.3f),
+        };
+
         public void Awake()
         {
             MoveEventPublisher.Instance.MoveEvent += Move;
@@ -44,7 +53,17 @@ namespace Assets.Scripts
 
         private bool IsGrounded(GameObject gameObject)
         {
-            return Physics.Raycast(gameObject.transform.position, Vector3.down, 0.3f);
+            foreach (var offset in _ofsets)
+            {
+                Vector3 origin = gameObject.transform.position + offset;
+
+                if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 0.3f))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void OnDestroy()
