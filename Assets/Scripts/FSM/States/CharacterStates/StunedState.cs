@@ -34,6 +34,7 @@ namespace Assets.Scripts.FSM.States
                 _rigidbody.isKinematic = true;
                 _rigidbody.useGravity = false;
                 _gameObject.tag = "Throwable";
+                _stunedIcon.SetActive(true);
             }
         }
 
@@ -56,6 +57,7 @@ namespace Assets.Scripts.FSM.States
             }
 
             _gameObject.tag = "Enemy";
+            _stunedIcon.SetActive(false);
         }
     }
 }
