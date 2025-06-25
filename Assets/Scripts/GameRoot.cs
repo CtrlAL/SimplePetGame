@@ -6,9 +6,12 @@ namespace Assets.Scripts
     {
         [SerializeField] EnemySpawner _enemySpawner;
 
-        void Update()
+        [SerializeField] PlayerInput _playerInput;
+
+        void FixedUpdate()
         {
-            //_enemySpawner.PublicUpdate();
+            _enemySpawner.PublicUpdate();
+            _playerInput.PublicUpdate();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Assets.Scripts
             _inputActions.Inputs.Jump.performed += PublishJump;
         }
 
-        public void FixedUpdate()
+        public void PublicUpdate()
         {
             if (_inputActions.Inputs.Move.IsPressed())
             {
