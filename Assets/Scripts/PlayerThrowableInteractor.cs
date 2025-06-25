@@ -10,9 +10,6 @@ public class PlayerThrowableInteractor : MonoBehaviour
     private GameObject _throwablesSlot;
 
     [SerializeField]
-    private GameObject _putSlot;
-
-    [SerializeField]
     private float _dropDistance = 0.5f;
 
     private List<GameObject> _allowThrowables;
