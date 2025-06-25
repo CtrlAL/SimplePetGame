@@ -1998,6 +1998,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stunedIcon: {fileID: 793275174}
+--- !u!114 &1500929506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500929480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c90f6ca84e19a4e8fdc97a6c623df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterFSM: {fileID: 1500929505}
+  _strongImpactThreshold: 5
+  _weakHitCountNeeded: 3
 --- !u!1 &1557227724
 GameObject:
   m_ObjectHideFlags: 0
@@ -2243,7 +2258,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterFSM: {fileID: 1724207310}
-  _maxHitCount: 3
+  _strongImpactThreshold: 5
+  _weakHitCountNeeded: 3
 --- !u!114 &1724207310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3062,6 +3078,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1500929505}
+    - targetCorrespondingSourceObject: {fileID: 332563429816904020, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1500929506}
   m_SourcePrefab: {fileID: 100100000, guid: 3ba02bc2e0a02cf47a393e948aab97c1, type: 3}
 --- !u!1001 &7777188081627410813
 PrefabInstance:
