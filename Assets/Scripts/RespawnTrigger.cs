@@ -6,6 +6,7 @@ namespace Assets.Scripts
     {
         [SerializeField]
         private GameObject _playerSpawnPoint;
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player") && CheckTag())
