@@ -28,7 +28,10 @@ namespace Assets.Scripts
 
         public void OnTriggerEnter(Collider other)
         {
-            _closeObjects.Add(other.gameObject);
+            if (Helpers.IsEnemy(other.gameObject))
+            {
+                _closeObjects.Add(other.gameObject);
+            }
         }
 
         private void OnTriggerExit(Collider other)

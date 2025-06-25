@@ -37,6 +37,7 @@ namespace Assets.Scripts
             }
 
             _instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         public void PublishKickEvent(GameObject kicker, GameObject kicked)

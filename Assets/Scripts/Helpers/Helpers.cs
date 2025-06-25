@@ -9,7 +9,7 @@ namespace Assets.Scripts
             return other.CompareTag("Player");
         }
 
-        public static bool  IsEnemy(GameObject other)
+        public static bool IsEnemy(GameObject other)
         {
             return other.CompareTag("Enemy");
         }

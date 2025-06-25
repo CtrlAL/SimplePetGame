@@ -13,7 +13,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
     private float _dropDistance = 0.5f;
 
     [SerializeField]
-    private float _throwForce = 1.5f;
+    private float _throwForce = 1000f;
 
     private List<GameObject> _allowThrowables;
 
@@ -22,6 +22,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
     public void Awake()
     {
         PlayerInputProvider.GetInputActions().Inputs.Pickup.performed += PickOrPut;
+        PlayerInputProvider.GetInputActions().Inputs.Throw.performed += Throw;
         _allowThrowables = new List<GameObject>();
     }
 
@@ -53,6 +54,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
         {
             closestThrowable.transform.position = _throwablesSlot.transform.position;
             closestThrowable.transform.SetParent(_throwablesSlot.transform);
+            rb.MovePosition(_throwablesSlot.transform.position);
             PinItem(rb, closestThrowable);
         }
     }
@@ -72,8 +74,12 @@ public class PlayerThrowableInteractor : MonoBehaviour
     {
         if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb))
         {
-            var throwVector = gameObject.transform.position + gameObject.transform.forward * _throwForce;
+            Vector3 throwDirection = transform.forward.normalized;
+
+            rb.transform.SetParent(null);
             UnpinItem(rb);
+            
+            rb.AddForce(throwDirection * _throwForce, ForceMode.Impulse);
         }
     }
 
@@ -81,6 +87,10 @@ public class PlayerThrowableInteractor : MonoBehaviour
     {
         rb.useGravity = true;
         rb.isKinematic = false;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.transform.position += Vector3.up * 0.1f;
+
         _pickedObject = null;
     }
 
