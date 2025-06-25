@@ -23,10 +23,7 @@ namespace Assets.Scripts
                 [CharacterState.Idle] = new IdleState(),
                 [CharacterState.Stuned] = new StunedState(this, _stunedIcon),
             };
-        }
 
-        private void Start()
-        {
             _stateMachine.ChangeState(_states[CharacterState.Idle]);
         }
 
