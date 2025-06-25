@@ -44,14 +44,6 @@ namespace Assets.Scripts
         {
             return _stateMachine.CurrentState;
         }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Throwable"))
-            {
-                ChangeToState(CharacterState.Stuned);
-            }
-        }
     }
 }
 
