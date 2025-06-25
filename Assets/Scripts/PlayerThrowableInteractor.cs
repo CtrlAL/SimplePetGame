@@ -12,6 +12,9 @@ public class PlayerThrowableInteractor : MonoBehaviour
     [SerializeField]
     private GameObject _putSlot;
 
+    [SerializeField]
+    private float _dropDistance = 0.5f;
+
     private List<GameObject> _allowThrowables;
 
     private GameObject _pickedObject;
@@ -60,7 +63,8 @@ public class PlayerThrowableInteractor : MonoBehaviour
     {
         if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb))
         {
-            _pickedObject.transform.position = _putSlot.transform.position;
+            Vector3 dropPosition = gameObject.transform.position - gameObject.transform.forward * _dropDistance;
+            _pickedObject.transform.position = dropPosition;
             _pickedObject.transform.SetParent(null);
             rb.useGravity = true;
             rb.isKinematic = false;
