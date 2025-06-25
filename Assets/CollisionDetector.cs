@@ -22,7 +22,8 @@ public class CollisionDetector : MonoBehaviour
         {
             float impactForce = collision.relativeVelocity.magnitude;
 
-            if (collision.gameObject.CompareTag("Environment") || collision.gameObject.CompareTag("Throwable"))
+            if (collision.gameObject.CompareTag("Environment") || 
+                collision.gameObject.CompareTag("Throwable"))
             {
                 CheckHit(impactForce);
             }
