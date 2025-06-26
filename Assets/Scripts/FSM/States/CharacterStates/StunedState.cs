@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Enums;
+﻿using Assets.Scripts.Constants;
+using Assets.Scripts.Enums;
 using UnityEngine;
 
 namespace Assets.Scripts.FSM.States
@@ -36,7 +37,7 @@ namespace Assets.Scripts.FSM.States
                 _rigidbody.isKinematic = true;
                 _rigidbody.useGravity = false;
                 _oldTag = _fsm.tag;
-                _gameObject.tag = "Throwable";
+                _gameObject.tag = EnvironmentTags.Throwable;
                 _stunedIcon.SetActive(true);
             }
         }
