@@ -23,7 +23,9 @@ namespace Assets.Scripts
                 var target = PlayerInstanse.Instance.transform.position;
                 _agent.SetDestination(target);
                 var desiredVelocity = _agent.desiredVelocity;
+
                 _rigidbody.MovePosition(_rigidbody.position + desiredVelocity * Time.fixedDeltaTime);
+                _agent.nextPosition = transform.position;
             }
         }
     }
