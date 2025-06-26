@@ -13,9 +13,11 @@ namespace Assets.Scripts.FSM.States
 
         private readonly GameObject _stunedIcon;
 
-        private float _stunDuration = 50f;
+        private float _stunDuration = 0f;
 
         private float _timer;
+
+        private string _oldTag;
 
         public StunedState(CharacterFSM fsm, GameObject stunedIcon)
         {
@@ -33,6 +35,8 @@ namespace Assets.Scripts.FSM.States
                 _rigidbody.angularVelocity = Vector3.zero;
                 _rigidbody.isKinematic = true;
                 _rigidbody.useGravity = false;
+                _rigidbody.freezeRotation = true;
+                _oldTag = _fsm.tag;
                 _gameObject.tag = "Throwable";
                 _stunedIcon.SetActive(true);
             }
@@ -54,9 +58,11 @@ namespace Assets.Scripts.FSM.States
             {
                 _rigidbody.isKinematic = false;
                 _rigidbody.useGravity = true;
+                _rigidbody.freezeRotation = false;
             }
 
-            _gameObject.tag = "Enemy";
+            _gameObject.tag = _oldTag;
+            _oldTag = string.Empty;
             _stunedIcon.SetActive(false);
         }
     }
