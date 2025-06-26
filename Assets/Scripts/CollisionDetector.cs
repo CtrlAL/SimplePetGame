@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using Assets.Scripts.Constants;
 using Assets.Scripts.Enums;
 using Assets.Scripts.FSM.States.CharacterStates;
 using UnityEngine;
@@ -22,8 +23,8 @@ public class CollisionDetector : MonoBehaviour
         {
             float impactForce = collision.relativeVelocity.magnitude;
 
-            if (collision.gameObject.CompareTag("Environment") || 
-                collision.gameObject.CompareTag("Throwable"))
+            if (collision.gameObject.CompareTag(EnvironmentTags.Environment) || 
+                collision.gameObject.CompareTag(EnvironmentTags.Environment))
             {
                 CheckHit(impactForce);
             }
