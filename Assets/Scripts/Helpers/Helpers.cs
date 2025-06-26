@@ -7,17 +7,17 @@ namespace Assets.Scripts
     {
         public static bool IsPlayer(GameObject other)
         {
-            return other.CompareTag(CommomnConstants.CharacterTags.Player);
+            return other.CompareTag(CharacterTags.Player);
         }
 
         public static bool IsEnemy(GameObject other)
         {
-            return other.CompareTag(CommomnConstants.CharacterTags.Enemy);
+            return other.CompareTag(CharacterTags.Enemy);
         }
 
         public static bool IsThrowable(GameObject other)
         {
-            return other.CompareTag(CommomnConstants.EnvironmentTags.Throwable);
+            return other.CompareTag(EnvironmentTags.Throwable);
         }
     }
 }
