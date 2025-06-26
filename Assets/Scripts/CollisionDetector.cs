@@ -9,6 +9,9 @@ public class CollisionDetector : MonoBehaviour
     [SerializeField]
     private CharacterFSM _characterFSM;
 
+    [SerializeField]
+    private Fatigue _fatigue;
+
     [SerializeField] 
     private float _strongImpactThreshold = 5f;
 
