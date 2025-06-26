@@ -121,7 +121,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: e036cf3e2f7df4f4396a64c7f57a5acc, type: 2}
 --- !u!1 &33807910
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,8 +232,8 @@ GameObject:
   m_Name: Wall (1)
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &160833066
 Transform:
@@ -650,6 +650,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &401535203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401535205}
+  - component: {fileID: 401535204}
+  m_Layer: 0
+  m_Name: NavMesh Surface
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &401535204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401535203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
+--- !u!4 &401535205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401535203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.645687, y: 0.59867096, z: -2.3270547}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,8 +878,8 @@ GameObject:
   m_Name: Cube (4)
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &495623466
 Transform:
@@ -1174,8 +1237,8 @@ GameObject:
   m_Name: GrayBox2
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &876489279
 Transform:
@@ -1279,8 +1342,8 @@ GameObject:
   m_Name: Cube (3)
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &876602035
 Transform:
@@ -1459,8 +1522,8 @@ GameObject:
   m_Name: Wall
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1077627058
 Transform:
@@ -1846,8 +1909,8 @@ GameObject:
   m_Name: Cube (5)
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1638185624
 Transform:
@@ -2018,18 +2081,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7777188081627410813}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1724207310 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6796409330400284909, guid: 774afc3095fa4ac4d9e373b8e2290e1b,
-    type: 3}
-  m_PrefabInstance: {fileID: 7777188081627410813}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd7882d438032c249b56580a6f43da19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1765262901
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,8 +2097,8 @@ GameObject:
   m_Name: Cube (6)
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1765262902
 Transform:
@@ -2203,8 +2254,8 @@ GameObject:
   m_Name: GrayBox1
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1879723565
 Transform:
@@ -2453,7 +2504,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &1975647107
 MeshCollider:
@@ -2595,8 +2646,8 @@ GameObject:
   m_Name: GrayBox3
   m_TagString: Environment
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2145352966
 Transform:
@@ -2770,11 +2821,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1975647110}
     m_Modifications:
-    - target: {fileID: 3441091821111493103, guid: 774afc3095fa4ac4d9e373b8e2290e1b,
-        type: 3}
-      propertyPath: _fsm
-      value: 
-      objectReference: {fileID: 1724207310}
     - target: {fileID: 4094300149607204258, guid: 774afc3095fa4ac4d9e373b8e2290e1b,
         type: 3}
       propertyPath: m_Name
@@ -2830,11 +2876,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4628389803517780288, guid: 774afc3095fa4ac4d9e373b8e2290e1b,
+        type: 3}
+      propertyPath: _agent
+      value: 
+      objectReference: {fileID: 7777188081627410815}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 774afc3095fa4ac4d9e373b8e2290e1b, type: 3}
+--- !u!195 &7777188081627410815 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 4773510033877897585, guid: 774afc3095fa4ac4d9e373b8e2290e1b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7777188081627410813}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9213675114557825464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2931,3 +2988,4 @@ SceneRoots:
   - {fileID: 242975121}
   - {fileID: 1557227726}
   - {fileID: 1947428194}
+  - {fileID: 401535205}

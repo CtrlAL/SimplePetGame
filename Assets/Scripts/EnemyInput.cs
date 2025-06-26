@@ -1,17 +1,29 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts
 {
     public class EnemyInput : MonoBehaviour
     {
+        [SerializeField] NavMeshAgent _agent;
+        [SerializeField] Rigidbody _rigidbody;
+
+        public void Awake()
+        {
+            _agent.updatePosition = false;
+            _agent.updateRotation = true;
+        }
+
+
         public void FixedUpdate()
         {
-            if (PlayerInstanse.Instance != null)
+            if (PlayerInstanse.Instance != null && _agent != null && _rigidbody != null)
             {
-                var targetPosition = PlayerInstanse.Instance.transform.position;
-                Vector3 direction = (targetPosition - transform.position).normalized;
-                var input = new Vector2(direction.x, direction.z);
-                MoveEventPublisher.Instance.PublishMoveEvent(input, gameObject);
+                var target = PlayerInstanse.Instance.transform.position;
+                _agent.SetDestination(target);
+                var desiredVelocity = _agent.desiredVelocity;
+                _rigidbody.MovePosition(_rigidbody.position + desiredVelocity * Time.fixedDeltaTime);
             }
         }
     }

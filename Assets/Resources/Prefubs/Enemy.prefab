@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 3441091821111493103}
   - component: {fileID: 6274498372869750067}
   - component: {fileID: 6796409330400284909}
+  - component: {fileID: 4773510033877897585}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -258,6 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738475f102bc1f74189fad609dc0748e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _agent: {fileID: 4773510033877897585}
+  _rigidbody: {fileID: 8380873335004917412}
 --- !u!135 &3526813704176215033
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -321,3 +324,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stunedIcon: {fileID: 2454296256929422182}
+--- !u!195 &4773510033877897585
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4094300149607204258}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
