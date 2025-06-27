@@ -17,16 +17,20 @@ namespace Assets.Scripts
 
         public void PublicUpdate()
         {
-            if (_inputActions.Inputs.Move.IsPressed())
+            if (_inputActions.Inputs.Move.IsPressed() &&
+                PlayerInstanse.Instance.TryGetComponent<CharacterStats>(out var stats))
             {
                 var input = _inputActions.Inputs.Move.ReadValue<Vector2>();
-                MoveEventPublisher.Instance.PublishMoveEvent(input, PlayerInstanse.Instance);
+                MoveEventPublisher.Instance.PublishMoveEvent(input, PlayerInstanse.Instance, stats.MoveSpeed);
             }
         }
 
         private void PublishJump(InputAction.CallbackContext context)
         {
-            MoveEventPublisher.Instance.PublishJumpEvent(PlayerInstanse.Instance);
+            if (PlayerInstanse.Instance.TryGetComponent<CharacterStats>(out var stats))
+            {
+                MoveEventPublisher.Instance.PublishJumpEvent(PlayerInstanse.Instance, stats.JumpForce);
+            }
         }
 
         public void OnDestroy()

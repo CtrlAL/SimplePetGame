@@ -40,9 +40,9 @@ namespace Assets.Scripts
             DontDestroyOnLoad(gameObject);
         }
 
-        public void PublishKickEvent(GameObject kicker, GameObject kicked)
+        public void PublishKickEvent(GameObject kicker, GameObject kicked, float kickPower)
         {
-            KickEvent?.Invoke(this, new KickEventArgs(kicker, kicked));
+            KickEvent?.Invoke(this, new KickEventArgs(kicker, kicked, kickPower));
         }
     }
 
@@ -52,10 +52,13 @@ namespace Assets.Scripts
 
         public GameObject Kicked;
 
-        public KickEventArgs(GameObject kicker, GameObject kicked)
+        public float KickPower;
+
+        public KickEventArgs(GameObject kicker, GameObject kicked, float kickPower)
         {
             Kicker = kicker;
             Kicked = kicked;
+            KickPower = kickPower;
         }
     }
 }

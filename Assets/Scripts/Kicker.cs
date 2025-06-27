@@ -4,8 +4,6 @@ namespace Assets.Scripts
 {
     public class Kicker : MonoBehaviour
     {
-        [SerializeField]
-        private float _kickPower = 3f;
         private void Awake()
         {
             KickEventPublisher.Instance.KickEvent += Kick;
@@ -22,7 +20,7 @@ namespace Assets.Scripts
             {
                 var kickerTransform = kicker.transform;
                 Vector3 direction = (kicked.transform.position - kickerTransform.position).normalized;
-                rb.AddForce(direction * _kickPower, ForceMode.Impulse);
+                rb.AddForce(direction * args.KickPower, ForceMode.Impulse);
             }
         }
 

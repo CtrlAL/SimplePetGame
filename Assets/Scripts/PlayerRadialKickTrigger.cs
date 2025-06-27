@@ -10,6 +10,9 @@ namespace Assets.Scripts
         [SerializeField]
         private CharacterFSM _fsm;
 
+        [SerializeField]
+        private CharacterStats _playerStats;
+
         private List<GameObject> _closeObjects = new List<GameObject>();
 
         private PlayerInputActions _input;
@@ -25,7 +28,7 @@ namespace Assets.Scripts
             {
                 _closeObjects.ForEach(go =>
                 {
-                    KickEventPublisher.Instance.PublishKickEvent(gameObject, go);
+                    KickEventPublisher.Instance.PublishKickEvent(gameObject, go, _playerStats.KickPower);
                 });
             }
         }

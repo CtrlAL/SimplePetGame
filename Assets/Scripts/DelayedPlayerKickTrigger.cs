@@ -9,6 +9,9 @@ namespace Assets.Scripts
         [SerializeField]
         private CharacterFSM _fsm;
 
+        [SerializeField]
+        private CharacterStats _characterStats;
+
         [SerializeField] 
         private float delayBeforeKick = 1f;
 
@@ -42,7 +45,7 @@ namespace Assets.Scripts
 
             if (PlayerInstanse.Instance != null && _fsm.GetCurrentState() is IdleState)
             {
-                KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance);
+                KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance, _characterStats.KickPower);
             }
         }
     }
