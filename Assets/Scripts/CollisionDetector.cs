@@ -39,12 +39,13 @@ public class CollisionDetector : MonoBehaviour
         if (impactForce > _strongImpactThreshold)
         {
             _currentWeakHitCount = 0;
+            _fatigue.MakeFatigueDamake(FatigueDamage.StrongHitDamage);
             _characterFSM.ChangeToState(CharacterState.Stuned);
         }
         else
         {
             _currentWeakHitCount++;
-
+            _fatigue.MakeFatigueDamake(FatigueDamage.WeekHitDamage);
             if (_currentWeakHitCount >= _weakHitCountNeeded)
             {
                 _currentWeakHitCount = 0;

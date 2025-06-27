@@ -6,5 +6,13 @@ public class Fatigue : MonoBehaviour
     public float CurrentFatigue = 0f;
 
     [SerializeField]
-    private float FatigueThrashold = 100f;
+    public float FatigueThrashold = 100f;
+
+    public void MakeFatigueDamake(int damage)
+    {
+        if (CurrentFatigue + damage < FatigueThrashold)
+        {
+            CurrentFatigue += damage;
+        }
+    }
 }

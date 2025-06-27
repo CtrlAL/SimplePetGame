@@ -2,8 +2,8 @@
 {
     public class FatigueDamage
     {
-        public int WeekHitDamage = 10;
+        public static int WeekHitDamage = 10;
 
-        public int StrongHitDamage = 30;
+        public static int StrongHitDamage = 30;
     }
 }
