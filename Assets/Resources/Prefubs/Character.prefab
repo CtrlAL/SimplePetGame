@@ -49,6 +49,8 @@ GameObject:
   - component: {fileID: 824292107938324775}
   - component: {fileID: 422397356325831350}
   - component: {fileID: 5867973482203820697}
+  - component: {fileID: 257900505357986646}
+  - component: {fileID: 9204910930589389736}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -206,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fsm: {fileID: 422397356325831350}
+  _playerStats: {fileID: 9204910930589389736}
 --- !u!114 &824292107938324775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b15bcf7ba7053b4183081eda6a5e67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fsm: {fileID: 422397356325831350}
   _throwablesSlot: {fileID: 75178523321208776}
   _dropDistance: 0.5
   _throwForce: 7
@@ -247,8 +251,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterFSM: {fileID: 422397356325831350}
+  _fatigue: {fileID: 257900505357986646}
   _strongImpactThreshold: 5
   _weakHitCountNeeded: 3
+--- !u!114 &257900505357986646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332563429816904020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2fbb395a495c744ac526c287d612b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fatigueThrashold: 100
+--- !u!114 &9204910930589389736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332563429816904020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 044293496c6324c48b923aa2f3f31767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 5
+  JumpForce: 10
+  KickPower: 20
 --- !u!1 &3375129732821234114
 GameObject:
   m_ObjectHideFlags: 0

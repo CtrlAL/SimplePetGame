@@ -12,6 +12,7 @@ namespace Assets.Scripts
             if (other.CompareTag("Player") && CheckTag())
             {
                 other.gameObject.transform.position = _playerSpawnPoint.transform.position;
+                other.attachedRigidbody.velocity = Vector3.zero;
             }
 
             else if (other.CompareTag("Enemy"))
