@@ -2858,7 +2858,7 @@ PrefabInstance:
     - target: {fileID: 5006208222728812482, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
         type: 3}
       propertyPath: kickRadius
-      value: 1.5
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 5281036449660360831, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
         type: 3}
@@ -2919,6 +2919,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _minStrongImpact
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6733626008324568107, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
