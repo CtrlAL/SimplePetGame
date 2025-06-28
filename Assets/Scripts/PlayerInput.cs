@@ -9,7 +9,7 @@ namespace Assets.Scripts
 
         public void Awake()
         {
-            _inputActions = PlayerInputProvider.GetInputActions();
+            _inputActions = PlayerInputProvider.Inputs;
             _inputActions.Enable();
 
             _inputActions.Inputs.Jump.performed += PublishJump;

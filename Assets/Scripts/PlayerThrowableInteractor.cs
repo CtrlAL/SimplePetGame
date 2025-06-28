@@ -25,8 +25,8 @@ public class PlayerThrowableInteractor : MonoBehaviour
 
     public void Awake()
     {
-        PlayerInputProvider.GetInputActions().Inputs.Pickup.performed += PickOrPut;
-        PlayerInputProvider.GetInputActions().Inputs.Throw.performed += Throw;
+        PlayerInputProvider.Inputs.Inputs.Pickup.performed += PickOrPut;
+        PlayerInputProvider.Inputs.Inputs.Throw.performed += Throw;
         _allowThrowables = new List<GameObject>();
     }
 
@@ -109,7 +109,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Throwable"))
+        if (Helpers.IsThrowable(other.gameObject))
         {
             _allowThrowables.Add(other.gameObject);
         }
@@ -117,6 +117,6 @@ public class PlayerThrowableInteractor : MonoBehaviour
 
     public void OnDestroy()
     {
-        PlayerInputProvider.GetInputActions().Inputs.Pickup.performed -= Pickup;
+        PlayerInputProvider.Inputs.Inputs.Pickup.performed -= Pickup;
     }
 }

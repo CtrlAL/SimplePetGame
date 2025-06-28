@@ -1,7 +1,5 @@
 using Assets.Scripts.FSM.States.CharacterStates;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace Assets.Scripts
 {
@@ -13,42 +11,39 @@ namespace Assets.Scripts
         [SerializeField]
         private CharacterStats _playerStats;
 
-        private List<GameObject> _closeObjects = new List<GameObject>();
+        [SerializeField]
+        private float kickRadius = 1.5f;
 
         private PlayerInputActions _input;
 
         public void Awake()
         {
-            _input = PlayerInputProvider.GetInputActions();
+            _input = PlayerInputProvider.Inputs;
         }
 
         public void FixedUpdate()
         {
             if (_input.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
             {
-                _closeObjects.ForEach(go =>
+                Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, kickRadius);
+
+                foreach (var collider in nearbyColliders)
                 {
-                    if (go.TryGetComponent<Fatigue>(out var fatigue))
+                    if (collider.CompareTag("Enemy"))
                     {
-                        var knockbackMultiplier = fatigue.GetKnockbackMultiplier();
-                        KickEventPublisher.Instance.PublishKickEvent(gameObject, go, _playerStats.KickPower);
+                        if (collider.TryGetComponent<Fatigue>(out var fatigue))
+                        {
+                            float knockbackMultiplier = fatigue.GetKnockbackMultiplier();
+                            KickEventPublisher.Instance.PublishKickEvent(
+                                gameObject,
+                                collider.gameObject,
+                                _playerStats.KickPower * knockbackMultiplier
+                            );
+                        }
                     }
-                });
+                }
             }
         }
 
-        public void OnTriggerEnter(Collider other)
-        {
-            if (Helpers.IsEnemy(other.gameObject))
-            {
-                _closeObjects.Add(other.gameObject);
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            _closeObjects.Remove(other.gameObject);
-        }
     }
 }
-

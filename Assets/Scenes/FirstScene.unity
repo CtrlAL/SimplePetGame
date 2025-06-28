@@ -1033,7 +1033,7 @@ PrefabInstance:
     - target: {fileID: 6295798114919579548, guid: 8bafe7c728517424582de5e0a34fd13d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2276,7 +2276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1834138831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2855,6 +2855,11 @@ PrefabInstance:
       propertyPath: _fsm
       value: 
       objectReference: {fileID: 1500929505}
+    - target: {fileID: 5006208222728812482, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+        type: 3}
+      propertyPath: kickRadius
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5281036449660360831, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
         type: 3}
       propertyPath: m_LocalPosition.x

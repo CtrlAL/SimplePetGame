@@ -1,80 +1,83 @@
 using System;
 using UnityEngine;
 
-public class MoveEventPublisher : MonoBehaviour
-{    
-    private static MoveEventPublisher _instance;
-    public static MoveEventPublisher Instance
+namespace Assets.Scripts
+{
+    public class MoveEventPublisher : MonoBehaviour
     {
-        get
+        private static MoveEventPublisher _instance;
+        public static MoveEventPublisher Instance
         {
-            if (_instance == null)
+            get
             {
-                _instance = FindObjectOfType<MoveEventPublisher>();
-
                 if (_instance == null)
                 {
-                    GameObject singletonObject = new GameObject("MoveEventPublisher");
-                    _instance = singletonObject.AddComponent<MoveEventPublisher>();
-                    DontDestroyOnLoad(singletonObject);
+                    _instance = FindObjectOfType<MoveEventPublisher>();
+
+                    if (_instance == null)
+                    {
+                        GameObject singletonObject = new GameObject("MoveEventPublisher");
+                        _instance = singletonObject.AddComponent<MoveEventPublisher>();
+                        DontDestroyOnLoad(singletonObject);
+                    }
                 }
+
+                return _instance;
+            }
+        }
+
+        public event EventHandler<MoveEventArgs> MoveEvent;
+        public event EventHandler<JumpEventArgs> JumpEvent;
+
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
             }
 
-            return _instance;
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-    }
 
-    public event EventHandler<MoveEventArgs> MoveEvent;
-    public event EventHandler<JumpEventArgs> JumpEvent;
-
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
+        public void PublishMoveEvent(Vector2 input, GameObject objectForMove, float speed)
         {
-            Destroy(gameObject);
-            return;
+            MoveEvent?.Invoke(this, new MoveEventArgs(input, objectForMove, speed));
         }
 
-        _instance = this;
-        DontDestroyOnLoad(gameObject);
+        public void PublishJumpEvent(GameObject objectForMove, float jumpForce)
+        {
+            JumpEvent?.Invoke(this, new JumpEventArgs(objectForMove, jumpForce));
+        }
     }
 
-    public void PublishMoveEvent(Vector2 input, GameObject objectForMove, float speed)
+    public class MoveEventArgs : EventArgs
     {
-        MoveEvent?.Invoke(this, new MoveEventArgs(input, objectForMove, speed));
+        public Vector2 Input;
+
+        public GameObject ObjectForMove;
+
+        public float Speed;
+
+        public MoveEventArgs(Vector2 input, GameObject gameObject, float speed)
+        {
+            Input = input;
+            ObjectForMove = gameObject;
+            Speed = speed;
+        }
     }
 
-    public void PublishJumpEvent(GameObject objectForMove, float jumpForce)
+    public class JumpEventArgs : EventArgs
     {
-        JumpEvent?.Invoke(this, new JumpEventArgs(objectForMove, jumpForce));
-    }
-}
+        public GameObject ObjectForJump;
 
-public class MoveEventArgs : EventArgs
-{
-    public Vector2 Input;
+        public float JumpForce;
 
-    public GameObject ObjectForMove;
-
-    public float Speed;
-
-    public MoveEventArgs(Vector2 input, GameObject gameObject, float speed)
-    {
-        Input = input;
-        ObjectForMove = gameObject;
-        Speed = speed;
-    }
-}
-
-public class JumpEventArgs : EventArgs
-{
-    public GameObject ObjectForJump;
-
-    public float JumpForce;
-
-    public JumpEventArgs(GameObject gameObject, float jumpForce)
-    {
-        ObjectForJump = gameObject;
-        JumpForce = jumpForce;
+        public JumpEventArgs(GameObject gameObject, float jumpForce)
+        {
+            ObjectForJump = gameObject;
+            JumpForce = jumpForce;
+        }
     }
 }
