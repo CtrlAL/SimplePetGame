@@ -2276,7 +2276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1834138831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2318,7 +2318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2fbb395a495c744ac526c287d612b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fatigueThrashold: 100
+  _fatigueThreshold: 100
 --- !u!114 &1834138834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2904,6 +2904,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5867973482203820697, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+        type: 3}
+      propertyPath: _minWeekImpact
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5867973482203820697, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+        type: 3}
+      propertyPath: _minStrongImpact
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
