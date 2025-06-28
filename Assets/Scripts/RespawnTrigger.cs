@@ -11,8 +11,10 @@ namespace Assets.Scripts
         {
             if (other.CompareTag("Player") && CheckTag())
             {
-                other.gameObject.transform.position = _playerSpawnPoint.transform.position;
-                other.attachedRigidbody.velocity = Vector3.zero;
+                var rb = other.attachedRigidbody;
+                rb.MovePosition(_playerSpawnPoint.transform.position);
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
             }
 
             else if (other.CompareTag("Enemy"))
@@ -31,4 +33,3 @@ namespace Assets.Scripts
         }
     }
 }
-

@@ -13,7 +13,10 @@ public class CollisionDetector : MonoBehaviour
     private Fatigue _fatigue;
 
     [SerializeField] 
-    private float _strongImpactThreshold = 5f;
+    private float _minStrongImpact = 15f;
+
+    [SerializeField]
+    private float _minWeekImpact = 5f;
 
     [SerializeField] 
     private int _weakHitCountNeeded = 3;
@@ -36,13 +39,13 @@ public class CollisionDetector : MonoBehaviour
 
     private void CheckHit(float impactForce)
     {
-        if (impactForce > _strongImpactThreshold)
+        if (impactForce > _minWeekImpact && impactForce < _minStrongImpact)
         {
             _currentWeakHitCount = 0;
             _fatigue.MakeFatigueDamake(FatigueDamage.StrongHitDamage);
             _characterFSM.ChangeToState(CharacterState.Stuned);
         }
-        else
+        else if(impactForce > _minStrongImpact)
         {
             _currentWeakHitCount++;
             _fatigue.MakeFatigueDamake(FatigueDamage.WeekHitDamage);
