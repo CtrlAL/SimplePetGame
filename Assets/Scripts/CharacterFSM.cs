@@ -4,6 +4,7 @@ using Assets.Scripts.FSM.States;
 using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Services;
 
 namespace Assets.Scripts
 {
@@ -21,7 +22,7 @@ namespace Assets.Scripts
             _states = new()
             {
                 [CharacterState.Idle] = new IdleState(),
-                [CharacterState.Stuned] = new StunedState(this, _stunedIcon),
+                [CharacterState.Stuned] = new StunedState(this, _stunedIcon, new Stuner()),
             };
 
             _stateMachine.ChangeState(_states[CharacterState.Idle]);
