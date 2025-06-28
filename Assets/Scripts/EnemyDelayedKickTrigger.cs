@@ -45,7 +45,11 @@ namespace Assets.Scripts
 
             if (PlayerInstanse.Instance != null && _fsm.GetCurrentState() is IdleState)
             {
-                KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance, _characterStats.KickPower);
+                if(PlayerInstanse.Instance.TryGetComponent<Fatigue>(out var fatigue)) 
+                {
+                    var knockbackMultiplier = fatigue.GetKnockbackMultiplier();
+                    KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance, _characterStats.KickPower * knockbackMultiplier);
+                }
             }
         }
     }

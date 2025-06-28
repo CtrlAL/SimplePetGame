@@ -28,7 +28,11 @@ namespace Assets.Scripts
             {
                 _closeObjects.ForEach(go =>
                 {
-                    KickEventPublisher.Instance.PublishKickEvent(gameObject, go, _playerStats.KickPower);
+                    if (go.TryGetComponent<Fatigue>(out var fatigue))
+                    {
+                        var knockbackMultiplier = fatigue.GetKnockbackMultiplier();
+                        KickEventPublisher.Instance.PublishKickEvent(gameObject, go, _playerStats.KickPower);
+                    }
                 });
             }
         }
