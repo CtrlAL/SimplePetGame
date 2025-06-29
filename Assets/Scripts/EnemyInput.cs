@@ -5,6 +5,9 @@ namespace Assets.Scripts
 {
     public class EnemyInput : MonoBehaviour
     {
+        [SerializeField]
+        private CharacterStats _stats;
+
         [SerializeField] 
         private NavMeshAgent _agent;
 
@@ -33,9 +36,9 @@ namespace Assets.Scripts
 
             var desiredVelocity = _agent.desiredVelocity;
 
-            _rigidbody.MovePosition(_rigidbody.position + desiredVelocity * Time.fixedDeltaTime);
-
             _agent.nextPosition = transform.position;
+
+            MoveEventPublisher.Instance.PublishMoveEvent(new Vector2(desiredVelocity.x, desiredVelocity.z), gameObject, _stats.MoveSpeed);
         }
     }
 }
