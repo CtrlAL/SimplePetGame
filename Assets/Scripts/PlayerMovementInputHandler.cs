@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerMovementInputHandler : MonoBehaviour
     {
         [SerializeField] PlayerStatsSO _stats;
 
