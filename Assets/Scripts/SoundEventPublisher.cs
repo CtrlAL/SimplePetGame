@@ -45,7 +45,7 @@ namespace Assets.Scripts
 
         public event EventHandler<PlaySoundEventArgs> SwitchBackgroundMusicRequested;
 
-        public void PlaySound(SoundType soundType, int vloume)
+        public void PlaySound(SoundType soundType, int vloume = 1)
         {
             PlaySoundRequested?.Invoke(this, new PlaySoundEventArgs(soundType, vloume));
         }

@@ -1,7 +1,6 @@
 using Assets.Scripts.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Assets.Scripts.Enums;
 
 namespace Assets.Scripts
 {
@@ -30,7 +29,6 @@ namespace Assets.Scripts
         private void PublishJump(InputAction.CallbackContext context)
         {
             MoveEventPublisher.Instance.PublishJumpEvent(PlayerInstanse.Instance, _stats.JumpForce);
-            SoundEventPublisher.Instance.PlaySound(SoundType.Jump, 1);
         }
 
         public void OnDestroy()

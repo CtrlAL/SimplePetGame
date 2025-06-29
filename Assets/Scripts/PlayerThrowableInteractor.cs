@@ -87,7 +87,6 @@ public class PlayerThrowableInteractor : MonoBehaviour
             UnpinItem(rb);
             
             rb.AddForce(throwDirection * _throwForce, ForceMode.Impulse);
-            SoundEventPublisher.Instance.PlaySound(SoundType.Throw, 1);
         }
     }
 

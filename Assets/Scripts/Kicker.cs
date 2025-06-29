@@ -7,7 +7,8 @@ namespace Assets.Scripts
     {
         private void Awake()
         {
-            KickEventPublisher.Instance.KickEvent += Kick;
+            KickEventPublisher.Instance.PlayerKickEvent += Kick;
+            KickEventPublisher.Instance.EnemyKickEvent += Kick;
         }
 
         private void Kick(object sender, KickEventArgs args)
@@ -27,7 +28,8 @@ namespace Assets.Scripts
 
         public void OnDestroy()
         {
-            KickEventPublisher.Instance.KickEvent -= Kick;
+            KickEventPublisher.Instance.PlayerKickEvent -= Kick;
+            KickEventPublisher.Instance.EnemyKickEvent -= Kick;
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Assets.Scripts
         {
             var clip = _instance._backgroundSoundList[(int)args.SoundType];
             _soundSource.clip = clip.sound;
+            _soundSource.volume = args.Vloume;
         }
 
         void Start()

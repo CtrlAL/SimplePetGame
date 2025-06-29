@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts
 {
@@ -26,7 +27,9 @@ namespace Assets.Scripts
             }
         }
 
-        public event EventHandler<KickEventArgs> KickEvent;
+        public event EventHandler<KickEventArgs> PlayerKickEvent;
+
+        public event EventHandler<KickEventArgs> EnemyKickEvent;
 
         private void Awake()
         {
@@ -40,9 +43,14 @@ namespace Assets.Scripts
             DontDestroyOnLoad(gameObject);
         }
 
-        public void PublishKickEvent(GameObject kicker, GameObject kicked, float kickPower)
+        public void PublishPlayerKickEvent(GameObject kicker, GameObject kicked, float kickPower)
         {
-            KickEvent?.Invoke(this, new KickEventArgs(kicker, kicked, kickPower));
+            PlayerKickEvent?.Invoke(this, new KickEventArgs(kicker, kicked, kickPower));
+        }
+
+        public void PublishEnemyKickEvent(GameObject kicker, GameObject kicked, float kickPower)
+        {
+            EnemyKickEvent?.Invoke(this, new KickEventArgs(kicker, kicked, kickPower));
         }
     }
 

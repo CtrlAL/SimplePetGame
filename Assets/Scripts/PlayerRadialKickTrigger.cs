@@ -35,7 +35,7 @@ namespace Assets.Scripts
                         if (collider.TryGetComponent<Fatigue>(out var fatigue))
                         {
                             float knockbackMultiplier = fatigue.GetKnockbackMultiplier();
-                            KickEventPublisher.Instance.PublishKickEvent(
+                            KickEventPublisher.Instance.PublishPlayerKickEvent(
                                 gameObject,
                                 collider.gameObject,
                                 _playerStats.KickPower * knockbackMultiplier

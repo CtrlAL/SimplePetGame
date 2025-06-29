@@ -442,7 +442,7 @@ MonoBehaviour:
   _characterFSM: {fileID: 1796255651766305386}
   _fatigue: {fileID: 6980971804433558037}
   _minStrongImpact: 100
-  _minWeekImpact: 50
+  _minWeakImpact: 50
   _weakHitCountNeeded: 3
 --- !u!114 &1796255651766305386
 MonoBehaviour:
@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7882d438032c249b56580a6f43da19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stunedIcon: {fileID: 5914878358723579683}
+  _StunnedIcon: {fileID: 5914878358723579683}
 --- !u!114 &6980971804433558037
 MonoBehaviour:
   m_ObjectHideFlags: 0

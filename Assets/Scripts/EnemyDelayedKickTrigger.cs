@@ -49,15 +49,9 @@ namespace Assets.Scripts
                 if(PlayerInstanse.Instance.TryGetComponent<Fatigue>(out var fatigue)) 
                 {
                     var knockbackMultiplier = fatigue.GetKnockbackMultiplier();
-                    KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance, _stats.KickPower * knockbackMultiplier);
-                    EnemyKickSound();
+                    KickEventPublisher.Instance.PublishEnemyKickEvent(gameObject, PlayerInstanse.Instance, _stats.KickPower * knockbackMultiplier);
                 }
             }
-        }
-
-        private void EnemyKickSound()
-        {
-            SoundEventPublisher.Instance.PlaySound(Enums.SoundType.EnemyKick, 1);
         }
     }
 }
