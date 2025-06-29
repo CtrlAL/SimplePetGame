@@ -21,17 +21,18 @@ namespace Assets.Scripts
             _soundSource = GetComponent<AudioSource>();
             _soundSource.loop = true;
             _soundSource.playOnAwake = false;
+            SoundEventPublisher.Instance.SwitchBackgroundMusicRequested += SwitchSound;
         }
 
-        private void PlaySound(object sender, PlaySoundEventArgs args)
+        private void SwitchSound(object sender, PlaySoundEventArgs args)
         {
             var clip = _instance._backgroundSoundList[(int)args.SoundType];
-            _instance._soundSource.PlayOneShot(clip.sound, args.Vloume);
+            _soundSource.clip = clip.sound;
         }
 
         void Start()
         {
-
+            if (!Application.isPlaying) return;
             _soundSource.clip = _backgroundSoundList[(int)BackgroundSoundType.DefaultBackground].sound;
             _soundSource.Play();
         }
