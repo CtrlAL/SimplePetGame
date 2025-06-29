@@ -4,15 +4,15 @@ using UnityEngine.AI;
 
 namespace Assets.Scripts
 {
-    public class EnemyInput : MonoBehaviour
+    public class EnemyAIMovementPublisher : MonoBehaviour
     {
         [SerializeField]
         private EnemyStatsSO _stats;
 
-        [SerializeField] 
+        [SerializeField]
         private NavMeshAgent _agent;
 
-        [SerializeField] 
+        [SerializeField]
         private Rigidbody _rigidbody;
 
         public void Awake()
@@ -39,7 +39,11 @@ namespace Assets.Scripts
 
             _agent.nextPosition = transform.position;
 
-            MoveEventPublisher.Instance.PublishMoveEvent(new Vector2(desiredVelocity.x, desiredVelocity.z), gameObject, _stats.MoveSpeed);
+            MoveEventPublisher.Instance.PublishMoveEvent(
+                new Vector2(desiredVelocity.x, desiredVelocity.z),
+                gameObject,
+                _stats.MoveSpeed
+            );
         }
     }
 }
