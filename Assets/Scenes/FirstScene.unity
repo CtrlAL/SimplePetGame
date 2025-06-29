@@ -1049,7 +1049,7 @@ PrefabInstance:
     - target: {fileID: 6295798114919579548, guid: 8bafe7c728517424582de5e0a34fd13d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7085583880270199364, guid: 8bafe7c728517424582de5e0a34fd13d,
         type: 3}
@@ -1170,7 +1170,7 @@ GameObject:
   - component: {fileID: 702762083}
   - component: {fileID: 702762082}
   m_Layer: 0
-  m_Name: SoundEvenrPublisher
+  m_Name: SoundEventPublisher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

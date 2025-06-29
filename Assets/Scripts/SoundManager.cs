@@ -23,7 +23,7 @@ namespace Assets.Scripts
         private void PlaySound(object sender, PlaySoundEventArgs args)
         {
             var clip = _instance._soundList[(int)args.SoundType];
-            _instance._soundSource.PlayOneShot(clip.sound, args.Vloume);
+            _instance._soundSource.PlayOneShot(clip.sound, args.Volume);
         }
 
         private void Start()

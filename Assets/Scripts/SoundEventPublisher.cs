@@ -20,8 +20,7 @@ namespace Assets.Scripts
                     {
                         GameObject publisherObject = new GameObject("SoundEventPublisher");
                         _instance = publisherObject.AddComponent<SoundEventPublisher>();
-                        DontDestroyOnLoad(publisherObject);
-                    }
+                     }
                 }
 
                 return _instance;
@@ -33,34 +32,30 @@ namespace Assets.Scripts
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
-            else
-            {
-                _instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
+
+            _instance = this;
         }
 
         public event EventHandler<PlaySoundEventArgs> PlaySoundRequested;
-
         public event EventHandler<PlaySoundEventArgs> SwitchBackgroundMusicRequested;
 
-        public void PlaySound(SoundType soundType, int vloume = 1)
+        public void PlaySound(SoundType soundType, int volume = 1)
         {
-            PlaySoundRequested?.Invoke(this, new PlaySoundEventArgs(soundType, vloume));
+            PlaySoundRequested?.Invoke(this, new PlaySoundEventArgs(soundType, volume));
         }
     }
 
     public class PlaySoundEventArgs : EventArgs
     {
-        public SoundType SoundType;
-
-        public int Vloume;
+        public SoundType SoundType { get; }
+        public int Volume { get; }
 
         public PlaySoundEventArgs(SoundType soundType, int volume)
         {
             SoundType = soundType;
-            Vloume = volume;
+            Volume = volume;
         }
     }
 }

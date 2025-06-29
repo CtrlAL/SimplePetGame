@@ -1,7 +1,6 @@
 using Assets.Scripts.Enums;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Assets.Scripts
 {
@@ -11,11 +10,11 @@ namespace Assets.Scripts
         {
             KickEventPublisher.Instance.PlayerKickEvent += InvokePlayerKickChain;
             KickEventPublisher.Instance.EnemyKickEvent += InvokeEnemyKickChain;
-            PlayerInputProvider.Inputs.Inputs.Throw.performed += InvokeThrowChain;
+            ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrowChain;
             MoveEventPublisher.Instance.JumpEvent += InvokeJumpChain;
         }
 
-        private void InvokeThrowChain(InputAction.CallbackContext context)
+        private void InvokeThrowChain(object sender, EventArgs args)
         {
             SoundEventPublisher.Instance.PlaySound(SoundType.Throw);
         }
