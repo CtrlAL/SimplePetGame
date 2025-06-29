@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using Assets.Scripts.Enums;
 using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,6 +87,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
             UnpinItem(rb);
             
             rb.AddForce(throwDirection * _throwForce, ForceMode.Impulse);
+            SoundEventPublisher.Instance.PlaySound(SoundType.Throw, 1);
         }
     }
 

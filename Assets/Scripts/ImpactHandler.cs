@@ -4,7 +4,7 @@ using Assets.Scripts.Enums;
 using Assets.Scripts.FSM.States.CharacterStates;
 using UnityEngine;
 
-public class CollisionDetector : MonoBehaviour
+public class ImpactHandler : MonoBehaviour
 {
     [SerializeField]
     private CharacterFSM _characterFSM;
@@ -12,13 +12,13 @@ public class CollisionDetector : MonoBehaviour
     [SerializeField]
     private Fatigue _fatigue;
 
-    [SerializeField] 
+    [SerializeField]
     private float _minStrongImpact = 100f;
 
     [SerializeField]
-    private float _minWeekImpact = 50f;
+    private float _minWeakImpact = 50f;
 
-    [SerializeField] 
+    [SerializeField]
     private int _weakHitCountNeeded = 3;
 
     private int _currentWeakHitCount = 0;
@@ -29,8 +29,7 @@ public class CollisionDetector : MonoBehaviour
         {
             float impactForce = collision.relativeVelocity.magnitude;
 
-            if (collision.gameObject.CompareTag(EnvironmentTags.Environment) || 
-                collision.gameObject.CompareTag(EnvironmentTags.Environment))
+            if (collision.gameObject.CompareTag(EnvironmentTags.Environment))
             {
                 CheckHit(impactForce);
             }
@@ -42,18 +41,18 @@ public class CollisionDetector : MonoBehaviour
         if (impactForce > _minStrongImpact)
         {
             _currentWeakHitCount = 0;
-            _fatigue.MakeFatigueDamake(FatigueDamage.StrongHitDamage);
-            _characterFSM.ChangeToState(CharacterState.Stuned);
+            _fatigue.MakeFatigueDamage(FatigueDamage.StrongHitDamage);
+            _characterFSM.ChangeToState(CharacterState.Stunned);
         }
-        else if(impactForce > _minWeekImpact && impactForce < _minStrongImpact)
+        else if (impactForce > _minWeakImpact && impactForce < _minStrongImpact)
         {
             _currentWeakHitCount++;
-            _fatigue.MakeFatigueDamake(FatigueDamage.WeekHitDamage);
+            _fatigue.MakeFatigueDamage(FatigueDamage.WeakHitDamage);
 
             if (_currentWeakHitCount >= _weakHitCountNeeded)
             {
                 _currentWeakHitCount = 0;
-                _characterFSM.ChangeToState(CharacterState.Stuned);
+                _characterFSM.ChangeToState(CharacterState.Stunned);
             }
         }
     }

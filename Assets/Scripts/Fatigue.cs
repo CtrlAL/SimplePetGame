@@ -8,7 +8,7 @@ namespace Assets.Scripts
         [SerializeField] private AbstractStatsSO _stats;
         public float CurrentFatigue { get; private set; } = 0f;
 
-        public void MakeFatigueDamake(int damage)
+        public void MakeFatigueDamage(int damage)
         {
             if (CurrentFatigue + damage < _stats.Fatigue)
             {

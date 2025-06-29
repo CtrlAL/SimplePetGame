@@ -1666,7 +1666,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2092,17 +2092,17 @@ MonoBehaviour:
   - name: Jump
     sound: {fileID: 8300000, guid: becf2d19fedff7b479581f8ea2716d3c, type: 3}
   - name: Throw
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: 51ea6a8c5a8ae594f8d4932ade2c96f4, type: 3}
   - name: Death
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: ba305da4a7a187d4f8e3f177e8df811b, type: 3}
   - name: FallDown
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: ebf1dbbbb4522d9439674a6c56bbc58c, type: 3}
   - name: BottleHit
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: 0d6ed334089c9414184c57d5a587f7b5, type: 3}
   - name: BottleDropOnFloor
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: e4ecae8e01140074097e816d301e60df, type: 3}
   - name: GameOver
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: f04eace44dd667e45827d516f2b9009d, type: 3}
   - name: Win
     sound: {fileID: 0}
 --- !u!1 &1206079963

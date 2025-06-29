@@ -5,7 +5,7 @@ namespace Assets.Scripts.Services
 {
     public class Stuner
     {
-        public void ApplyStun(GameObject target, Rigidbody rigidbody, GameObject stunedIcon)
+        public void ApplyStun(GameObject target, Rigidbody rigidbody, GameObject StunnedIcon)
         {
             if (rigidbody != null)
             {
@@ -18,11 +18,11 @@ namespace Assets.Scripts.Services
                 StunDataStorage.StoreOldTag(target, oldTag);
 
                 target.tag = EnvironmentTags.Throwable;
-                stunedIcon?.SetActive(true);
+                StunnedIcon?.SetActive(true);
             }
         }
 
-        public void RemoveStun(GameObject target, Rigidbody rigidbody, GameObject stunedIcon)
+        public void RemoveStun(GameObject target, Rigidbody rigidbody, GameObject StunnedIcon)
         {
             if (rigidbody != null)
             {
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Services
                     StunDataStorage.RemoveOldTag(target);
                 }
 
-                stunedIcon?.SetActive(false);
+                StunnedIcon?.SetActive(false);
             }
         }
     }

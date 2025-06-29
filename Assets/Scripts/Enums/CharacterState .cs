@@ -3,6 +3,6 @@
     public enum CharacterState
     {
         Idle,
-        Stuned
+        Stunned
     }
 }

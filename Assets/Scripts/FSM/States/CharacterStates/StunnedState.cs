@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace Assets.Scripts.FSM.States
 {
-    public class StunedState : IState
+    public class StunnedState : IState
     {
         private readonly CharacterFSM _fsm;
         private readonly Stuner _stunService;
-        private readonly GameObject _stunedIcon;
+        private readonly GameObject _StunnedIcon;
 
         private float _stunDuration = 3f;
         private float _timer;
 
-        public StunedState(CharacterFSM fsm, GameObject stunedIcon, Stuner stunService)
+        public StunnedState(CharacterFSM fsm, GameObject StunnedIcon, Stuner stunService)
         {
             _fsm = fsm;
-            _stunedIcon = stunedIcon;
+            _StunnedIcon = StunnedIcon;
             _stunService = stunService;
         }
 
         public void Enter()
         {
-            _stunService.ApplyStun(_fsm.gameObject, _fsm.GetComponent<Rigidbody>(), _stunedIcon);
+            _stunService.ApplyStun(_fsm.gameObject, _fsm.GetComponent<Rigidbody>(), _StunnedIcon);
         }
 
         public void Update()
@@ -37,7 +37,7 @@ namespace Assets.Scripts.FSM.States
 
         public void Exit()
         {
-            _stunService.RemoveStun(_fsm.gameObject, _fsm.GetComponent<Rigidbody>(), _stunedIcon);
+            _stunService.RemoveStun(_fsm.gameObject, _fsm.GetComponent<Rigidbody>(), _StunnedIcon);
             _timer = 0f;
         }
     }
