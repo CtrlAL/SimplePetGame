@@ -26,8 +26,6 @@ namespace Assets.Scripts
 
         public static bool IsThrowable(GameObject other)
         {
-            var tag = other.tag;
-            Debug.Log(tag);
             return other.CompareTag(EnvironmentTags.Throwable);
         }
 

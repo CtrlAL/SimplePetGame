@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterFSM: {fileID: 1796255651766305386}
-  _fatigue: {fileID: 0}
+  _fatigue: {fileID: -5834098691922302829}
   _minStrongImpact: 100
   _minWeekImpact: 50
   _weakHitCountNeeded: 3

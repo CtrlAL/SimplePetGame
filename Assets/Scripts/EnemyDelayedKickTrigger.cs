@@ -50,8 +50,14 @@ namespace Assets.Scripts
                 {
                     var knockbackMultiplier = fatigue.GetKnockbackMultiplier();
                     KickEventPublisher.Instance.PublishKickEvent(gameObject, PlayerInstanse.Instance, _stats.KickPower * knockbackMultiplier);
+                    EnemyKickSound();
                 }
             }
+        }
+
+        private void EnemyKickSound()
+        {
+            SoundEventPublisher.Instance.PlaySound(Enums.SoundType.EnemyKick, 1);
         }
     }
 }

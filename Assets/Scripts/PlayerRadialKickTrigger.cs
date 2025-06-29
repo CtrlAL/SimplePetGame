@@ -40,11 +40,17 @@ namespace Assets.Scripts
                                 collider.gameObject,
                                 _playerStats.KickPower * knockbackMultiplier
                             );
+
+                            PlayerKickSound();
                         }
                     }
                 }
             }
         }
 
+        private void PlayerKickSound()
+        {
+            SoundEventPublisher.Instance.PlaySound(Enums.SoundType.PlayerKick, 1);
+        }
     }
 }
