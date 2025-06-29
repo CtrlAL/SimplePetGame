@@ -58,13 +58,13 @@ namespace Assets.Scripts
 
         public GameObject ObjectForMove;
 
-        public float Speed;
+        public float MoveSpeed;
 
         public MoveEventArgs(Vector2 input, GameObject gameObject, float speed)
         {
             Input = input;
             ObjectForMove = gameObject;
-            Speed = speed;
+            MoveSpeed = speed;
         }
     }
 

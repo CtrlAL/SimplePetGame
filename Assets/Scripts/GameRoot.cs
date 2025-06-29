@@ -10,7 +10,7 @@ namespace Assets.Scripts
 
         void FixedUpdate()
         {
-            _enemySpawner.PublicUpdate();
+            //_enemySpawner.PublicUpdate();
             _playerInput.PublicUpdate();
         }
     }

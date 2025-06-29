@@ -1,19 +1,16 @@
+using Assets.Scripts.ScriptableObjects;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
     public class Fatigue : MonoBehaviour
     {
-        [SerializeField]
-        private float _fatigueThreshold = 100f;
-
-        public float FatigueThreshold => _fatigueThreshold;
-
+        [SerializeField] private AbstractStatsSO _stats;
         public float CurrentFatigue { get; private set; } = 0f;
 
         public void MakeFatigueDamake(int damage)
         {
-            if (CurrentFatigue + damage < _fatigueThreshold)
+            if (CurrentFatigue + damage < _stats.Fatigue)
             {
                 CurrentFatigue += damage;
             }
@@ -26,9 +23,9 @@ namespace Assets.Scripts
 
         public float GetKnockbackMultiplier(float maxMultiplier = 2f)
         {
-            if (_fatigueThreshold <= 0f) return 1f;
+            if (_stats.Fatigue <= 0f) return 1f;
 
-            float fatigueRatio = Mathf.Clamp01(CurrentFatigue / _fatigueThreshold);
+            float fatigueRatio = Mathf.Clamp01(CurrentFatigue / _stats.Fatigue);
 
             return 1f + (fatigueRatio * (maxMultiplier - 1f));
         }

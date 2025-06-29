@@ -1,3 +1,4 @@
+using Assets.Scripts.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,7 +7,7 @@ namespace Assets.Scripts
     public class EnemyInput : MonoBehaviour
     {
         [SerializeField]
-        private CharacterStats _stats;
+        private EnemyStatsSO _stats;
 
         [SerializeField] 
         private NavMeshAgent _agent;

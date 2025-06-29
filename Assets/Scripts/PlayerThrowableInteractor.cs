@@ -19,7 +19,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
     [SerializeField]
     private float _throwForce = 1000f;
 
-    private List<GameObject> _allowThrowables;
+    private HashSet<GameObject> _allowThrowables;
 
     private GameObject _pickedObject;
 
@@ -27,7 +27,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
     {
         PlayerInputProvider.Inputs.Inputs.Pickup.performed += PickOrPut;
         PlayerInputProvider.Inputs.Inputs.Throw.performed += Throw;
-        _allowThrowables = new List<GameObject>();
+        _allowThrowables = new HashSet<GameObject>();
     }
 
     private void PickOrPut(InputAction.CallbackContext context)
@@ -109,14 +109,46 @@ public class PlayerThrowableInteractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Helpers.IsThrowable(other.gameObject))
+        DeleteNullable();
+
+        if (Helpers.IsThrowable(other.gameObject) && Helpers.IsGrounded(other.gameObject))
         {
             _allowThrowables.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        DeleteNullable();
+
+        if (Helpers.IsThrowable(other.gameObject) && Helpers.IsGrounded(other.gameObject))
+        {
+            _allowThrowables.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        DeleteNullable();
+
+        if (Helpers.IsThrowable(other.gameObject) && _allowThrowables.Contains(other.gameObject))
+        {
+            _allowThrowables.Remove(other.gameObject);
+        }
+    }
+
+    private void DeleteNullable()
+    {
+        var toRemove = _allowThrowables.Where(item => item == null).ToList();
+        foreach (var item in toRemove)
+        {
+            _allowThrowables.Remove(item);
         }
     }
 
     public void OnDestroy()
     {
         PlayerInputProvider.Inputs.Inputs.Pickup.performed -= Pickup;
+        PlayerInputProvider.Inputs.Inputs.Throw.performed -= Throw;
     }
 }

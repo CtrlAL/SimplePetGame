@@ -1,4 +1,5 @@
 using Assets.Scripts.FSM.States.CharacterStates;
+using Assets.Scripts.ScriptableObjects;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -9,7 +10,7 @@ namespace Assets.Scripts
         private CharacterFSM _fsm;
 
         [SerializeField]
-        private CharacterStats _playerStats;
+        private PlayerStatsSO _playerStats;
 
         [SerializeField]
         private float kickRadius = 1.5f;

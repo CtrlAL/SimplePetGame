@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27474ffbb9e6dcc4faf6c15ea0fe7f9a, type: 3}
+  m_Name: EnemyLibrary
+  m_EditorClassIdentifier: 
+  _enemies:
+  - _name: Red
+    _prefab: {fileID: 6295798114919579548, guid: 8bafe7c728517424582de5e0a34fd13d,
+      type: 3}
+  - _name: Blue
+    _prefab: {fileID: 6295798114919579548, guid: c5438939bdc1c9842949e4d2a4ce0c39,
+      type: 3}
+  - _name: Green
+    _prefab: {fileID: 6295798114919579548, guid: 1c64003a0b49fc843a5d128dcfe5171f,
+      type: 3}
+  - _name: Violet
+    _prefab: {fileID: 6295798114919579548, guid: 10d3632f73f9cc14c93da030e54a8a7e,
+      type: 3}
+  - _name: Purple
+    _prefab: {fileID: 6295798114919579548, guid: 3de5cdc00c939fe4383efc5ba490d690,
+      type: 3}
+  - _name: Cyan
+    _prefab: {fileID: 6295798114919579548, guid: 6fc4859f11c30f64a96d1a2c6b1154de,
+      type: 3}
+  - _name: Orange
+    _prefab: {fileID: 6295798114919579548, guid: 1d73281e4512b75449136e6e22baabf9,
+      type: 3}
+  - _name: Yallow
+    _prefab: {fileID: 6295798114919579548, guid: 5d04c20fc8cb62346a5ebf3c31003645,
+      type: 3}

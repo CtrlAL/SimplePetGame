@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Assets.Scripts.ScriptableObjects;
 
 namespace Assets.Scripts
 {
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField]
-        private GameObject _enemyPrefub;
+        private EnemyLibrary _enemyPrefubLibrary;
 
         private List<GameObject> _enemyObjects = new List<GameObject>();
 
@@ -47,8 +48,11 @@ namespace Assets.Scripts
 
         private void CreateEnemy()
         {
+            var index = Random.Range(0, _enemyPrefubLibrary.GetLength());
+            var prefub = _enemyPrefubLibrary.GetEnemyPrefab(index);
+
             var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
-            var enemy = Instantiate(_enemyPrefub, spawnPoint.position, spawnPoint.rotation);
+            var enemy = Instantiate(prefub, spawnPoint.position, spawnPoint.rotation);
             _enemyObjects.Add(enemy);
         }
     }
