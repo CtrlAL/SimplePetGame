@@ -1688,7 +1688,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 937408630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d40af77b01faf8542a3ff4c654e3aa29, type: 3}
   m_Name: 
@@ -1956,6 +1956,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1077627057}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1099612638 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3375129732821234114, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 2105410028225594979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1146595078
 GameObject:
   m_ObjectHideFlags: 0
@@ -3159,6 +3165,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 422397356325831350, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+        type: 3}
+      propertyPath: _StunnedIcon
+      value: 
+      objectReference: {fileID: 1099612638}
     - target: {fileID: 824292107938324775, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
         type: 3}
       propertyPath: _fsm

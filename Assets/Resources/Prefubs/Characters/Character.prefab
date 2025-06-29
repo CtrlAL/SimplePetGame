@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7882d438032c249b56580a6f43da19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stunedIcon: {fileID: 3375129732821234114}
+  _StunnedIcon: {fileID: 3375129732821234114}
 --- !u!114 &5867973482203820697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
   _characterFSM: {fileID: 422397356325831350}
   _fatigue: {fileID: 257900505357986646}
   _minStrongImpact: 100
-  _minWeekImpact: 50
+  _minWeakImpact: 50
   _weakHitCountNeeded: 3
 --- !u!114 &257900505357986646
 MonoBehaviour:
