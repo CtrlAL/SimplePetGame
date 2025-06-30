@@ -7,6 +7,7 @@
         EnemyKick,
         Jump,
         Throw,
+        
         #endregion
 
         #region Events
@@ -19,6 +20,10 @@
         #region Game States
         GameOver,
         Win,
+        #endregion
+
+        #region Extentions
+        PickUp
         #endregion
     }
 }

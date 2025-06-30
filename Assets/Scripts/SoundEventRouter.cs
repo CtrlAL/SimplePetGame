@@ -12,6 +12,12 @@ namespace Assets.Scripts
             KickEventPublisher.Instance.EnemyKickEvent += InvokeEnemyKick;
             ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrow;
             MoveEventPublisher.Instance.ObjectJumped += InvokeJump;
+            PicupEventPublisher.Instance.ObjetPickuped += InvokePickUp;
+        }
+
+        private void InvokePickUp(object sender, EventArgs args)
+        {
+            SoundEventPublisher.Instance.PlaySound(SoundType.PickUp);
         }
 
         private void InvokeThrow(object sender, EventArgs args)

@@ -62,6 +62,7 @@ public class PlayerThrowableInteractor : MonoBehaviour
             closestThrowable.transform.SetParent(_throwablesSlot.transform);
             rb.MovePosition(_throwablesSlot.transform.position);
             PinItem(rb, closestThrowable);
+            PicupEventPublisher.Instance.PublishObjetPickupedvent();
         }
     }
 
