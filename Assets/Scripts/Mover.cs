@@ -16,6 +16,7 @@ namespace Assets.Scripts
             {
                 var rb = args.ObjectForJump.GetComponent<Rigidbody>();
                 rb.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
+                MoveEventPublisher.Instance.PublishObjectJumped();
             }
         }
 
@@ -32,6 +33,7 @@ namespace Assets.Scripts
                 movement = transform.TransformDirection(movement.normalized);
 
                 rb.AddForce(movement * args.MoveSpeed, ForceMode.Force);
+                MoveEventPublisher.Instance.PublishObjectMoved();
             }
         }
 

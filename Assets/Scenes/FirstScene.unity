@@ -2037,7 +2037,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f9bc0b97b4bd03c479dd8c396eb116ca, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2142,7 +2142,7 @@ MonoBehaviour:
   - name: Jump
     sound: {fileID: 8300000, guid: becf2d19fedff7b479581f8ea2716d3c, type: 3}
   - name: Throw
-    sound: {fileID: 8300000, guid: 51ea6a8c5a8ae594f8d4932ade2c96f4, type: 3}
+    sound: {fileID: 8300000, guid: 8c39516544cd4554d82b3223cc046187, type: 3}
   - name: Death
     sound: {fileID: 8300000, guid: ba305da4a7a187d4f8e3f177e8df811b, type: 3}
   - name: FallDown

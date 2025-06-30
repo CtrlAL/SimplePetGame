@@ -27,7 +27,12 @@ namespace Assets.Scripts
         }
 
         public event EventHandler<MoveEventArgs> MoveEvent;
+
         public event EventHandler<JumpEventArgs> JumpEvent;
+
+        public event EventHandler ObjectJumped;
+
+        public event EventHandler OjectMoved;
 
         private void Awake()
         {
@@ -49,6 +54,16 @@ namespace Assets.Scripts
         public void PublishJumpEvent(GameObject objectForMove, float jumpForce)
         {
             JumpEvent?.Invoke(this, new JumpEventArgs(objectForMove, jumpForce));
+        }
+
+        public void PublishObjectMoved()
+        {
+            OjectMoved?.Invoke(this, new());
+        }
+
+        public void PublishObjectJumped()
+        {
+            ObjectJumped?.Invoke(this, new());
         }
     }
 

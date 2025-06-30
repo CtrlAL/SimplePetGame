@@ -8,28 +8,28 @@ namespace Assets.Scripts
     {
         public void Awake()
         {
-            KickEventPublisher.Instance.PlayerKickEvent += InvokePlayerKickChain;
-            KickEventPublisher.Instance.EnemyKickEvent += InvokeEnemyKickChain;
-            ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrowChain;
-            MoveEventPublisher.Instance.JumpEvent += InvokeJumpChain;
+            KickEventPublisher.Instance.PlayerKickEvent += InvokePlayerKick;
+            KickEventPublisher.Instance.EnemyKickEvent += InvokeEnemyKick;
+            ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrow;
+            MoveEventPublisher.Instance.ObjectJumped += InvokeJump;
         }
 
-        private void InvokeThrowChain(object sender, EventArgs args)
+        private void InvokeThrow(object sender, EventArgs args)
         {
             SoundEventPublisher.Instance.PlaySound(SoundType.Throw);
         }
 
-        private void InvokeJumpChain(object sender, JumpEventArgs e)
+        private void InvokeJump(object sender, EventArgs e)
         {
             SoundEventPublisher.Instance.PlaySound(SoundType.Jump);
         }
 
-        private void InvokeEnemyKickChain(object sender, KickEventArgs e)
+        private void InvokeEnemyKick(object sender, KickEventArgs e)
         {
             SoundEventPublisher.Instance.PlaySound(SoundType.EnemyKick);
         }
 
-        private void InvokePlayerKickChain(object sender, KickEventArgs e)
+        private void InvokePlayerKick(object sender, KickEventArgs e)
         {
             SoundEventPublisher.Instance.PlaySound(SoundType.PlayerKick);
         }
