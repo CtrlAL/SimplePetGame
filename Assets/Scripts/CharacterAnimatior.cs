@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts
 {
-    public class CharacterAnimationController : MonoBehaviour
+    public class CharacterAnimatior : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
 

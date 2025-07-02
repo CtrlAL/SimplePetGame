@@ -8,9 +8,20 @@ namespace Assets.Scripts
 
         [SerializeField] PlayerMovementInputHandler _playerInput;
 
+        private Kicker _kiker;
+        private Mover _mover;
+        private EnemyFactory _enemyFactory;
+
+        public void Awake()
+        {
+            _kiker = new Kicker();
+            _mover = new Mover();
+            _enemyFactory = new EnemyFactory();
+        }
+
         void FixedUpdate()
         {
-            _enemySpawner.PublicUpdate();
+            _enemyFactory.PublicUpdate();
             _playerInput.PublicUpdate();
         }
     }

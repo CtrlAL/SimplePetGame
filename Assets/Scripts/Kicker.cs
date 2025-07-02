@@ -1,11 +1,11 @@
-using Assets.Scripts.Enums;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class Kicker : MonoBehaviour
+    public class Kicker : IDisposable
     {
-        private void Awake()
+        public Kicker()
         {
             KickEventPublisher.Instance.PlayerKickEvent += Kick;
             KickEventPublisher.Instance.EnemyKickEvent += Kick;
@@ -26,7 +26,7 @@ namespace Assets.Scripts
             }
         }
 
-        public void OnDestroy()
+        public void Dispose()
         {
             KickEventPublisher.Instance.PlayerKickEvent -= Kick;
             KickEventPublisher.Instance.EnemyKickEvent -= Kick;
