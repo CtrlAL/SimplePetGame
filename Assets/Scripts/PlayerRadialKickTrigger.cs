@@ -24,7 +24,7 @@ namespace Assets.Scripts
 
         public void FixedUpdate()
         {
-            if (_input.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
+            if (_input.Inputs.Kick.IsPressed())
             {
                 Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, kickRadius);
 
