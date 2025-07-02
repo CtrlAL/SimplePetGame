@@ -1,7 +1,6 @@
 using Assets.Scripts.Enums;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Assets.Scripts
 {
@@ -14,12 +13,7 @@ namespace Assets.Scripts
             ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrow;
             MoveEventPublisher.Instance.ObjectJumped += InvokeJump;
             PickupEventPublisher.Instance.ObjetPickuped += InvokePickUp;
-            PlayerInputProvider.Instance.Inputs.Kick.performed += InvokeWaveAnimationSound;
-        }
-
-        private void InvokeWaveAnimationSound(InputAction.CallbackContext context)
-        {
-            SoundEventPublisher.Instance.PlaySound(SoundType.WaveAnimationSound);
+            AnimationEventPublisher.Instance.WaveAnimationStarted += InvokeWaveAnimationSound;
         }
 
         private void InvokeWaveAnimationSound(object sender, EventArgs e)
