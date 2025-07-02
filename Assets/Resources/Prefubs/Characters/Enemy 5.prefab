@@ -441,8 +441,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterFSM: {fileID: 1796255651766305386}
   _fatigue: {fileID: 515098476584429111}
-  _minStrongImpact: 100
-  _minWeakImpact: 50
+  _minStrongImpact: 30
+  _minWeakImpact: 20
   _weakHitCountNeeded: 3
 --- !u!114 &1796255651766305386
 MonoBehaviour:

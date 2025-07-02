@@ -1,5 +1,6 @@
 using Assets.Scripts.FSM;
 using Assets.Scripts.FSM.States.CharacterStates;
+using Assets.Scripts.Services;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,14 +27,17 @@ namespace Assets.Scripts
 
         private GameObject _pickedObject;
 
+        private TrowableInteractionTool _trowableInteractionTool;
+
         public void Awake()
         {
-            PlayerInputProvider.Instance.Inputs.Pickup.performed += PickOrPut;
-            PlayerInputProvider.Instance.Inputs.Throw.performed += Throw;
+            _trowableInteractionTool = new TrowableInteractionTool(_throwForce, _dropDistance);
+            PlayerInputProvider.Instance.Inputs.Pickup.performed += OnPickup;
+            PlayerInputProvider.Instance.Inputs.Throw.performed += OnThrow;
             _allowThrowables = new HashSet<GameObject>();
         }
 
-        private void PickOrPut(InputAction.CallbackContext context)
+        private void OnPickup(InputAction.CallbackContext context)
         {
             if (_fsm.GetCurrentState() is IdleState)
             {
@@ -45,6 +49,14 @@ namespace Assets.Scripts
                 {
                     Put(context);
                 }
+            }
+        }
+
+        private void OnThrow(InputAction.CallbackContext context)
+        {
+            if (_fsm.GetCurrentState() is IdleState)
+            {
+                _trowableInteractionTool.Throw(gameObject.transform);
             }
         }
 
@@ -61,55 +73,13 @@ namespace Assets.Scripts
 
             if (closestThrowable != null && closestThrowable.TryGetComponent<Rigidbody>(out var rb))
             {
-                closestThrowable.transform.position = _throwablesSlot.transform.position;
-                closestThrowable.transform.SetParent(_throwablesSlot.transform);
-                rb.MovePosition(_throwablesSlot.transform.position);
-                PinItem(rb, closestThrowable);
-                PickupEventPublisher.Instance.PublishObjetPickupedvent();
+                _trowableInteractionTool.Pickup(closestThrowable, _throwablesSlot.transform);
             }
         }
 
         private void Put(InputAction.CallbackContext context)
         {
-            if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb))
-            {
-                Vector3 dropPosition = gameObject.transform.position - gameObject.transform.forward * _dropDistance;
-                _pickedObject.transform.position = dropPosition;
-                _pickedObject.transform.SetParent(null);
-                UnpinItem(rb);
-            }
-        }
-
-        private void Throw(InputAction.CallbackContext context)
-        {
-            if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb) && _fsm.GetCurrentState() is IdleState)
-            {
-                Vector3 throwDirection = transform.forward.normalized;
-
-                rb.transform.SetParent(null);
-                UnpinItem(rb);
-
-                rb.AddForce(throwDirection * _throwForce, ForceMode.Impulse);
-                ObjectThrownEventPublisher.Instance.PublishEvent();
-            }
-        }
-
-        private void UnpinItem(Rigidbody rb)
-        {
-            rb.useGravity = true;
-            rb.isKinematic = false;
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.transform.position += Vector3.up * 0.1f;
-
-            _pickedObject = null;
-        }
-
-        private void PinItem(Rigidbody rb, GameObject gameObject)
-        {
-            rb.useGravity = false;
-            rb.isKinematic = true;
-            _pickedObject = gameObject;
+            _trowableInteractionTool.Put(gameObject.transform);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -154,7 +124,7 @@ namespace Assets.Scripts
         public void OnDestroy()
         {
             PlayerInputProvider.Instance.Inputs.Pickup.performed -= Pickup;
-            PlayerInputProvider.Instance.Inputs.Throw.performed -= Throw;
+            PlayerInputProvider.Instance.Inputs.Throw.performed -= OnThrow;
         }
     }
 }

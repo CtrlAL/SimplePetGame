@@ -53,7 +53,7 @@ namespace Assets.Scripts
             ObjectThrownEventPublisher.Instance.ObjectThrown -= InvokeThrow;
             MoveEventPublisher.Instance.ObjectJumped -= InvokeJump;
             PickupEventPublisher.Instance.ObjetPickuped -= InvokePickUp;
-            PlayerInputProvider.Instance.Inputs.Kick.performed -= InvokeWaveAnimationSound;
+            AnimationEventPublisher.Instance.WaveAnimationStarted -= InvokeWaveAnimationSound;
         }
     }
 }
