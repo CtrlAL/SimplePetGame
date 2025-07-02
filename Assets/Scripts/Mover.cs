@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM.States.CharacterStates;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -26,8 +27,8 @@ namespace Assets.Scripts
             var objectForMove = args.ObjectForMove;
 
             var rb = objectForMove.GetComponent<Rigidbody>();
-
-            if (rb != null)
+            var fsm = objectForMove.GetComponent<CharacterFSM>();
+            if (rb != null && fsm.GetCurrentState() is IdleState)
             {
                 Vector3 movement = new Vector3(input.x, 0f, input.y);
                 movement = transform.TransformDirection(movement.normalized);

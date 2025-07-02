@@ -11,8 +11,8 @@ namespace Assets.Scripts.Services
             {
                 rigidbody.velocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
-                rigidbody.isKinematic = true;
-                rigidbody.useGravity = false;
+                //rigidbody.isKinematic = true;
+                //rigidbody.useGravity = false;
 
                 string oldTag = target.tag;
                 StunDataStorage.StoreOldTag(target, oldTag);
@@ -26,8 +26,8 @@ namespace Assets.Scripts.Services
         {
             if (rigidbody != null)
             {
-                rigidbody.isKinematic = false;
-                rigidbody.useGravity = true;
+                //rigidbody.isKinematic = false;
+                //rigidbody.useGravity = true;
 
                 if (StunDataStorage.TryGetOldTag(target, out string oldTag))
                 {
