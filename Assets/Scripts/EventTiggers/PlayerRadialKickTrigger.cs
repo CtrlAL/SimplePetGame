@@ -15,14 +15,11 @@ namespace Assets.Scripts
         [SerializeField]
         private PlayerStatsSO _playerStats;
 
-        [SerializeField]
-        private float kickRadius = 1.5f;
-
         public void FixedUpdate()
         {
             if (PlayerInputProvider.Instance.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
             {
-                Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, kickRadius);
+                Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, _playerStats.KickRadius);
 
                 foreach (var collider in nearbyColliders)
                 {

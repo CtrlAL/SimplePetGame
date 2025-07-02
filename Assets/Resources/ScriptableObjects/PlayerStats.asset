@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 25
   _jumpForce: 3
-  _kickPower: 20
+  _kickPower: 5
   _fatigue: 100
+  _fatigueRestoration: 5

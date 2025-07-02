@@ -22,10 +22,8 @@ namespace Assets.Scripts
 
         public void OnTriggerEnter(Collider other)
         {
-            Debug.Log("In");
-            if (other.gameObject == PlayerInstanseHandler.Instance)
+            if (other.gameObject == PlayerInstanseHandler.Instance && _delayCoroutine == null)
             {
-                Debug.Log("In");
                 var rb = other.GetComponent<Rigidbody>();
 
                 if (rb != null)
@@ -37,7 +35,6 @@ namespace Assets.Scripts
 
         public void OnTriggerExit(Collider other)
         {
-            Debug.Log("Out");
             if (other.gameObject == PlayerInstanseHandler.Instance && _delayCoroutine != null)
             {
                 Debug.Log("Out");
