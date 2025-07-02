@@ -14,11 +14,16 @@ namespace Assets.Scripts
             {
                 CurrentFatigue += damage;
             }
-        }
 
-        public void Reset(int damage)
-        {
-            CurrentFatigue = 0f;
+            else if(CurrentFatigue < _stats.Fatigue)
+            {
+                CurrentFatigue = _stats.Fatigue;
+            }
+
+            else
+            {
+                CurrentFatigue = 0;
+            }
         }
 
         public float GetKnockbackMultiplier(float maxMultiplier = 2f)
