@@ -1,6 +1,7 @@
 using Assets.Scripts.Enums;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Assets.Scripts
 {
@@ -13,7 +14,12 @@ namespace Assets.Scripts
             ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrow;
             MoveEventPublisher.Instance.ObjectJumped += InvokeJump;
             PickupEventPublisher.Instance.ObjetPickuped += InvokePickUp;
-            AnimationEventPublisher.Instance.WaveAnimationEnded += InvokeWaveAnimationSound;
+            PlayerInputProvider.Instance.Inputs.Kick.performed += InvokeWaveAnimationSound;
+        }
+
+        private void InvokeWaveAnimationSound(InputAction.CallbackContext context)
+        {
+            SoundEventPublisher.Instance.PlaySound(SoundType.WaveAnimationSound);
         }
 
         private void InvokeWaveAnimationSound(object sender, EventArgs e)
@@ -44,6 +50,16 @@ namespace Assets.Scripts
         private void InvokePlayerKick(object sender, KickEventArgs e)
         {
             SoundEventPublisher.Instance.PlaySound(SoundType.PlayerKick);
+        }
+
+        public void OnDestroy()
+        {
+            KickEventPublisher.Instance.PlayerKickEvent -= InvokePlayerKick;
+            KickEventPublisher.Instance.EnemyKickEvent -= InvokeEnemyKick;
+            ObjectThrownEventPublisher.Instance.ObjectThrown -= InvokeThrow;
+            MoveEventPublisher.Instance.ObjectJumped -= InvokeJump;
+            PickupEventPublisher.Instance.ObjetPickuped -= InvokePickUp;
+            PlayerInputProvider.Instance.Inputs.Kick.performed -= InvokeWaveAnimationSound;
         }
     }
 }

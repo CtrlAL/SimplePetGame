@@ -2106,6 +2106,8 @@ MonoBehaviour:
     sound: {fileID: 8300000, guid: f48ceb437de78aa4584832f3a23d4a7d, type: 3}
   - name: PickUp
     sound: {fileID: 8300000, guid: 08045bf8c7d1d4f46a19537fce5cf47b, type: 3}
+  - name: WaveAnimationSound
+    sound: {fileID: 8300000, guid: d4285260b9751db418fc3f84e5c9def9, type: 3}
 --- !u!1 &1206079963
 GameObject:
   m_ObjectHideFlags: 0
