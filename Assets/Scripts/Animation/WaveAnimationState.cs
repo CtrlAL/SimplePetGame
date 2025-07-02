@@ -6,4 +6,8 @@ public class WaveAnimationState : StateMachineBehaviour
     {
         AnimationEventPublisher.Instance.PublisWaveAnimationEnded();
     }
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        AnimationEventPublisher.Instance.PublisWaveAnimationStarted();
+    }
 }

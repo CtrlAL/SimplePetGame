@@ -39,8 +39,15 @@ public class AnimationEventPublisher : MonoBehaviour
 
     public event EventHandler WaveAnimationEnded;
 
+    public event EventHandler WaveAnimationStarted;
+
     public void PublisWaveAnimationEnded()
     {
         WaveAnimationEnded?.Invoke(this, new());
+    }
+
+    public void PublisWaveAnimationStarted()
+    {
+        WaveAnimationStarted?.Invoke(this, new());
     }
 }

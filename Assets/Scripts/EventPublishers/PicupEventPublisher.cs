@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class PicupEventPublisher : MonoBehaviour
+    public class PickupEventPublisher : MonoBehaviour
     {
-        private static PicupEventPublisher _instance;
-        public static PicupEventPublisher Instance
+        private static PickupEventPublisher _instance;
+        public static PickupEventPublisher Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<PicupEventPublisher>();
+                    _instance = FindObjectOfType<PickupEventPublisher>();
 
                     if (_instance == null)
                     {
-                        GameObject singletonObject = new GameObject("PicupEventPublisher");
-                        _instance = singletonObject.AddComponent<PicupEventPublisher>();
+                        GameObject singletonObject = new GameObject("PickupEventPublisher");
+                        _instance = singletonObject.AddComponent<PickupEventPublisher>();
                         DontDestroyOnLoad(singletonObject);
                     }
                 }

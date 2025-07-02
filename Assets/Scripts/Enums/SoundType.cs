@@ -23,7 +23,8 @@
         #endregion
 
         #region Extentions
-        PickUp
+        PickUp,
+        WaveAnimationSound
         #endregion
     }
 }

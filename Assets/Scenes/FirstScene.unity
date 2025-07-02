@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 655709623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c5175cd4895e14d95235e241616d1a, type: 3}
+  m_Script: {fileID: 11500000, guid: 66d15ea1bc20de244b6c32625526d84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &655709625
@@ -1674,7 +1674,7 @@ GameObject:
   - component: {fileID: 937408632}
   - component: {fileID: 937408631}
   m_Layer: 0
-  m_Name: BackgoundSoundManager
+  m_Name: BackgoundSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2080,7 +2080,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1185532462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b94212574ba5c9544a029b008d9e0587, type: 3}
+  m_Script: {fileID: 11500000, guid: cb9fd79a523f2b0498da13083818adc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _soundList:
@@ -2106,7 +2106,6 @@ MonoBehaviour:
     sound: {fileID: 8300000, guid: f48ceb437de78aa4584832f3a23d4a7d, type: 3}
   - name: PickUp
     sound: {fileID: 8300000, guid: 08045bf8c7d1d4f46a19537fce5cf47b, type: 3}
-  _soundSource: {fileID: 1185532465}
 --- !u!1 &1206079963
 GameObject:
   m_ObjectHideFlags: 0
@@ -3122,6 +3121,7 @@ SceneRoots:
   - {fileID: 1975647110}
   - {fileID: 1924448709}
   - {fileID: 485103901}
+  - {fileID: 816320991}
   - {fileID: 702762083}
   - {fileID: 114421586}
   - {fileID: 191622845}
@@ -3131,6 +3131,5 @@ SceneRoots:
   - {fileID: 1185532463}
   - {fileID: 937408633}
   - {fileID: 655709625}
-  - {fileID: 816320991}
   - {fileID: 1979711702}
   - {fileID: 1647730539}
