@@ -15,11 +15,18 @@ namespace Assets.Scripts
                 CurrentFatigue += damage;
             }
 
-            else if(CurrentFatigue < _stats.Fatigue)
+            else
             {
                 CurrentFatigue = _stats.Fatigue;
             }
+        }
 
+        private void FixedUpdate()
+        {
+            if (CurrentFatigue - _stats.FatigueRestoration > 0)
+            {
+                CurrentFatigue-= _stats.FatigueRestoration;
+            }
             else
             {
                 CurrentFatigue = 0;

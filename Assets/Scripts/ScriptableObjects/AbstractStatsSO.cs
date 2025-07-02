@@ -8,5 +8,6 @@ namespace Assets.Scripts.ScriptableObjects
         public abstract float JumpForce { get; }
         public abstract float KickPower { get; }
         public abstract float Fatigue { get; }
+        public abstract float FatigueRestoration { get; }
     }
 }
