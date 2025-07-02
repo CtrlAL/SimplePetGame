@@ -1,20 +1,22 @@
 using Assets.Scripts.ScriptableObjects;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Assets.Scripts
 {
-    public class PlayerMovementInputHandler : MonoBehaviour
+    public class PlayerMovementInputHandler : IDisposable
     {
-        [SerializeField] PlayerStatsSO _stats;
+        private PlayerStatsSO _stats;
 
         private PlayerInputActions _inputActions;
 
-        public void Awake()
+        public PlayerMovementInputHandler()
         {
             _inputActions = PlayerInputProvider.Inputs;
             _inputActions.Enable();
             _inputActions.Inputs.Jump.performed += PublishJump;
+            _stats = Resources.Load<PlayerStatsSO>("ScriptableObjects/PlayerStats");
         }
 
         public void PublicUpdate()
@@ -31,7 +33,7 @@ namespace Assets.Scripts
             MoveEventPublisher.Instance.PublishJumpEvent(PlayerInstanse.Instance, _stats.JumpForce);
         }
 
-        public void OnDestroy()
+        public void Dispose()
         {
             _inputActions.Inputs.Jump.performed -= PublishJump;
             _inputActions.Disable();

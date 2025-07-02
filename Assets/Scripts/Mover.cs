@@ -6,7 +6,7 @@ namespace Assets.Scripts
 {
     public class Mover : IDisposable
     {
-        private readonly float _defaultRatationSpeed = 5f;
+        private readonly float _defaultRatationSpeed = 20f;
 
         public Mover()
         {
@@ -34,19 +34,23 @@ namespace Assets.Scripts
             if (rb != null && fsm.GetCurrentState() is IdleState)
             {
                 Vector3 movement = new Vector3(input.x, 0f, input.y);
-                
+
                 rb.AddForce(movement * args.MoveSpeed, ForceMode.Force);
-
-                var targetRotation = Quaternion.LookRotation(movement, Vector3.up);
-
-                objectForMove.transform.rotation = Quaternion.Slerp(
-                    objectForMove.transform.rotation,
-                    targetRotation,
-                    _defaultRatationSpeed * Time.deltaTime
-                );
+                Rotation(objectForMove, movement);
 
                 MoveEventPublisher.Instance.PublishObjectMoved();
             }
+        }
+
+        private void Rotation(GameObject objectForMove, Vector3 movement)
+        {
+            var targetRotation = Quaternion.LookRotation(movement, Vector3.up);
+
+            objectForMove.transform.rotation = Quaternion.Slerp(
+                objectForMove.transform.rotation,
+                targetRotation,
+                _defaultRatationSpeed * Time.deltaTime
+            );
         }
 
         public void Dispose()
