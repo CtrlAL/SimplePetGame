@@ -13,7 +13,7 @@ namespace Assets.Scripts
 
         public PlayerMovementInputHandler()
         {
-            _inputActions = PlayerInputProvider.Inputs;
+            _inputActions = PlayerInputProvider.Actions;
             _inputActions.Enable();
             _inputActions.Inputs.Jump.performed += PublishJump;
             _stats = Resources.Load<PlayerStatsSO>("ScriptableObjects/PlayerStats");
@@ -23,14 +23,19 @@ namespace Assets.Scripts
         {
             if (_inputActions.Inputs.Move.IsPressed())
             {
+                var fsm = PlayerInstanse.Instance.GetComponent<CharacterFSM>();
+                var rb = PlayerInstanse.Instance.GetComponent<Rigidbody>();
+
                 var input = _inputActions.Inputs.Move.ReadValue<Vector2>();
-                MoveEventPublisher.Instance.PublishMoveEvent(input, PlayerInstanse.Instance, _stats.MoveSpeed);
+                MoveEventPublisher.Instance.PublishMoveEvent(input, fsm, rb, _stats.MoveSpeed);
             }
         }
 
         private void PublishJump(InputAction.CallbackContext context)
         {
-            MoveEventPublisher.Instance.PublishJumpEvent(PlayerInstanse.Instance, _stats.JumpForce);
+            var fsm = PlayerInstanse.Instance.GetComponent<CharacterFSM>();
+            var rb = PlayerInstanse.Instance.GetComponent<Rigidbody>();
+            MoveEventPublisher.Instance.PublishJumpEvent(fsm, rb, _stats.JumpForce);
         }
 
         public void Dispose()

@@ -6,7 +6,7 @@ namespace Assets.Scripts
 {
     public class Mover : IDisposable
     {
-        private readonly float _defaultRatationSpeed = 20f;
+        private readonly float _defaultRatationSpeed = 7f;
 
         public Mover()
         {
@@ -16,10 +16,11 @@ namespace Assets.Scripts
 
         private void Jump(object sender, JumpEventArgs args)
         {
-            if (Helpers.IsGrounded(args.ObjectForJump) && args.ObjectForJump.TryGetComponent<CharacterFSM>(out var fsm) && fsm.GetCurrentState() is IdleState)
+            var gameObject = args.FSM.gameObject;
+
+            if (Helpers.IsGrounded(gameObject) && args.FSM.GetCurrentState() is IdleState)
             {
-                var rb = args.ObjectForJump.GetComponent<Rigidbody>();
-                rb.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
+                args.Rigidbody.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
                 MoveEventPublisher.Instance.PublishObjectJumped();
             }
         }
@@ -27,7 +28,7 @@ namespace Assets.Scripts
         private void Move(object sender, MoveEventArgs args)
         {
             var input = args.Input;
-            var objectForMove = args.ObjectForMove;
+            var objectForMove = args.FSM.gameObject;
 
             var rb = objectForMove.GetComponent<Rigidbody>();
             var fsm = objectForMove.GetComponent<CharacterFSM>();

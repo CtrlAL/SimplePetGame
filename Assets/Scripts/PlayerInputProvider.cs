@@ -21,7 +21,7 @@ namespace Assets.Scripts
 
         private PlayerInputActions _actions;
 
-        public static PlayerInputActions Inputs => Instance._actions;
+        public static PlayerInputActions Actions => Instance._actions;
 
         private void Awake()
         {

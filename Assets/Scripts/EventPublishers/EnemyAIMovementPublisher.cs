@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 namespace Assets.Scripts
 {
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(CharacterFSM))]
     public class EnemyAIMovementPublisher : MonoBehaviour
     {
         [SerializeField]
@@ -39,11 +41,10 @@ namespace Assets.Scripts
 
             _agent.nextPosition = transform.position;
 
-            MoveEventPublisher.Instance.PublishMoveEvent(
-                new Vector2(desiredVelocity.x, desiredVelocity.z),
-                gameObject,
-                _stats.MoveSpeed
-            );
+            var fsm = gameObject.GetComponent<CharacterFSM>();
+            var rb = gameObject.GetComponent<Rigidbody>();
+
+            MoveEventPublisher.Instance.PublishMoveEvent(new Vector2(desiredVelocity.x, desiredVelocity.z), fsm, rb, _stats.MoveSpeed);
         }
     }
 }

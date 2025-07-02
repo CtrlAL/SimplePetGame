@@ -4,6 +4,8 @@ using Assets.Scripts.Enums;
 using Assets.Scripts.FSM.States.CharacterStates;
 using UnityEngine;
 
+[RequireComponent(typeof(Fatigue))]
+[RequireComponent(typeof(CharacterFSM))]
 public class ImpactHandler : MonoBehaviour
 {
     [SerializeField]

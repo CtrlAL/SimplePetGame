@@ -1,156 +1,160 @@
-using Assets.Scripts;
 using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerThrowableInteractor : MonoBehaviour
+namespace Assets.Scripts
 {
-    [SerializeField]
-    private CharacterFSM _fsm;
-
-    [SerializeField]
-    private GameObject _throwablesSlot;
-
-    [SerializeField]
-    private float _dropDistance = 0.5f;
-
-    [SerializeField]
-    private float _throwForce = 1000f;
-
-    private HashSet<GameObject> _allowThrowables;
-
-    private GameObject _pickedObject;
-
-    public void Awake()
+    [RequireComponent(typeof(CharacterFSM))]
+    public class PlayerThrowableInteractor : MonoBehaviour
     {
-        PlayerInputProvider.Inputs.Inputs.Pickup.performed += PickOrPut;
-        PlayerInputProvider.Inputs.Inputs.Throw.performed += Throw;
-        _allowThrowables = new HashSet<GameObject>();
-    }
+        [SerializeField]
+        private CharacterFSM _fsm;
 
-    private void PickOrPut(InputAction.CallbackContext context)
-    {
-        if (_fsm.GetCurrentState() is IdleState)
+        [SerializeField]
+        private GameObject _throwablesSlot;
+
+        [SerializeField]
+        private float _dropDistance = 0.5f;
+
+        [SerializeField]
+        private float _throwForce = 1000f;
+
+        private HashSet<GameObject> _allowThrowables;
+
+        private GameObject _pickedObject;
+
+        public void Awake()
         {
-            if (_pickedObject == null)
+            PlayerInputProvider.Actions.Inputs.Pickup.performed += PickOrPut;
+            PlayerInputProvider.Actions.Inputs.Throw.performed += Throw;
+            _allowThrowables = new HashSet<GameObject>();
+        }
+
+        private void PickOrPut(InputAction.CallbackContext context)
+        {
+            if (_fsm.GetCurrentState() is IdleState)
             {
-                Pickup(context);
+                if (_pickedObject == null)
+                {
+                    Pickup(context);
+                }
+                else
+                {
+                    Put(context);
+                }
             }
-            else
+        }
+
+        private void Pickup(InputAction.CallbackContext context)
+        {
+            var player = PlayerInstanse.Instance;
+
+            if (_throwablesSlot == null || player == null || _allowThrowables.Count == 0)
+                return;
+
+            var closestThrowable = _allowThrowables
+                .OrderBy(go => Vector3.Distance(player.transform.position, go.transform.position))
+                .FirstOrDefault();
+
+            if (closestThrowable != null && closestThrowable.TryGetComponent<Rigidbody>(out var rb))
             {
-                Put(context);
+                closestThrowable.transform.position = _throwablesSlot.transform.position;
+                closestThrowable.transform.SetParent(_throwablesSlot.transform);
+                rb.MovePosition(_throwablesSlot.transform.position);
+                PinItem(rb, closestThrowable);
+                PicupEventPublisher.Instance.PublishObjetPickupedvent();
             }
         }
-    }
 
-    private void Pickup(InputAction.CallbackContext context)
-    {
-        var player = PlayerInstanse.Instance;
-
-        if (_throwablesSlot == null || player == null || _allowThrowables.Count == 0)
-            return;
-
-        var closestThrowable = _allowThrowables
-            .OrderBy(go => Vector3.Distance(player.transform.position, go.transform.position))
-            .FirstOrDefault();
-
-        if (closestThrowable != null && closestThrowable.TryGetComponent<Rigidbody>(out var rb))
+        private void Put(InputAction.CallbackContext context)
         {
-            closestThrowable.transform.position = _throwablesSlot.transform.position;
-            closestThrowable.transform.SetParent(_throwablesSlot.transform);
-            rb.MovePosition(_throwablesSlot.transform.position);
-            PinItem(rb, closestThrowable);
-            PicupEventPublisher.Instance.PublishObjetPickupedvent();
+            if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb))
+            {
+                Vector3 dropPosition = gameObject.transform.position - gameObject.transform.forward * _dropDistance;
+                _pickedObject.transform.position = dropPosition;
+                _pickedObject.transform.SetParent(null);
+                UnpinItem(rb);
+            }
         }
-    }
 
-    private void Put(InputAction.CallbackContext context)
-    {
-        if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb))
+        private void Throw(InputAction.CallbackContext context)
         {
-            Vector3 dropPosition = gameObject.transform.position - gameObject.transform.forward * _dropDistance;
-            _pickedObject.transform.position = dropPosition;
-            _pickedObject.transform.SetParent(null);
-            UnpinItem(rb);
-        }
-    }
+            if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb) && _fsm.GetCurrentState() is IdleState)
+            {
+                Vector3 throwDirection = transform.forward.normalized;
 
-    private void Throw(InputAction.CallbackContext context)
-    {
-        if (_pickedObject != null && _pickedObject.TryGetComponent<Rigidbody>(out var rb) && _fsm.GetCurrentState() is IdleState)
+                rb.transform.SetParent(null);
+                UnpinItem(rb);
+
+                rb.AddForce(throwDirection * _throwForce, ForceMode.Impulse);
+                ObjectThrownEventPublisher.Instance.PublishEvent();
+            }
+        }
+
+        private void UnpinItem(Rigidbody rb)
         {
-            Vector3 throwDirection = transform.forward.normalized;
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.transform.position += Vector3.up * 0.1f;
 
-            rb.transform.SetParent(null);
-            UnpinItem(rb);
-            
-            rb.AddForce(throwDirection * _throwForce, ForceMode.Impulse);
-            ObjectThrownEventPublisher.Instance.PublishEvent();
+            _pickedObject = null;
         }
-    }
 
-    private void UnpinItem(Rigidbody rb)
-    {
-        rb.useGravity = true;
-        rb.isKinematic = false;
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        rb.transform.position += Vector3.up * 0.1f;
-
-        _pickedObject = null;
-    }
-
-    private void PinItem(Rigidbody rb, GameObject gameObject)
-    {
-        rb.useGravity = false;
-        rb.isKinematic = true;
-        _pickedObject = gameObject;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        DeleteNullable();
-
-        if (Helpers.IsThrowable(other.gameObject) && Helpers.IsGrounded(other.gameObject))
+        private void PinItem(Rigidbody rb, GameObject gameObject)
         {
-            _allowThrowables.Add(other.gameObject);
+            rb.useGravity = false;
+            rb.isKinematic = true;
+            _pickedObject = gameObject;
         }
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
-        DeleteNullable();
-
-        if (Helpers.IsThrowable(other.gameObject) && Helpers.IsGrounded(other.gameObject))
+        private void OnTriggerEnter(Collider other)
         {
-            _allowThrowables.Add(other.gameObject);
+            DeleteNullable();
+
+            if (Helpers.IsThrowable(other.gameObject) && Helpers.IsGrounded(other.gameObject))
+            {
+                _allowThrowables.Add(other.gameObject);
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        DeleteNullable();
-
-        if (Helpers.IsThrowable(other.gameObject) && _allowThrowables.Contains(other.gameObject))
+        private void OnTriggerStay(Collider other)
         {
-            _allowThrowables.Remove(other.gameObject);
-        }
-    }
+            DeleteNullable();
 
-    private void DeleteNullable()
-    {
-        var toRemove = _allowThrowables.Where(item => item == null).ToList();
-        foreach (var item in toRemove)
+            if (Helpers.IsThrowable(other.gameObject) && Helpers.IsGrounded(other.gameObject))
+            {
+                _allowThrowables.Add(other.gameObject);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
         {
-            _allowThrowables.Remove(item);
-        }
-    }
+            DeleteNullable();
 
-    public void OnDestroy()
-    {
-        PlayerInputProvider.Inputs.Inputs.Pickup.performed -= Pickup;
-        PlayerInputProvider.Inputs.Inputs.Throw.performed -= Throw;
+            if (Helpers.IsThrowable(other.gameObject) && _allowThrowables.Contains(other.gameObject))
+            {
+                _allowThrowables.Remove(other.gameObject);
+            }
+        }
+
+        private void DeleteNullable()
+        {
+            var toRemove = _allowThrowables.Where(item => item == null).ToList();
+            foreach (var item in toRemove)
+            {
+                _allowThrowables.Remove(item);
+            }
+        }
+
+        public void OnDestroy()
+        {
+            PlayerInputProvider.Actions.Inputs.Pickup.performed -= Pickup;
+            PlayerInputProvider.Actions.Inputs.Throw.performed -= Throw;
+        }
     }
 }
+

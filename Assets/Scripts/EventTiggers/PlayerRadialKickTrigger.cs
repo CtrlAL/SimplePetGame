@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+
+    [RequireComponent(typeof(CharacterFSM))]
     public class PlayerRadialKickTrigger : MonoBehaviour
     {
         [SerializeField]
@@ -19,7 +21,7 @@ namespace Assets.Scripts
 
         public void Awake()
         {
-            _input = PlayerInputProvider.Inputs;
+            _input = PlayerInputProvider.Actions;
         }
 
         public void FixedUpdate()

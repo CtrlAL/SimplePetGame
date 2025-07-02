@@ -46,14 +46,14 @@ namespace Assets.Scripts
             DontDestroyOnLoad(gameObject);
         }
 
-        public void PublishMoveEvent(Vector2 input, GameObject objectForMove, float speed)
+        public void PublishMoveEvent(Vector2 input, CharacterFSM fsm, Rigidbody rigidbody, float speed)
         {
-            MoveEvent?.Invoke(this, new MoveEventArgs(input, objectForMove, speed));
+            MoveEvent?.Invoke(this, new MoveEventArgs(input, fsm, rigidbody, speed));
         }
 
-        public void PublishJumpEvent(GameObject objectForMove, float jumpForce)
+        public void PublishJumpEvent(CharacterFSM fsm, Rigidbody rigidbody, float jumpForce)
         {
-            JumpEvent?.Invoke(this, new JumpEventArgs(objectForMove, jumpForce));
+            JumpEvent?.Invoke(this, new JumpEventArgs(fsm, rigidbody, jumpForce));
         }
 
         public void PublishObjectMoved()
@@ -71,28 +71,34 @@ namespace Assets.Scripts
     {
         public Vector2 Input;
 
-        public GameObject ObjectForMove;
+        public CharacterFSM FSM;
+
+        public Rigidbody Rigidbody;
 
         public float MoveSpeed;
 
-        public MoveEventArgs(Vector2 input, GameObject gameObject, float speed)
+        public MoveEventArgs(Vector2 input, CharacterFSM fsm, Rigidbody rigidbody, float speed)
         {
             Input = input;
-            ObjectForMove = gameObject;
+            FSM = fsm;
+            Rigidbody = rigidbody;
             MoveSpeed = speed;
         }
     }
 
     public class JumpEventArgs : EventArgs
     {
-        public GameObject ObjectForJump;
+        public CharacterFSM FSM;
+
+        public Rigidbody Rigidbody;
 
         public float JumpForce;
 
-        public JumpEventArgs(GameObject gameObject, float jumpForce)
+        public JumpEventArgs(CharacterFSM fsm, Rigidbody rigidbody, float jumpForce)
         {
-            ObjectForJump = gameObject;
             JumpForce = jumpForce;
+            FSM = fsm;
+            Rigidbody = rigidbody;
         }
     }
 }
