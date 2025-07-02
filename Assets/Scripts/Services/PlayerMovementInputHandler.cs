@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM;
 using Assets.Scripts.ScriptableObjects;
 using System;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Assets.Scripts
 
         public PlayerMovementInputHandler()
         {
-            _inputActions = PlayerInputProvider.Actions;
+            _inputActions = PlayerInputProvider.Instance.Actions;
             _inputActions.Enable();
             _inputActions.Inputs.Jump.performed += PublishJump;
             _stats = Resources.Load<PlayerStatsSO>("ScriptableObjects/PlayerStats");
@@ -23,8 +24,8 @@ namespace Assets.Scripts
         {
             if (_inputActions.Inputs.Move.IsPressed())
             {
-                var fsm = PlayerInstanse.Instance.GetComponent<CharacterFSM>();
-                var rb = PlayerInstanse.Instance.GetComponent<Rigidbody>();
+                var fsm = PlayerInstanseHandler.Instance.GetComponent<CharacterFSM>();
+                var rb = PlayerInstanseHandler.Instance.GetComponent<Rigidbody>();
 
                 var input = _inputActions.Inputs.Move.ReadValue<Vector2>();
                 MoveEventPublisher.Instance.PublishMoveEvent(input, fsm, rb, _stats.MoveSpeed);
@@ -33,8 +34,8 @@ namespace Assets.Scripts
 
         private void PublishJump(InputAction.CallbackContext context)
         {
-            var fsm = PlayerInstanse.Instance.GetComponent<CharacterFSM>();
-            var rb = PlayerInstanse.Instance.GetComponent<Rigidbody>();
+            var fsm = PlayerInstanseHandler.Instance.GetComponent<CharacterFSM>();
+            var rb = PlayerInstanseHandler.Instance.GetComponent<Rigidbody>();
             MoveEventPublisher.Instance.PublishJumpEvent(fsm, rb, _stats.JumpForce);
         }
 

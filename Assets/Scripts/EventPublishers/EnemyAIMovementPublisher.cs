@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM;
 using Assets.Scripts.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.AI;
@@ -25,7 +26,7 @@ namespace Assets.Scripts
 
         public void FixedUpdate()
         {
-            if (PlayerInstanse.Instance != null && _agent != null && _rigidbody != null)
+            if (PlayerInstanseHandler.Instance != null && _agent != null && _rigidbody != null)
             {
                 AIUpdatePosition();
             }
@@ -33,7 +34,7 @@ namespace Assets.Scripts
 
         private void AIUpdatePosition()
         {
-            var target = PlayerInstanse.Instance.transform.position;
+            var target = PlayerInstanseHandler.Instance.transform.position;
 
             _agent.SetDestination(target);
 

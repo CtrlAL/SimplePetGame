@@ -1,12 +1,11 @@
 using Assets.Scripts.Enums;
-using Assets.Scripts.FSM;
 using Assets.Scripts.FSM.States;
 using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Services;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.FSM
 {
     public class CharacterFSM : MonoBehaviour
     {

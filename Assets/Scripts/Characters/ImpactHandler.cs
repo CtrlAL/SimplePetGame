@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Assets.Scripts.Constants;
 using Assets.Scripts.Enums;
+using Assets.Scripts.FSM;
 using Assets.Scripts.FSM.States.CharacterStates;
 using UnityEngine;
 

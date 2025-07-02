@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM;
 using Assets.Scripts.FSM.States.CharacterStates;
 using Assets.Scripts.ScriptableObjects;
 using UnityEngine;
@@ -17,16 +18,9 @@ namespace Assets.Scripts
         [SerializeField]
         private float kickRadius = 1.5f;
 
-        private PlayerInputActions _input;
-
-        public void Awake()
-        {
-            _input = PlayerInputProvider.Actions;
-        }
-
         public void FixedUpdate()
         {
-            if (_input.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
+            if (PlayerInputProvider.Instance.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
             {
                 Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, kickRadius);
 

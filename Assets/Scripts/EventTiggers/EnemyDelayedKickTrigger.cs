@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM;
 using Assets.Scripts.FSM.States.CharacterStates;
 using Assets.Scripts.ScriptableObjects;
 using System.Collections;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts 
 {
+    [RequireComponent(typeof(CharacterFSM))]
     public class EnemyDelayedKickTrigger : MonoBehaviour
     {
         [SerializeField]
@@ -20,7 +22,7 @@ namespace Assets.Scripts
 
         public void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject == PlayerInstanse.Instance)
+            if (other.gameObject == PlayerInstanseHandler.Instance)
             {
                 var rb = other.GetComponent<Rigidbody>();
 
@@ -33,7 +35,7 @@ namespace Assets.Scripts
 
         public void OnTriggerExit(Collider other)
         {
-            if (other.gameObject == PlayerInstanse.Instance && _delayCoroutine != null)
+            if (other.gameObject == PlayerInstanseHandler.Instance && _delayCoroutine != null)
             {
                 StopCoroutine(_delayCoroutine);
                 _delayCoroutine = null;
@@ -44,12 +46,12 @@ namespace Assets.Scripts
         {
             yield return new WaitForSeconds(delayBeforeKick);
 
-            if (PlayerInstanse.Instance != null && _fsm.GetCurrentState() is IdleState)
+            if (PlayerInstanseHandler.Instance != null && _fsm.GetCurrentState() is IdleState)
             {
-                if(PlayerInstanse.Instance.TryGetComponent<Fatigue>(out var fatigue)) 
+                if(PlayerInstanseHandler.Instance.TryGetComponent<Fatigue>(out var fatigue)) 
                 {
                     var knockbackMultiplier = fatigue.GetKnockbackMultiplier();
-                    KickEventPublisher.Instance.PublishEnemyKickEvent(gameObject, PlayerInstanse.Instance, _stats.KickPower * knockbackMultiplier);
+                    KickEventPublisher.Instance.PublishEnemyKickEvent(gameObject, PlayerInstanseHandler.Instance, _stats.KickPower * knockbackMultiplier);
                 }
             }
         }

@@ -1,3 +1,4 @@
+using Assets.Scripts.FSM;
 using Assets.Scripts.FSM.States.CharacterStates;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,8 +28,8 @@ namespace Assets.Scripts
 
         public void Awake()
         {
-            PlayerInputProvider.Actions.Inputs.Pickup.performed += PickOrPut;
-            PlayerInputProvider.Actions.Inputs.Throw.performed += Throw;
+            PlayerInputProvider.Instance.Inputs.Pickup.performed += PickOrPut;
+            PlayerInputProvider.Instance.Inputs.Throw.performed += Throw;
             _allowThrowables = new HashSet<GameObject>();
         }
 
@@ -49,7 +50,7 @@ namespace Assets.Scripts
 
         private void Pickup(InputAction.CallbackContext context)
         {
-            var player = PlayerInstanse.Instance;
+            var player = PlayerInstanseHandler.Instance;
 
             if (_throwablesSlot == null || player == null || _allowThrowables.Count == 0)
                 return;
@@ -152,8 +153,8 @@ namespace Assets.Scripts
 
         public void OnDestroy()
         {
-            PlayerInputProvider.Actions.Inputs.Pickup.performed -= Pickup;
-            PlayerInputProvider.Actions.Inputs.Throw.performed -= Throw;
+            PlayerInputProvider.Instance.Inputs.Pickup.performed -= Pickup;
+            PlayerInputProvider.Instance.Inputs.Throw.performed -= Throw;
         }
     }
 }

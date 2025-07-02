@@ -12,7 +12,7 @@ namespace Assets.Scripts
 
         public void Awake()
         {
-            PlayerInputProvider.Actions.Inputs.Kick.performed += PlayAnimtion;
+            PlayerInputProvider.Instance.Inputs.Kick.performed += PlayAnimtion;
             AnimationEventPublisher.Instance.WaveAnimationEnded += EndAnimation;
         }
 
@@ -28,7 +28,7 @@ namespace Assets.Scripts
 
         private void OnDestroy()
         {
-            PlayerInputProvider.Actions.Inputs.Kick.performed -= PlayAnimtion;
+            PlayerInputProvider.Instance.Inputs.Kick.performed -= PlayAnimtion;
             AnimationEventPublisher.Instance.WaveAnimationEnded -= EndAnimation;
         }
     }

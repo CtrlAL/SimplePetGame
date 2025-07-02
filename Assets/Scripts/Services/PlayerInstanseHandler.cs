@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class PlayerInstanse : MonoBehaviour
+    public class PlayerInstanseHandler
     {
         private static GameObject _instance;
         public static GameObject Instance
