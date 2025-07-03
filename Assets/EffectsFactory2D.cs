@@ -1,7 +1,9 @@
 using Assets.Scripts.EventPublishers;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class EffectsFactory2D : MonoBehaviour
@@ -9,7 +11,9 @@ public class EffectsFactory2D : MonoBehaviour
     [SerializeField] GameObject _2dEffectPrefub;
     [SerializeField] Canvas _canvas;
 
-    private List<GameObject> _effectPull = new List<GameObject>(10);
+    private List<GameObject> _hidePull = new List<GameObject>(10);
+    private Dictionary<GameObject, GameObject> _showPull = new Dictionary<GameObject, GameObject>();
+
     public Vector3 _offset = new Vector3(0f, 1.5f, 0f);
     private int _spawnLimit = 20;
 
@@ -24,9 +28,9 @@ public class EffectsFactory2D : MonoBehaviour
     {
         GameObject effect;
 
-        if (_effectPull.Any())
+        if (_hidePull.Any())
         {
-            effect = _effectPull.First();
+            effect = _hidePull.First();
         }
         else
         {
@@ -39,6 +43,7 @@ public class EffectsFactory2D : MonoBehaviour
 
         effect.transform.position = pos + _offset;
         effect.SetActive(true);
+        _showPull.TryAdd(e.Character, effect);
     }
 
     //private Rect GetScreenBounds(GameObject gameObject)
@@ -66,7 +71,10 @@ public class EffectsFactory2D : MonoBehaviour
 
     private void HideStunEffect(object sender, CharacterStunedEventArgs e)
     {
-        _2dEffectPrefub.SetActive(false);
+        var effect = _showPull[e.Character];
+        _showPull.Remove(e.Character);
+        effect.SetActive(false);
+        _hidePull.Add(effect);
     }
 
     public void OnDestroy()
