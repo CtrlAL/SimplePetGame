@@ -1,4 +1,5 @@
 using Assets.Scripts.Constants;
+using Assets.Scripts.EventPublishers;
 using UnityEngine;
 
 namespace Assets.Scripts.Services
@@ -19,6 +20,8 @@ namespace Assets.Scripts.Services
 
                 target.tag = EnvironmentTags.Throwable;
                 StunnedIcon?.SetActive(true);
+
+                StunEventPublisher.Instance.PublishCharacterStunedEvent(target);
             }
         }
 
@@ -36,6 +39,7 @@ namespace Assets.Scripts.Services
                 }
 
                 StunnedIcon?.SetActive(false);
+                StunEventPublisher.Instance.PublishCharacterStunedEvent(target);
             }
         }
     }
