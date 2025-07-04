@@ -2,17 +2,15 @@ using Assets.Scripts.EventPublishers;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using CharacterEffectDictionary = System.Collections.Generic.Dictionary<UnityEngine.GameObject, UnityEngine.GameObject>;
-//Key -> Charcter, Value -> Effect
 
 
 public class EffectsFactory2D : MonoBehaviour
 {
-    [SerializeField] GameObject _2dEffectPrefub;
+    [SerializeField] StundEffectPresenter _2dEffectPrefub;
     [SerializeField] Canvas _canvas;
 
-    private List<GameObject> _hidePull = new List<GameObject>();
-    private CharacterEffectDictionary _showPull = new();
+    private List<StundEffectPresenter> _hidePull = new();
+    private List<StundEffectPresenter> _showPull = new();
     public Vector3 _offset = new Vector3(0f, 1.5f, 0f);
 
     public void Awake()
@@ -23,16 +21,23 @@ public class EffectsFactory2D : MonoBehaviour
 
     public void PublicUpdate()
     {
-        foreach (var pare in _showPull)
+        foreach (var effect in _showPull)
         {
-            var characterPos = Camera.main.WorldToScreenPoint(pare.Key.transform.position);
-            pare.Value.transform.position = characterPos;
+            if (effect.StunedCharacter == null)
+            {
+                _showPull.Remove(effect);
+                _hidePull.Add(effect);
+            }
+            else
+            {
+                effect.UpdatePosition();
+            }
         }
     }
 
     private void ShowStunEffect(object sender, CharacterStunedEventArgs e)
     {
-        GameObject effect;
+        StundEffectPresenter effect;
 
         if (_hidePull.Any())
         {
@@ -40,15 +45,15 @@ public class EffectsFactory2D : MonoBehaviour
         }
         else
         {
-            effect = Instantiate(_2dEffectPrefub);
+            var effectObject = Instantiate(_2dEffectPrefub.gameObject);
+            effect = effectObject.GetComponent<StundEffectPresenter>();
             effect.transform.SetParent(_canvas.transform);
         }
 
-        var pos = Camera.main.WorldToScreenPoint(e.Character.transform.position);
-
-        effect.transform.position = pos + _offset;
-        effect.SetActive(true);
-        _showPull.TryAdd(e.Character, effect);
+        effect.StunedCharacter = e.Character;
+        effect.gameObject.SetActive(true);
+        effect.UpdatePosition();
+        _showPull.Add(effect);
     }
 
     private Rect GetScreenBounds(GameObject gameObject)
@@ -76,9 +81,10 @@ public class EffectsFactory2D : MonoBehaviour
 
     private void HideStunEffect(object sender, CharacterStunedEventArgs e)
     {
-        var effect = _showPull[e.Character];
-        _showPull.Remove(e.Character);
-        effect.SetActive(false);
+        var effect = _showPull.FirstOrDefault(x => x.StunedCharacter == e.Character);
+        effect.gameObject.SetActive(false);
+
+        _showPull.Remove(effect);
         _hidePull.Add(effect);
     }
 
