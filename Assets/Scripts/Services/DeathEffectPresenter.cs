@@ -1,39 +1,43 @@
-using Assets.Scripts;
 using System;
 using System.Collections;
 using UnityEngine;
 
-public class DeathEffectPresenter : IDisposable
+
+namespace Assets.Scripts.Services
 {
-    private ParticleSystem _particleSystem;
-    private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
-
-    public DeathEffectPresenter()
+    public class DeathEffectPresenter : IDisposable
     {
-        _particleSystem = Resources.Load<ParticleSystem>("Prefubs/UI/DeathEffect");
+        private ParticleSystem _particleSystem;
+        private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
 
-        _destroyEnemyEventPublisher = DestroyEnemyEventPublisher.Instance;
+        public DeathEffectPresenter()
+        {
+            _particleSystem = Resources.Load<ParticleSystem>("Prefubs/UI/DeathEffect");
 
-        _destroyEnemyEventPublisher.DestroyEnemy += ShowEffect;
-    }
+            _destroyEnemyEventPublisher = DestroyEnemyEventPublisher.Instance;
 
-    public void Dispose()
-    {
-        _destroyEnemyEventPublisher.DestroyEnemy -= ShowEffect;
-    }
+            _destroyEnemyEventPublisher.DestroyEnemy += ShowEffect;
+        }
 
-    private void ShowEffect(object sender, GameObject e)
-    {
-        var effect = GameObject.Instantiate(_particleSystem.gameObject, e.transform)
-            .GetComponent<ParticleSystem>();
+        public void Dispose()
+        {
+            _destroyEnemyEventPublisher.DestroyEnemy -= ShowEffect;
+        }
 
-        PlayAndDestroy(effect);
-    }
+        private void ShowEffect(object sender, GameObject e)
+        {
+            var effect = GameObject.Instantiate(_particleSystem.gameObject, e.transform)
+                .GetComponent<ParticleSystem>();
 
-    public IEnumerator PlayAndDestroy(ParticleSystem effect)
-    {
-        effect.Play();
-        yield return new WaitForSeconds(_particleSystem.main.duration);
-        GameObject.Destroy(effect.gameObject);
+            PlayAndDestroy(effect);
+        }
+
+        public IEnumerator PlayAndDestroy(ParticleSystem effect)
+        {
+            effect.Play();
+            yield return new WaitForSeconds(_particleSystem.main.duration);
+            GameObject.Destroy(effect.gameObject);
+        }
     }
 }
+

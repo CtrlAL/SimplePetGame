@@ -15,8 +15,8 @@ public class EffectsFactory2D : MonoBehaviour
 
     public void Awake()
     {
-        StunEventPublisher.Instance.CharacterStuned += ShowStunEffect;
-        StunEventPublisher.Instance.StunStateExited += HideStunEffect;
+        //StunEventPublisher.Instance.CharacterStuned += ShowStunEffect;
+        //StunEventPublisher.Instance.StunStateExited += HideStunEffect;
     }
 
     public void PublicUpdate()
@@ -90,7 +90,7 @@ public class EffectsFactory2D : MonoBehaviour
 
     public void OnDestroy()
     {
-        StunEventPublisher.Instance.CharacterStuned -= ShowStunEffect;
-        StunEventPublisher.Instance.StunStateExited -= HideStunEffect;
+        //StunEventPublisher.Instance.CharacterStuned -= ShowStunEffect;
+        //StunEventPublisher.Instance.StunStateExited -= HideStunEffect;
     }
 }
