@@ -17,12 +17,16 @@ namespace Assets.Scripts
         [Header("Headnlers")]
         private PlayerMovementInputHandler _playerMovementInputHandler;
 
+        [Header("Effects")]
+        private DeathEffectPresenter _deathEffectPresenter;
+
         public void Awake()
         {
             _kiker = new Kicker();
             _mover = new Mover();
             _enemyFactory = new EnemyFactory();
             _playerMovementInputHandler = new PlayerMovementInputHandler();
+            _deathEffectPresenter = new DeathEffectPresenter();
         }
 
         void FixedUpdate()
