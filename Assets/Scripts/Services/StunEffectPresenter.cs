@@ -12,7 +12,7 @@ namespace Assets.Scripts.Services
 
         private ConcurrentDictionary<int, ParticleSystem> _effectCash;
         private ConcurrentBag<ParticleSystem> _effectPool;
-        private readonly Vector3 _offset = new Vector3(0, 1f, 0);
+        private readonly float _offsetMult = 3f;
 
         public StunEffectPresenter()
         {
@@ -26,17 +26,17 @@ namespace Assets.Scripts.Services
 
         private void ShowStunEffect(object sender, CharacterStunedEventArgs e)
         {
-            if (_effectPool.TryPeek(out var effect))
+            if (_effectPool.TryPeek(out var effect) && !_effectCash.TryGetValue(e.GetHashCode(), out _))
             {
-                effect.gameObject.transform.SetParent(e.Character.transform);
-                effect.gameObject.transform.position += _offset;
+                effect.transform.SetParent(e.Character.transform);
+                //effect.transform.position += Vector3.up;
                 effect.gameObject.SetActive(true);
                 effect.Play();
             }
             else
             {
                 effect = GameObject.Instantiate(_particleSystem, e.Character.transform).GetComponent<ParticleSystem>();
-                effect.gameObject.transform.position += _offset;
+                //effect.transform.position += Vector3.up;
                 effect.Play();
             }
 
