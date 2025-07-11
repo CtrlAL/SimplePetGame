@@ -1,3 +1,4 @@
+using Assets.Scripts.Services;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -19,6 +20,7 @@ namespace Assets.Scripts
 
         [Header("Effects")]
         private DeathEffectPresenter _deathEffectPresenter;
+        private StunEffectPresenter _stunEffectPresenter;
 
         public void Awake()
         {
@@ -27,6 +29,7 @@ namespace Assets.Scripts
             _enemyFactory = new EnemyFactory();
             _playerMovementInputHandler = new PlayerMovementInputHandler();
             _deathEffectPresenter = new DeathEffectPresenter();
+            _stunEffectPresenter = new StunEffectPresenter();
         }
 
         void FixedUpdate()

@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Services
 {
     [RequireComponent(typeof(CharacterFSM))]
     public class PlayerThrowableInteractor : MonoBehaviour

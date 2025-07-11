@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
-    public class StundEffectPresenter : IDisposable
+    public class StunEffectPresenter : IDisposable
     {
         private ParticleSystem _particleSystem;
 
@@ -14,7 +14,7 @@ namespace Assets.Scripts.Services
         private ConcurrentBag<ParticleSystem> _effectPool;
         private readonly Vector3 _offset = new Vector3(0, 1f, 0);
 
-        public StundEffectPresenter()
+        public StunEffectPresenter()
         {
             _effectPool = new ConcurrentBag<ParticleSystem>();
             _effectCash = new ConcurrentDictionary<int, ParticleSystem>();

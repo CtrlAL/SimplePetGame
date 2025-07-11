@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StundEffectPresenter : MonoBehaviour
+public class StunEffect2DPresenter : MonoBehaviour
 {
     public GameObject StunedCharacter { get; set; }
 
