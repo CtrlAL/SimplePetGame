@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class DeathEffectPresenter : IDisposable
@@ -23,7 +24,16 @@ public class DeathEffectPresenter : IDisposable
 
     private void ShowEffect(object sender, GameObject e)
     {
-        var effect = GameObject.Instantiate(_particleSystem.gameObject, e.transform);
-        //effect.GetComponent<ParticleSystem>().Play();
+        var effect = GameObject.Instantiate(_particleSystem.gameObject, e.transform)
+            .GetComponent<ParticleSystem>();
+
+        PlayAndDestroy(effect);
+    }
+
+    public IEnumerator PlayAndDestroy(ParticleSystem effect)
+    {
+        effect.Play();
+        yield return new WaitForSeconds(_particleSystem.main.duration);
+        GameObject.Destroy(effect.gameObject);
     }
 }
