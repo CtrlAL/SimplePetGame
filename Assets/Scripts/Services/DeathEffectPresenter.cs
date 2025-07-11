@@ -12,7 +12,7 @@ namespace Assets.Scripts.Services
 
         public DeathEffectPresenter()
         {
-            _particleSystem = Resources.Load<ParticleSystem>("Prefubs/UI/DeathEffect");
+            _particleSystem = Resources.Load<ParticleSystem>("Prefubs/Effects/DeathEffect");
 
             _destroyEnemyEventPublisher = DestroyEnemyEventPublisher.Instance;
 

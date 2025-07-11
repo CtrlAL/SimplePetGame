@@ -18,7 +18,7 @@ namespace Assets.Scripts.Services
         {
             _effectPool = new ConcurrentBag<ParticleSystem>();
             _effectCash = new ConcurrentDictionary<int, ParticleSystem>();
-            _particleSystem = Resources.Load<ParticleSystem>("/Prefubs/Effects/ParticleStunEffect");
+            _particleSystem = Resources.Load<ParticleSystem>("Prefubs/Effects/ParticleStunEffect");
 
             StunEventPublisher.Instance.CharacterStuned += ShowStunEffect;
             StunEventPublisher.Instance.StunStateExited += HideStunEffect;
@@ -55,8 +55,8 @@ namespace Assets.Scripts.Services
 
         public void Dispose()
         {
-            StunEventPublisher.Instance.CharacterStuned += ShowStunEffect;
-            StunEventPublisher.Instance.StunStateExited += HideStunEffect;
+            StunEventPublisher.Instance.CharacterStuned -= ShowStunEffect;
+            StunEventPublisher.Instance.StunStateExited -= HideStunEffect;
         }
     }
 }

@@ -5,9 +5,6 @@ namespace Assets.Scripts
 {
     public class GameRoot : MonoBehaviour
     {
-        [Header("UI")]
-        [SerializeField] private EffectsFactory2D _effectsFactory;
-
         [Header("Input Consumers")]
         private Kicker _kiker;
         private Mover _mover;
@@ -36,7 +33,6 @@ namespace Assets.Scripts
         {
             _enemyFactory.PublicUpdate();
             _playerMovementInputHandler.PublicUpdate();
-            _effectsFactory?.PublicUpdate();
         }
     }
 }
