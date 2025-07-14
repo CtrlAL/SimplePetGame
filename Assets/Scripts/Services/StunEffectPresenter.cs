@@ -29,18 +29,28 @@ namespace Assets.Scripts.Services
             if (_effectPool.TryPeek(out var effect) && !_effectCash.TryGetValue(e.GetHashCode(), out _))
             {
                 effect.transform.SetParent(e.Character.transform);
-                //effect.transform.position += Vector3.up;
-                effect.gameObject.SetActive(true);
-                effect.Play();
             }
             else
             {
                 effect = GameObject.Instantiate(_particleSystem, e.Character.transform).GetComponent<ParticleSystem>();
-                //effect.transform.position += Vector3.up;
-                effect.Play();
+                
             }
 
+            if (!effect.gameObject.activeSelf)
+            {
+                effect.gameObject.SetActive(true);
+            }
+            
+            MoveOverObject(e.Character.transform, effect);
+            effect.Play();
+
             _effectCash.TryAdd(e.Character.GetHashCode(), effect);
+        }
+
+        private static void MoveOverObject(Transform transform, ParticleSystem effect)
+        {
+            effect.transform.position = transform.position;
+            effect.transform.position += Vector3.up;
         }
 
         private void HideStunEffect(object sender, CharacterStunedEventArgs e)
