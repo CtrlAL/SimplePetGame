@@ -26,7 +26,6 @@ namespace Assets.Scripts.Services
 
         private void ShowStunEffect(object sender, CharacterStunedEventArgs e)
         {
-            Debug.Log($"Код обеьекта: {e.Character.gameObject.GetHashCode()}");
             if (_effectCash.ContainsKey(e.Character.gameObject.GetHashCode()))
             {
                 return;
@@ -58,7 +57,6 @@ namespace Assets.Scripts.Services
 
         private void HideStunEffect(object sender, CharacterStunedEventArgs e)
         {
-            Debug.Log($"Код обеьекта: {e.Character.gameObject.GetHashCode()}");
             if (_effectCash.TryGetValue(e.Character.gameObject.GetHashCode(), out var effect))
             {
                 effect.Pause();

@@ -1,4 +1,3 @@
-using Assets.Scripts.EventPublishers;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -36,7 +35,7 @@ namespace Assets.Scripts.Services
 
             effect.transform.position = e.transform.position;
 
-            PlayAndHide(effect, e.gameObject);
+            CourutineRunner.Instance.StartCoroutine(PlayAndHide(effect, e.gameObject));
         }
 
         public IEnumerator PlayAndHide(ParticleSystem effect, GameObject characterObject)
