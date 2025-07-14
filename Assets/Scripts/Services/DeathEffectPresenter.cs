@@ -34,6 +34,8 @@ namespace Assets.Scripts.Services
             }
 
             effect.transform.position = e.transform.position;
+            var material = effect.gameObject.GetComponent<Material>();
+            material = e.gameObject.GetComponent<Material>();
 
             CourutineRunner.Instance.StartCoroutine(PlayAndHide(effect, e.gameObject));
         }
