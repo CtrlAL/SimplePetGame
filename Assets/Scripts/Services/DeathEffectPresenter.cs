@@ -40,8 +40,6 @@ namespace Assets.Scripts.Services
 
         public IEnumerator PlayAndHide(ParticleSystem effect, GameObject characterObject)
         {
-            Debug.Break();
-
             if (!effect.gameObject.activeSelf)
             {
                 effect.gameObject.SetActive(true);
