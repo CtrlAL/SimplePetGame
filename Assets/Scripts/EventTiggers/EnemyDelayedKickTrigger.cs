@@ -37,7 +37,6 @@ namespace Assets.Scripts
         {
             if (other.gameObject == PlayerInstanseHandler.Instance && _delayCoroutine != null)
             {
-                Debug.Log("Out");
                 StopCoroutine(_delayCoroutine);
                 _delayCoroutine = null;
             }

@@ -26,7 +26,7 @@ namespace Assets.Scripts.Services
         private void ShowEffect(object sender, GameObject e)
         {
             e.gameObject.SetActive(false);
-            
+
             if (!_effectPool.TryPeek(out var effect))
             {
                 effect = GameObject.Instantiate(_particleSystem)
@@ -34,10 +34,19 @@ namespace Assets.Scripts.Services
             }
 
             effect.transform.position = e.transform.position;
-            var material = effect.gameObject.GetComponent<Material>();
-            material = e.gameObject.GetComponent<Material>();
+            CopyMaterial(e, effect);
 
             CourutineRunner.Instance.StartCoroutine(PlayAndHide(effect, e.gameObject));
+        }
+
+        private static void CopyMaterial(GameObject e, ParticleSystem effect)
+        {
+            Renderer eRenderer = e.GetComponent<Renderer>();
+            Renderer effectRenderer = effect.GetComponent<Renderer>();
+            if (eRenderer != null && effectRenderer != null)
+            {
+                effectRenderer.material = eRenderer.material;
+            }
         }
 
         public IEnumerator PlayAndHide(ParticleSystem effect, GameObject characterObject)
