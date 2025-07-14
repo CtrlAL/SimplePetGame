@@ -36,7 +36,7 @@ namespace Assets.Scripts.Services
                     StunDataStorage.RemoveOldTag(target);
                 }
 
-                StunEventPublisher.Instance.PublishCharacterStunedEvent(target);
+                StunEventPublisher.Instance.PublishStunStateExitedEvent(target);
             }
         }
     }
