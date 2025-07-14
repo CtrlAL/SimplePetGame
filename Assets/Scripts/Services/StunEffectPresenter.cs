@@ -26,7 +26,7 @@ namespace Assets.Scripts.Services
 
         private void ShowStunEffect(object sender, CharacterStunedEventArgs e)
         {
-            if (!_effectCash.TryGetValue(e.Character.gameObject.GetHashCode(), out _))
+            if (_effectCash.ContainsKey(e.Character.gameObject.GetHashCode()))
             {
                 return;
             }
