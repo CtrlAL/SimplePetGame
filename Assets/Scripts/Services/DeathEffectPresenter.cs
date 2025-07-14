@@ -26,12 +26,12 @@ namespace Assets.Scripts.Services
         private void ShowEffect(object sender, GameObject e)
         {
             e.gameObject.SetActive(false);
-
-            if (_effectPool.TryPeek(out var effect))
-                effect.transform.SetParent(e.transform);
-            else
-                effect = GameObject.Instantiate(_particleSystem, e.transform)
+            
+            if (!_effectPool.TryPeek(out var effect))
+            {
+                effect = GameObject.Instantiate(_particleSystem)
                     .GetComponent<ParticleSystem>();
+            }
 
             effect.transform.position = e.transform.position;
 
@@ -40,6 +40,8 @@ namespace Assets.Scripts.Services
 
         public IEnumerator PlayAndHide(ParticleSystem effect, GameObject characterObject)
         {
+            Debug.Break();
+
             if (!effect.gameObject.activeSelf)
             {
                 effect.gameObject.SetActive(true);
