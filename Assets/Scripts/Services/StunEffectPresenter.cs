@@ -57,7 +57,7 @@ namespace Assets.Scripts.Services
 
         private void HideStunEffect(object sender, CharacterStunedEventArgs e)
         {
-            if (_effectCash.TryGetValue(e.Character.gameObject.GetHashCode(), out var effect))
+            if (_effectCash.TryGetValue(e.Character.gameObject.GetHashCode(), out var effect) && effect != null)
             {
                 effect.Pause();
                 effect.gameObject.SetActive(false);

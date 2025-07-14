@@ -53,15 +53,18 @@ namespace Assets.Scripts.Services
 
         private void HideEffect(ParticleSystem effect)
         {
-            if (_poolLimit > _effectPool.Count)
+            if (effect != null)
             {
-                effect.Pause();
-                effect.gameObject.SetActive(false);
-                _effectPool.Add(effect);
-            }
-            else
-            {
-                GameObject.Destroy(effect);
+                if (_poolLimit > _effectPool.Count)
+                {
+                    effect.Pause();
+                    effect.gameObject.SetActive(false);
+                    _effectPool.Add(effect);
+                }
+                else
+                {
+                    GameObject.Destroy(effect);
+                }
             }
         }
 
