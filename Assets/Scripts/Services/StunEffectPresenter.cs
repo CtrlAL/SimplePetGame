@@ -26,15 +26,17 @@ namespace Assets.Scripts.Services
 
         private void ShowStunEffect(object sender, CharacterStunedEventArgs e)
         {
-            if (_effectPool.TryPeek(out var effect) && !_effectCash.TryGetValue(e.GetHashCode(), out _))
+            if (!_effectCash.TryGetValue(e.Character.gameObject.GetHashCode(), out _))
             {
+                return;
+            }
+
+            if (_effectPool.TryPeek(out var effect))
                 effect.transform.SetParent(e.Character.transform);
-            }
             else
-            {
-                effect = GameObject.Instantiate(_particleSystem, e.Character.transform).GetComponent<ParticleSystem>();
-                
-            }
+                effect = GameObject.Instantiate(_particleSystem, e.Character.transform)
+                    .GetComponent<ParticleSystem>();
+            
 
             if (!effect.gameObject.activeSelf)
             {
@@ -55,7 +57,7 @@ namespace Assets.Scripts.Services
 
         private void HideStunEffect(object sender, CharacterStunedEventArgs e)
         {
-            if (_effectCash.TryGetValue(e.Character.GetHashCode(), out var effect))
+            if (_effectCash.TryGetValue(e.Character.gameObject.GetHashCode(), out var effect))
             {
                 effect.Pause();
                 effect.gameObject.SetActive(false);
