@@ -2,15 +2,18 @@
 using Models;
 using ScriptableObjects;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Scripts.Services
 {
     public class Fatigue : IFatigue
     {
+        [Inject]
         private readonly FatigueModel _model;
 
+        [Inject]
         private readonly AbstractStatsSO _stats;
-
+        
         public void MakeFatigueDamage(float damage)
         {
             float newFatigue = _model.CurrentFatigue.Value + damage;
