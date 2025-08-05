@@ -27,7 +27,7 @@ namespace GameRoot
 
         void FixedUpdate()
         {
-            _enemyFactory.Tick();
+            //_enemyFactory.Tick();
             _playerMovementInputHandler.PublicUpdate();
         }
     }

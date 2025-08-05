@@ -39,6 +39,7 @@ namespace Services.Installers
         {
             Container.Bind<IMover>().To<Mover>().AsSingle();
             Container.Bind<IKiker>().To<Kicker>().AsSingle();
+
             Container.Bind<CoroutineRunner>().ToSelf()
                 .FromNewComponentOnNewGameObject()
                 .AsSingle()
@@ -69,7 +70,6 @@ namespace Services.Installers
         {
             Container.Bind<DeathEffectPresenter>().ToSelf().AsSingle();
             Container.Bind<StunEffectPresenter>().ToSelf().AsSingle();
-            Container.Bind<ImpactHandlerView>().ToSelf().AsSingle();
         }
 
         private void InstallSO()

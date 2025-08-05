@@ -123,9 +123,9 @@ GameObject:
   - component: {fileID: 7085583880270199364}
   - component: {fileID: 7077153583311904936}
   - component: {fileID: 1441483897883717519}
-  - component: {fileID: 1796255651766305386}
   - component: {fileID: -6704113493351210641}
   - component: {fileID: 7288550937247563894}
+  - component: {fileID: -3279697786951200850}
   m_Layer: 0
   m_Name: Enemy 6
   m_TagString: Enemy
@@ -316,7 +316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c385a57848bbe47b60d3b1cbbf79e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fsm: {fileID: 1796255651766305386}
   delayBeforeKick: 1
 --- !u!114 &1441483897883717519
 MonoBehaviour:
@@ -328,18 +327,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28c90f6ca84e19a4e8fdc97a6c623df4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1796255651766305386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6295798114919579548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd7882d438032c249b56580a6f43da19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &-6704113493351210641
@@ -359,7 +346,7 @@ MonoBehaviour:
   - {fileID: 7288550937247563894}
   _installerPrefabs: []
   _autoRun: 1
-  _kernel: {fileID: 0}
+  _kernel: {fileID: -3279697786951200850}
 --- !u!114 &7288550937247563894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,5 +357,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00fb6cc6054660b43b85bac734d748f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3279697786951200850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295798114919579548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff38aaefd39d0d41a92c2707718d15c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
