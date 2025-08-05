@@ -1,14 +1,18 @@
 using Services.EventPublishers;
 using UnityEngine;
 
-public class WaveAnimationState : StateMachineBehaviour
+namespace Views.Scene.Animation
 {
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class WaveAnimationState : StateMachineBehaviour
     {
-        AnimationEventPublisher.Instance.PublisWaveAnimationEnded();
-    }
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        AnimationEventPublisher.Instance.PublisWaveAnimationStarted();
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            AnimationEventPublisher.Instance.PublisWaveAnimationEnded();
+        }
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            AnimationEventPublisher.Instance.PublisWaveAnimationStarted();
+        }
     }
 }
+

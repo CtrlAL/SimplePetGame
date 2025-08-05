@@ -20,6 +20,10 @@ public class GameInstaller : MonoInstaller
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();
+
+        Container.Bind<IEnemyFactory>().To<EnemyFactory>()
+            .AsSingle()
+            .NonLazy();
     }
 
     private void InstallPlayerInputs()

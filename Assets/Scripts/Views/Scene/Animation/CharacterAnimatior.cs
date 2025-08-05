@@ -1,20 +1,24 @@
-using Services;
 using Services.EventPublishers;
+using Services.Interfaces;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
-namespace Assets.Scripts
+namespace Views.Scene.Animation
 {
     public class CharacterAnimatior : MonoBehaviour
     {
+        [Inject] 
+        private IPlayerInputProvider _playerInputProvider;
+
         [SerializeField] private Animator _animator;
 
         private string _boolName = "Wave";
 
         public void Awake()
         {
-            PlayerInputProvider.Instance.Inputs.Kick.performed += PlayAnimtion;
+            _playerInputProvider.Inputs.Kick.performed += PlayAnimtion;
             AnimationEventPublisher.Instance.WaveAnimationEnded += EndAnimation;
         }
 
@@ -30,7 +34,7 @@ namespace Assets.Scripts
 
         private void OnDestroy()
         {
-            PlayerInputProvider.Instance.Inputs.Kick.performed -= PlayAnimtion;
+            _playerInputProvider.Inputs.Kick.performed -= PlayAnimtion;
             AnimationEventPublisher.Instance.WaveAnimationEnded -= EndAnimation;
         }
     }

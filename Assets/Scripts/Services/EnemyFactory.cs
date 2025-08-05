@@ -1,5 +1,6 @@
 using ScriptableObjects;
 using Services.EventPublishers;
+using Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Services
 {
-    public class EnemyFactory : System.IDisposable
+    public class EnemyFactory : IEnemyFactory
     {
         private EnemyLibrary _enemyPrefubLibrary;
 
@@ -32,13 +33,13 @@ namespace Services
             DestroyEnemyEventPublisher.Instance.DestroyEnemy += DestroyEnemy;
         }
 
-        private void DestroyEnemy(object sender, GameObject args)
+        public void DestroyEnemy(object sender, GameObject args)
         {
             _enemyObjects.Remove(args);
             GameObject.Destroy(args);
         }
 
-        public void PublicUpdate()
+        public void Tick()
         {
             _timer += Time.deltaTime;
 
@@ -49,7 +50,7 @@ namespace Services
             }
         }
 
-        private void CreateEnemy()
+        public void CreateEnemy()
         {
             var index = Random.Range(0, _enemyPrefubLibrary.GetLength());
             var prefub = _enemyPrefubLibrary.GetEnemyPrefab(index);

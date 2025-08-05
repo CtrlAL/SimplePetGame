@@ -11,9 +11,6 @@ namespace GameRoot
         [Inject] private IKiker _kiker;
         [Inject] private IMover _mover;
 
-        [Header("Facotys")]
-        private EnemyFactory _enemyFactory;
-
         [Header("Headnlers")]
         private PlayerMovementInputHandler _playerMovementInputHandler;
 
@@ -23,7 +20,6 @@ namespace GameRoot
 
         public void Awake()
         {
-            _enemyFactory = new EnemyFactory();
             _playerMovementInputHandler = new PlayerMovementInputHandler();
             _deathEffectPresenter = new DeathEffectPresenter();
             _stunEffectPresenter = new StunEffectPresenter();
@@ -31,7 +27,6 @@ namespace GameRoot
 
         void FixedUpdate()
         {
-            _enemyFactory.PublicUpdate();
             _playerMovementInputHandler.PublicUpdate();
         }
     }
