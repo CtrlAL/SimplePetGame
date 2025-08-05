@@ -9,7 +9,6 @@ using Zenject;
 
 namespace Services.EventTriggers 
 {
-    [RequireComponent(typeof(CharacterFSM))]
     public class EnemyDelayedKickTrigger : MonoBehaviour
     {
         [SerializeField]

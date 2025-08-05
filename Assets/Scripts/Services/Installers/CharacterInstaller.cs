@@ -16,9 +16,9 @@ namespace Services.Installers
             Container.Bind<CharacterFSM>().ToSelf().AsSingle();
             Container.Bind<Rigidbody>().FromComponentInHierarchy().AsSingle();
 
+            //Container.Bind<IFatigue>().To<Fatigue>().AsSingle();
             Container.Bind<FatigueModel>().ToSelf().AsSingle();
             Container.Bind<FatiguePresenter>().ToSelf().AsSingle().NonLazy();
-            Container.Bind<IFatigue>().To<Fatigue>().AsSingle();
 
             Container.Bind<ImpactHandlerView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ImpactHandlerModel>().ToSelf().AsSingle().NonLazy();

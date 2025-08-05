@@ -6,8 +6,6 @@ using Zenject;
 
 namespace Services.EventPublishers
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(CharacterFSM))]
     public class EnemyAIMovementPublisher : MonoBehaviour
     {
         [Inject]
