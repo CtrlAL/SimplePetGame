@@ -14,6 +14,7 @@ namespace FSM
         [Inject]
         private readonly Rigidbody _rigidbody;
 
+        [Inject]
         private StateMachine _stateMachine;
 
         private Dictionary<CharacterState, IState> _states;
@@ -25,8 +26,6 @@ namespace FSM
 
         public void Initialize()
         {
-            _stateMachine = new StateMachine();
-
             var state = new StunnedState(new Stuner(), _rigidbody.gameObject, _rigidbody);
 
             state.OnStunEnd

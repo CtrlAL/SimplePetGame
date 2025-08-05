@@ -1,7 +1,7 @@
+using FSM;
 using ScriptableObjects;
 using Services.Interfaces;
 using UnityEngine;
-using Views.Scene.Characters;
 using Zenject;
 
 namespace Services.Installers
@@ -37,6 +37,8 @@ namespace Services.Installers
 
         private void InstallServices()
         {
+            Container.Bind<StateMachine>().ToSelf().AsSingle();
+
             Container.Bind<IMover>().To<Mover>().AsSingle();
             Container.Bind<IKiker>().To<Kicker>().AsSingle();
 
@@ -54,7 +56,6 @@ namespace Services.Installers
         {
             Container.Bind<IPlayerInputProvider>().To<PlayerInputProvider>().AsSingle().NonLazy();
             Container.Bind<PlayerInputActions>().ToSelf().FromInstance(new PlayerInputActions()).AsSingle();
-            Container.Bind<PlayerMovementInputHandler>().ToSelf().AsSingle();
         }
 
 

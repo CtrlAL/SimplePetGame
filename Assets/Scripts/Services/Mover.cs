@@ -1,4 +1,3 @@
-using FSM;
 using FSM.States.CharacterStates;
 using Helpers;
 using Services.EventPublishers;
@@ -20,10 +19,12 @@ namespace Services
         public void Jump(object sender, JumpEventArgs args)
         {
             var gameObject = args.FSM.GameObject;
+            var fsm = args.FSM;
+            var rb = args.Rigidbody;
 
-            if (GameHelpers.IsGrounded(gameObject) && args.FSM.GetCurrentState() is IdleState)
+            if (GameHelpers.IsGrounded(gameObject) && fsm.GetCurrentState() is IdleState)
             {
-                args.Rigidbody.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
+                rb.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
                 MoveEventPublisher.Instance.PublishObjectJumped();
             }
         }
@@ -32,9 +33,8 @@ namespace Services
         {
             var input = args.Input;
             var objectForMove = args.FSM.GameObject;
-
-            var rb = objectForMove.GetComponent<Rigidbody>();
-            var fsm = objectForMove.GetComponent<CharacterFSM>();
+            var fsm = args.FSM;
+            var rb = args.Rigidbody;
 
             if (rb != null && fsm.GetCurrentState() is IdleState)
             {

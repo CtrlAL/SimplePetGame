@@ -15,10 +15,6 @@ namespace GameRoot
         [Inject] 
         private IEnemyFactory _enemyFactory;
 
-        [Header("Headnlers")]
-        [Inject]
-        private PlayerMovementInputHandler _playerMovementInputHandler;
-
         [Header("Effects")]
         [Inject]
         private DeathEffectPresenter _deathEffectPresenter;
@@ -27,8 +23,7 @@ namespace GameRoot
 
         void FixedUpdate()
         {
-            //_enemyFactory.Tick();
-            _playerMovementInputHandler.PublicUpdate();
+            _enemyFactory?.Tick();
         }
     }
 }

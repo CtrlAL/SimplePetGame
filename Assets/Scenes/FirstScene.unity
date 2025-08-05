@@ -3983,8 +3983,14 @@ PrefabInstance:
       propertyPath: m_RenderingLayerMask
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7979103904390526384, guid: 3ba02bc2e0a02cf47a393e948aab97c1,
+        type: 3}
+      propertyPath: _kernel
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 422397356325831350, guid: 3ba02bc2e0a02cf47a393e948aab97c1, type: 3}
+    - {fileID: 8434523635865147831, guid: 3ba02bc2e0a02cf47a393e948aab97c1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

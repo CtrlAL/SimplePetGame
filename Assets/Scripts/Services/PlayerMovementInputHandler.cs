@@ -5,32 +5,37 @@ using Services.Interfaces;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Services
 {
-    public class PlayerMovementInputHandler : IDisposable
+    public class PlayerMovementInputHandler : IDisposable, ITickable
     {
         private PlayerStatsSO _stats;
 
+        private CharacterFSM _characterFSM;
+
+        private Rigidbody _rigidbody;
+
         private IPlayerInputProvider _playerInputProvider;
 
-        public PlayerMovementInputHandler(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO)
+        public PlayerMovementInputHandler(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO, CharacterFSM characterFSM, Rigidbody rigidbody)
         {
             _playerInputProvider = playerInputProvider;
+            _characterFSM = characterFSM;
+            _rigidbody = rigidbody;
+            _stats = playerStatsSO;
+
             _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += PublishJump;
-            _stats = playerStatsSO;
         }
 
-        public void PublicUpdate()
+        public void Tick()
         {
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
-                var fsm = PlayerInstanseHandler.Instance.GetComponent<CharacterFSM>();
-                var rb = PlayerInstanseHandler.Instance.GetComponent<Rigidbody>();
-
                 var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-                MoveEventPublisher.Instance.PublishMoveEvent(input, fsm, rb, _stats.MoveSpeed);
+                MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
             }
         }
 

@@ -11,26 +11,21 @@ namespace Services.EventTriggers
 {
     public class PlayerRadialKickTrigger : MonoBehaviour
     {
+        [Inject]
         IPlayerInputProvider _playerInputProvider;
 
+        [Inject]
         private PlayerStatsSO _playerStats;
 
+        [Inject]
         private IFatigue _fatigueService;
 
-        [SerializeField]
-        private CharacterFSM _fsm;
-
         [Inject]
-        public void Constractor(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO, IFatigue fatigueService)
-        {
-            _playerInputProvider = playerInputProvider;
-            _playerStats = playerStatsSO;
-            _fatigueService = fatigueService;
-        }
+        private CharacterFSM _fsm;
 
         public void FixedUpdate()
         {
-            if (_playerInputProvider.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
+            if (_playerInputProvider?.Inputs.Kick.IsPressed() == true && _fsm?.GetCurrentState() is IdleState)
             {
                 Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, _playerStats.KickRadius);
 

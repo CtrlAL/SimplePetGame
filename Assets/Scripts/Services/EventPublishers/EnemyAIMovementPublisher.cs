@@ -11,11 +11,14 @@ namespace Services.EventPublishers
         [Inject]
         private EnemyStatsSO _stats;
 
-        [SerializeField]
-        private NavMeshAgent _agent;
+        [Inject]
+        private CharacterFSM _fsm;
+
+        [Inject]
+        private Rigidbody _rigidbody;
 
         [SerializeField]
-        private Rigidbody _rigidbody;
+        private NavMeshAgent _agent;
 
         public void Awake()
         {
@@ -41,10 +44,7 @@ namespace Services.EventPublishers
 
             _agent.nextPosition = transform.position;
 
-            var fsm = gameObject.GetComponent<CharacterFSM>();
-            var rb = gameObject.GetComponent<Rigidbody>();
-
-            MoveEventPublisher.Instance.PublishMoveEvent(new Vector2(desiredVelocity.x, desiredVelocity.z), fsm, rb, _stats.MoveSpeed);
+            MoveEventPublisher.Instance.PublishMoveEvent(new Vector2(desiredVelocity.x, desiredVelocity.z), _fsm, _rigidbody, _stats.MoveSpeed);
         }
     }
 }
