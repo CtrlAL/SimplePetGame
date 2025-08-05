@@ -1,6 +1,7 @@
+using Services.EventPublishers;
 using UnityEngine;
 
-namespace Assets.Scripts.Services
+namespace Services
 {
     public class TrowableInteractionTool
     {

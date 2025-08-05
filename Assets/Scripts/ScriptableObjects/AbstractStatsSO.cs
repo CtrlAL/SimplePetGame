@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.ScriptableObjects
+namespace ScriptableObjects
 {
     public abstract class AbstractStatsSO : ScriptableObject
     {

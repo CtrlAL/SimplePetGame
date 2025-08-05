@@ -1,11 +1,13 @@
-using Assets.Scripts.FSM;
-using Assets.Scripts.FSM.States.CharacterStates;
-using System;
+using FSM;
+using FSM.States.CharacterStates;
+using Helpers;
+using Services.EventPublishers;
+using Services.Interfaces;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Services
 {
-    public class Mover : IDisposable
+    public class Mover : IMover
     {
         private readonly float _defaultRatationSpeed = 7f;
 
@@ -15,18 +17,18 @@ namespace Assets.Scripts
             MoveEventPublisher.Instance.JumpEvent += Jump;
         }
 
-        private void Jump(object sender, JumpEventArgs args)
+        public void Jump(object sender, JumpEventArgs args)
         {
             var gameObject = args.FSM.gameObject;
 
-            if (Helpers.IsGrounded(gameObject) && args.FSM.GetCurrentState() is IdleState)
+            if (GameHelpers.IsGrounded(gameObject) && args.FSM.GetCurrentState() is IdleState)
             {
                 args.Rigidbody.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
                 MoveEventPublisher.Instance.PublishObjectJumped();
             }
         }
 
-        private void Move(object sender, MoveEventArgs args)
+        public void Move(object sender, MoveEventArgs args)
         {
             var input = args.Input;
             var objectForMove = args.FSM.gameObject;
@@ -44,7 +46,7 @@ namespace Assets.Scripts
             }
         }
 
-        private void Rotation(GameObject objectForMove, Vector3 movement)
+        public void Rotation(GameObject objectForMove, Vector3 movement)
         {
             var targetRotation = Quaternion.LookRotation(movement, Vector3.up);
 

@@ -1,33 +1,34 @@
-using Assets.Scripts.FSM;
-using Assets.Scripts.ScriptableObjects;
+using FSM;
+using ScriptableObjects;
+using Services.EventPublishers;
+using Services.Interfaces;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts
+namespace Services
 {
     public class PlayerMovementInputHandler : IDisposable
     {
         private PlayerStatsSO _stats;
 
-        private PlayerInputActions _inputActions;
+        private IPlayerInputProvider _playerInputProvider;
 
         public PlayerMovementInputHandler()
         {
-            _inputActions = PlayerInputProvider.Instance.Actions;
-            _inputActions.Enable();
-            _inputActions.Inputs.Jump.performed += PublishJump;
+            _playerInputProvider.InputActions.Enable();
+            _playerInputProvider.Inputs.Jump.performed += PublishJump;
             _stats = Resources.Load<PlayerStatsSO>("ScriptableObjects/PlayerStats");
         }
 
         public void PublicUpdate()
         {
-            if (_inputActions.Inputs.Move.IsPressed())
+            if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
                 var fsm = PlayerInstanseHandler.Instance.GetComponent<CharacterFSM>();
                 var rb = PlayerInstanseHandler.Instance.GetComponent<Rigidbody>();
 
-                var input = _inputActions.Inputs.Move.ReadValue<Vector2>();
+                var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
                 MoveEventPublisher.Instance.PublishMoveEvent(input, fsm, rb, _stats.MoveSpeed);
             }
         }
@@ -41,8 +42,8 @@ namespace Assets.Scripts
 
         public void Dispose()
         {
-            _inputActions.Inputs.Jump.performed -= PublishJump;
-            _inputActions.Disable();
+            _playerInputProvider.Inputs.Jump.performed -= PublishJump;
+            _playerInputProvider.InputActions.Disable();
         }
     }
 }

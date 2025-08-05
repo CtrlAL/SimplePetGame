@@ -1,10 +1,11 @@
-using Assets.Scripts.Constants;
-using Assets.Scripts.EventPublishers;
+using Constants;
+using Services.EventPublishers;
+using Services.Interfaces;
 using UnityEngine;
 
-namespace Assets.Scripts.Services
+namespace Services
 {
-    public class Stuner
+    public class Stuner : IStuner
     {
         public void ApplyStun(GameObject target, Rigidbody rigidbody)
         {
@@ -12,8 +13,6 @@ namespace Assets.Scripts.Services
             {
                 rigidbody.velocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
-                //rigidbody.isKinematic = true;
-                //rigidbody.useGravity = false;
 
                 string oldTag = target.tag;
                 StunDataStorage.StoreOldTag(target, oldTag);
@@ -27,9 +26,6 @@ namespace Assets.Scripts.Services
         {
             if (rigidbody != null)
             {
-                //rigidbody.isKinematic = false;
-                //rigidbody.useGravity = true;
-
                 if (StunDataStorage.TryGetOldTag(target, out string oldTag))
                 {
                     target.tag = oldTag;

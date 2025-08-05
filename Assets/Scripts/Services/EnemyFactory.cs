@@ -1,10 +1,11 @@
-using Assets.Scripts.ScriptableObjects;
+using ScriptableObjects;
+using Services.EventPublishers;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 
-namespace Assets.Scripts
+namespace Services
 {
     public class EnemyFactory : System.IDisposable
     {

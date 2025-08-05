@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.ScriptableObjects
+namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "NewPlayerStats", menuName = "Game/Player Stats", order = 50)]
     public class PlayerStatsSO : AbstractStatsSO

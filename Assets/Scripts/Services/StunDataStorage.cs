@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Services
+namespace Services
 {
     public static class StunDataStorage
     {

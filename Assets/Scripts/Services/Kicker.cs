@@ -1,9 +1,10 @@
-using System;
+using Services.EventPublishers;
+using Services.Interfaces;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Services
 {
-    public class Kicker : IDisposable
+    public class Kicker : IKiker
     {
         public Kicker()
         {

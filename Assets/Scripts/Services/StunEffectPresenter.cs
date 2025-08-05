@@ -1,10 +1,10 @@
-using Assets.Scripts.EventPublishers;
+using Services.EventPublishers;
 using System;
 using System.Collections.Concurrent;
 using UnityEngine;
 
 
-namespace Assets.Scripts.Services
+namespace Services
 {
     public class StunEffectPresenter : IDisposable
     {

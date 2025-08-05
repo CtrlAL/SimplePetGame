@@ -1,13 +1,18 @@
+using Services.EventPublishers;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using UnityEngine;
+using Zenject;
 
 
-namespace Assets.Scripts.Services
+namespace Services
 {
     public class DeathEffectPresenter : IDisposable
     {
+        [Inject]
+        private CourutineRunner _runner;
+
         private ParticleSystem _particleSystem;
         private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
         private ConcurrentBag<ParticleSystem> _effectPool;
@@ -36,7 +41,7 @@ namespace Assets.Scripts.Services
             effect.transform.position = e.transform.position;
             CopyMaterial(e, effect);
 
-            CourutineRunner.Instance.StartCoroutine(PlayAndHide(effect, e.gameObject));
+            _runner.StartCoroutine(PlayAndHide(effect, e.gameObject));
         }
 
         private static void CopyMaterial(GameObject e, ParticleSystem effect)

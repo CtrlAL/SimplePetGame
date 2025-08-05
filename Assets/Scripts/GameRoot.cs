@@ -1,13 +1,15 @@
-using Assets.Scripts.Services;
+using Services;
+using Services.Interfaces;
 using UnityEngine;
+using Zenject;
 
-namespace Assets.Scripts
+namespace GameRoot
 {
     public class GameRoot : MonoBehaviour
     {
         [Header("Input Consumers")]
-        private Kicker _kiker;
-        private Mover _mover;
+        [Inject] private IKiker _kiker;
+        [Inject] private IMover _mover;
 
         [Header("Facotys")]
         private EnemyFactory _enemyFactory;
@@ -21,8 +23,6 @@ namespace Assets.Scripts
 
         public void Awake()
         {
-            _kiker = new Kicker();
-            _mover = new Mover();
             _enemyFactory = new EnemyFactory();
             _playerMovementInputHandler = new PlayerMovementInputHandler();
             _deathEffectPresenter = new DeathEffectPresenter();

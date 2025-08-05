@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.ScriptableObjects
+namespace ScriptableObjects
 {
 
     [CreateAssetMenu(fileName = "NewEnemyLibrary", menuName = "Enemy/Enemy Library", order = 50)]

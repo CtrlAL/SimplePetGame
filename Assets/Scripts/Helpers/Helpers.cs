@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using Assets.Scripts.Constants;
+using Constants;
 
-namespace Assets.Scripts
+namespace Helpers
 {
-    public static class Helpers
+    public static class GameHelpers
     {
         private static Vector3[] _ofsets = new Vector3[]
         {

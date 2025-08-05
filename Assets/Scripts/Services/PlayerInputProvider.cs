@@ -1,25 +1,23 @@
-using System;
+using Services.Interfaces;
+using Zenject;
 
-namespace Assets.Scripts
+namespace Services
 {
-    public class PlayerInputProvider : IDisposable
+    public class PlayerInputProvider : IPlayerInputProvider
     {
-        private static readonly Lazy<PlayerInputProvider> _instance = new(() => new PlayerInputProvider());
-        public static PlayerInputProvider Instance => _instance.Value;
-
-        public PlayerInputActions Actions { get; }
-        public PlayerInputActions.InputsActions Inputs => Actions.Inputs;
+        [Inject] 
+        private PlayerInputActions _inputActions;
+        public PlayerInputActions InputActions => _inputActions;
+        public PlayerInputActions.InputsActions Inputs => _inputActions.Inputs;
 
         private PlayerInputProvider()
         {
-            Actions = new PlayerInputActions();
-            Actions.Inputs.Enable();
+            _inputActions.Inputs.Enable();
         }
 
         public void Dispose()
         {
-            Actions.Dispose();
+            _inputActions.Dispose();
         }
     }
-    
 }

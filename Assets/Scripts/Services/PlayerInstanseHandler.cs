@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Services
 {
     public class PlayerInstanseHandler
     {
