@@ -4,12 +4,15 @@ using Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Zenject;
 
 
 namespace Services
 {
     public class EnemyFactory : IEnemyFactory
     {
+        private DiContainer _container;
+
         private EnemyLibrary _enemyPrefubLibrary;
 
         private List<GameObject> _enemyObjects = new List<GameObject>();
@@ -22,8 +25,10 @@ namespace Services
 
         private float _maxTimer = 4f;
 
-        public EnemyFactory()
+        public EnemyFactory(DiContainer container)
         {
+            _container = container;
+
             _enemyPrefubLibrary = Resources.Load<EnemyLibrary>("ScriptableObjects/EnemyLibrary");
 
             _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint")
@@ -56,7 +61,7 @@ namespace Services
             var prefub = _enemyPrefubLibrary.GetEnemyPrefab(index);
 
             var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
-            var enemy =  GameObject.Instantiate(prefub, spawnPoint.position, spawnPoint.rotation);
+            var enemy =  _container.InstantiatePrefab(prefub, spawnPoint.position, spawnPoint.rotation, spawnPoint);
             _enemyObjects.Add(enemy);
         }
 
