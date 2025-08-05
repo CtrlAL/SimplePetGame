@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Services
 {
-    public class CourutineRunner : MonoBehaviour
+    public class CoroutineRunner : MonoBehaviour
     {
     }
 }

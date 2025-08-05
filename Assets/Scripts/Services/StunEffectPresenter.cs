@@ -31,7 +31,7 @@ namespace Services
                 return;
             }
 
-            if (_effectPool.TryPeek(out var effect))
+            if (_effectPool.TryPeek(out var effect) && effect != null)
                 effect.transform.SetParent(e.Character.transform);
             else
                 effect = GameObject.Instantiate(_particleSystem, e.Character.transform)

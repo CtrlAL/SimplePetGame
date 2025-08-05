@@ -8,7 +8,7 @@ namespace Services
 {
     public class DeathEffectPresenter : IDisposable
     {
-        private CourutineRunner _runner;
+        private CoroutineRunner _runner;
 
         private ParticleSystem _particleSystem;
         private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
@@ -16,7 +16,7 @@ namespace Services
 
         private int _poolLimit = 10;
 
-        public DeathEffectPresenter(CourutineRunner courutineRunner)
+        public DeathEffectPresenter(CoroutineRunner courutineRunner)
         {
             _runner = courutineRunner;
 
