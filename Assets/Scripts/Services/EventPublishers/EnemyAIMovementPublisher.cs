@@ -2,6 +2,7 @@ using FSM;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 namespace Services.EventPublishers
 {
@@ -9,7 +10,7 @@ namespace Services.EventPublishers
     [RequireComponent(typeof(CharacterFSM))]
     public class EnemyAIMovementPublisher : MonoBehaviour
     {
-        [SerializeField]
+        [Inject]
         private EnemyStatsSO _stats;
 
         [SerializeField]

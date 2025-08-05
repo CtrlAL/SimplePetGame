@@ -15,7 +15,7 @@ namespace Services
 
         private EnemyLibrary _enemyPrefubLibrary;
 
-        private List<GameObject> _enemyObjects = new List<GameObject>();
+        private List<GameObject> _enemyObjects;
 
         private Transform[] _spawnPoints;
 
@@ -25,17 +25,19 @@ namespace Services
 
         private float _maxTimer = 4f;
 
-        public EnemyFactory(DiContainer container)
+        public EnemyFactory(DiContainer container, EnemyLibrary enemyLibrary)
         {
             _container = container;
 
-            _enemyPrefubLibrary = Resources.Load<EnemyLibrary>("ScriptableObjects/EnemyLibrary");
+            _enemyPrefubLibrary = enemyLibrary;
 
             _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint")
                 .Select(x => x.transform)
                 .ToArray();
 
             DestroyEnemyEventPublisher.Instance.DestroyEnemy += DestroyEnemy;
+
+            _enemyObjects = new();
         }
 
         public void DestroyEnemy(object sender, GameObject args)

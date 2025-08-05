@@ -14,12 +14,12 @@ namespace Services
 
         private IPlayerInputProvider _playerInputProvider;
 
-        public PlayerMovementInputHandler(IPlayerInputProvider playerInputProvider)
+        public PlayerMovementInputHandler(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO)
         {
             _playerInputProvider = playerInputProvider;
             _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += PublishJump;
-            _stats = Resources.Load<PlayerStatsSO>("ScriptableObjects/PlayerStats");
+            _stats = playerStatsSO;
         }
 
         public void PublicUpdate()

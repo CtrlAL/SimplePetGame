@@ -5,6 +5,7 @@ using Services.EventPublishers;
 using System.Collections;
 using UnityEngine;
 using Views.Scene.Characters;
+using Zenject;
 
 namespace Services.EventTriggers 
 {
@@ -14,7 +15,7 @@ namespace Services.EventTriggers
         [SerializeField]
         private CharacterFSM _fsm;
 
-        [SerializeField]
+        [Inject]
         private EnemyStatsSO _stats;
 
         [SerializeField] 

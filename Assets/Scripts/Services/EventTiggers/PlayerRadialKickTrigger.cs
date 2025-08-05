@@ -15,16 +15,16 @@ namespace Services.EventTriggers
     {
         IPlayerInputProvider _playerInputProvider;
 
+        private PlayerStatsSO _playerStats;
+
         [SerializeField]
         private CharacterFSM _fsm;
 
-        [SerializeField]
-        private PlayerStatsSO _playerStats;
-
         [Inject]
-        public void Constractor(IPlayerInputProvider playerInputProvider)
+        public void Constractor(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO)
         {
             _playerInputProvider = playerInputProvider;
+            _playerStats = playerStatsSO;
         }
 
         public void FixedUpdate()

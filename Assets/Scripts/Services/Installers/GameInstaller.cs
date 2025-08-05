@@ -1,15 +1,25 @@
 using ScriptableObjects;
 using Services;
 using Services.Interfaces;
+using UnityEngine;
 using Views.Scene.Characters;
 using Zenject;
 
 public partial class GameInstaller : MonoInstaller
 {
+    [SerializeField]
     private PlayerStatsSO _playerStatsSO;
+
+    [SerializeField]
     private EnemyStatsSO _enemyStatsSO;
+
+    [SerializeField]
     private KickImpactSettigns _kickImpactSettigns;
+
+    [SerializeField]
     private CharacterVFX _characterVFX;
+
+    [SerializeField]
     private EnemyLibrary _enemyLibrary;
 
     public override void InstallBindings()

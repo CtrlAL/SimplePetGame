@@ -2812,6 +2812,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0757a2af50b2a4dbd69a3ffb722231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerStatsSO: {fileID: 11400000, guid: 84f2421b5fd9eeb40a1b3de3688a5db3, type: 2}
+  _enemyStatsSO: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}
+  _kickImpactSettigns: {fileID: 11400000, guid: 33af7a41d181c5c44ae507751d1bed97,
+    type: 2}
+  _characterVFX: {fileID: 11400000, guid: 23379c72f5b7d0140ba6d20dd534c624, type: 2}
+  _enemyLibrary: {fileID: 11400000, guid: 43c239864b73ebd45b034c2ce923d4ce, type: 2}
 --- !u!4 &1570193930
 Transform:
   m_ObjectHideFlags: 0
