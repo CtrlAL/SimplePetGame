@@ -1,16 +1,22 @@
 using FSM;
 using FSM.States.CharacterStates;
 using Helpers;
+using Services;
+using Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
-namespace Services
+namespace Views.Scene
 {
     [RequireComponent(typeof(CharacterFSM))]
     public class PlayerThrowableInteractor : MonoBehaviour
     {
+        [Inject]
+        private IPlayerInputProvider _playerInputProvider;
+
         [SerializeField]
         private CharacterFSM _fsm;
 
@@ -32,9 +38,10 @@ namespace Services
         public void Awake()
         {
             _trowableInteractionTool = new TrowableInteractionTool(_throwForce, _dropDistance);
-            PlayerInputProvider.Instance.Inputs.Pickup.performed += OnPickup;
-            PlayerInputProvider.Instance.Inputs.Throw.performed += OnThrow;
             _allowThrowables = new HashSet<GameObject>();
+
+            _playerInputProvider.Inputs.Pickup.performed += OnPickup;
+            _playerInputProvider.Inputs.Throw.performed += OnThrow;
         }
 
         private void OnPickup(InputAction.CallbackContext context)
@@ -123,8 +130,8 @@ namespace Services
 
         public void OnDestroy()
         {
-            PlayerInputProvider.Instance.Inputs.Pickup.performed -= Pickup;
-            PlayerInputProvider.Instance.Inputs.Throw.performed -= OnThrow;
+            _playerInputProvider.Inputs.Pickup.performed -= Pickup;
+            _playerInputProvider.Inputs.Throw.performed -= OnThrow;
         }
     }
 }

@@ -14,8 +14,9 @@ namespace Services
 
         private IPlayerInputProvider _playerInputProvider;
 
-        public PlayerMovementInputHandler()
+        public PlayerMovementInputHandler(IPlayerInputProvider playerInputProvider)
         {
+            _playerInputProvider = playerInputProvider;
             _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += PublishJump;
             _stats = Resources.Load<PlayerStatsSO>("ScriptableObjects/PlayerStats");

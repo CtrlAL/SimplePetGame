@@ -2,8 +2,10 @@ using FSM;
 using FSM.States.CharacterStates;
 using ScriptableObjects;
 using Services.EventPublishers;
+using Services.Interfaces;
 using UnityEngine;
 using Views.Scene.Characters;
+using Zenject;
 
 namespace Services.EventTriggers
 {
@@ -11,15 +13,23 @@ namespace Services.EventTriggers
     [RequireComponent(typeof(CharacterFSM))]
     public class PlayerRadialKickTrigger : MonoBehaviour
     {
+        IPlayerInputProvider _playerInputProvider;
+
         [SerializeField]
         private CharacterFSM _fsm;
 
         [SerializeField]
         private PlayerStatsSO _playerStats;
 
+        [Inject]
+        public void Constractor(IPlayerInputProvider playerInputProvider)
+        {
+            _playerInputProvider = playerInputProvider;
+        }
+
         public void FixedUpdate()
         {
-            if (PlayerInputProvider.Instance.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
+            if (_playerInputProvider.Inputs.Kick.IsPressed() && _fsm.GetCurrentState() is IdleState)
             {
                 Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, _playerStats.KickRadius);
 

@@ -15,7 +15,6 @@ public class GameInstaller : MonoInstaller
     {
         Container.Bind<IMover>().To<Mover>().AsSingle();
         Container.Bind<IKiker>().To<Kicker>().AsSingle();
-        Container.Bind<IMover>().To<Mover>().AsSingle();
         Container.Bind<CoroutineRunner>().ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
@@ -28,7 +27,8 @@ public class GameInstaller : MonoInstaller
 
     private void InstallPlayerInputs()
     {
-        Container.Bind<IPlayerInputProvider>().To<PlayerInputProvider>().AsSingle();
-        Container.Bind<PlayerInputActions>().ToSelf().AsSingle();
+        Container.Bind<IPlayerInputProvider>().To<PlayerInputProvider>().AsSingle().NonLazy();
+        Container.Bind<PlayerInputActions>().ToSelf().FromInstance(new PlayerInputActions()).AsSingle();
+        Container.Bind<PlayerMovementInputHandler>().ToSelf().AsSingle();
     }
 }

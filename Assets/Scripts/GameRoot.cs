@@ -12,6 +12,7 @@ namespace GameRoot
         [Inject] private IMover _mover;
 
         [Header("Headnlers")]
+        [Inject]
         private PlayerMovementInputHandler _playerMovementInputHandler;
 
         [Header("Effects")]
@@ -20,7 +21,6 @@ namespace GameRoot
 
         public void Awake()
         {
-            _playerMovementInputHandler = new PlayerMovementInputHandler();
             _deathEffectPresenter = new DeathEffectPresenter();
             _stunEffectPresenter = new StunEffectPresenter();
         }
