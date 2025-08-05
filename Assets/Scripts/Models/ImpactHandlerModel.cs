@@ -1,9 +1,10 @@
-using UnityEngine;
-
-public class ImpactHandlerModel : MonoBehaviour
+using System;
+using UniRx;
+public class ImpactHandlerModel : IDisposable
 {
-
-    public int WeakHitCountNeeded = 3;
-
-    public int CurrentWeakHitCount = 0;
+    public ReactiveProperty<int> CurrentWeakHitCount = new(0);
+    public void Dispose()
+    {
+        CurrentWeakHitCount?.Dispose();
+    }
 }
