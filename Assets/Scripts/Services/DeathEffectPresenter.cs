@@ -3,14 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using UnityEngine;
-using Zenject;
-
 
 namespace Services
 {
     public class DeathEffectPresenter : IDisposable
     {
-        [Inject]
         private CourutineRunner _runner;
 
         private ParticleSystem _particleSystem;
@@ -19,8 +16,10 @@ namespace Services
 
         private int _poolLimit = 10;
 
-        public DeathEffectPresenter()
+        public DeathEffectPresenter(CourutineRunner courutineRunner)
         {
+            _runner = courutineRunner;
+
             _effectPool = new ConcurrentBag<ParticleSystem>();
             _particleSystem = Resources.Load<ParticleSystem>("Prefubs/Effects/DeathEffect");
 

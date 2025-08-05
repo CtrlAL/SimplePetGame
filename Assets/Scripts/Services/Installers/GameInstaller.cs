@@ -3,12 +3,13 @@ using Services.Interfaces;
 using Unity.VisualScripting;
 using Zenject;
 
-public class GameInstaller : MonoInstaller
+public partial class GameInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
         InstallPlayerInputs();
         InstallServices();
+        InstallViews();
     }
 
     private void InstallServices()
@@ -30,5 +31,11 @@ public class GameInstaller : MonoInstaller
         Container.Bind<IPlayerInputProvider>().To<PlayerInputProvider>().AsSingle().NonLazy();
         Container.Bind<PlayerInputActions>().ToSelf().FromInstance(new PlayerInputActions()).AsSingle();
         Container.Bind<PlayerMovementInputHandler>().ToSelf().AsSingle();
+    }
+
+    private void InstallViews()
+    {
+        Container.Bind<DeathEffectPresenter>().ToSelf().AsSingle();
+        Container.Bind<StunEffectPresenter>().ToSelf().AsSingle();
     }
 }

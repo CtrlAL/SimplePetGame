@@ -11,22 +11,23 @@ namespace GameRoot
         [Inject] private IKiker _kiker;
         [Inject] private IMover _mover;
 
+        [Header("Factory")]
+        [Inject] 
+        private IEnemyFactory _enemyFactory;
+
         [Header("Headnlers")]
         [Inject]
         private PlayerMovementInputHandler _playerMovementInputHandler;
 
         [Header("Effects")]
+        [Inject]
         private DeathEffectPresenter _deathEffectPresenter;
+        [Inject]
         private StunEffectPresenter _stunEffectPresenter;
-
-        public void Awake()
-        {
-            _deathEffectPresenter = new DeathEffectPresenter();
-            _stunEffectPresenter = new StunEffectPresenter();
-        }
 
         void FixedUpdate()
         {
+            _enemyFactory.Tick();
             _playerMovementInputHandler.PublicUpdate();
         }
     }
