@@ -124,7 +124,8 @@ GameObject:
   - component: {fileID: 7077153583311904936}
   - component: {fileID: 1441483897883717519}
   - component: {fileID: 1796255651766305386}
-  - component: {fileID: 5502627053183660621}
+  - component: {fileID: 763888867106876974}
+  - component: {fileID: 1625283220502689255}
   m_Layer: 0
   m_Name: Enemy 1
   m_TagString: Enemy
@@ -301,7 +302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738475f102bc1f74189fad609dc0748e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}
   _agent: {fileID: 910407871168924846}
   _rigidbody: {fileID: 2776208053196341772}
 --- !u!114 &7077153583311904936
@@ -317,7 +317,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fsm: {fileID: 1796255651766305386}
-  _stats: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}
   delayBeforeKick: 1
 --- !u!114 &1441483897883717519
 MonoBehaviour:
@@ -331,11 +330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c90f6ca84e19a4e8fdc97a6c623df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterFSM: {fileID: 1796255651766305386}
-  _fatigue: {fileID: 5502627053183660621}
-  _minStrongImpact: 30
-  _minWeakImpact: 20
-  _weakHitCountNeeded: 3
 --- !u!114 &1796255651766305386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,8 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7882d438032c249b56580a6f43da19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _StunnedIcon: {fileID: 0}
---- !u!114 &5502627053183660621
+--- !u!114 &763888867106876974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,7 +351,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 6295798114919579548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af2fbb395a495c744ac526c287d612b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1625283220502689255}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
+--- !u!114 &1625283220502689255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295798114919579548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fb6cc6054660b43b85bac734d748f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

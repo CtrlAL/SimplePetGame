@@ -19,7 +19,7 @@ namespace Services
 
         public void Jump(object sender, JumpEventArgs args)
         {
-            var gameObject = args.FSM.gameObject;
+            var gameObject = args.FSM.GameObject;
 
             if (GameHelpers.IsGrounded(gameObject) && args.FSM.GetCurrentState() is IdleState)
             {
@@ -31,10 +31,11 @@ namespace Services
         public void Move(object sender, MoveEventArgs args)
         {
             var input = args.Input;
-            var objectForMove = args.FSM.gameObject;
+            var objectForMove = args.FSM.GameObject;
 
             var rb = objectForMove.GetComponent<Rigidbody>();
             var fsm = objectForMove.GetComponent<CharacterFSM>();
+
             if (rb != null && fsm.GetCurrentState() is IdleState)
             {
                 Vector3 movement = new Vector3(input.x, 0f, input.y);

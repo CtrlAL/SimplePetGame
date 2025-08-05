@@ -1,30 +1,31 @@
+using Assets.Scripts.Services.Interfaces;
 using FSM;
 using FSM.States.CharacterStates;
 using ScriptableObjects;
 using Services.EventPublishers;
 using Services.Interfaces;
 using UnityEngine;
-using Views.Scene.Characters;
 using Zenject;
 
 namespace Services.EventTriggers
 {
-
-    [RequireComponent(typeof(CharacterFSM))]
     public class PlayerRadialKickTrigger : MonoBehaviour
     {
         IPlayerInputProvider _playerInputProvider;
 
         private PlayerStatsSO _playerStats;
 
+        private IFatigue _fatigueService;
+
         [SerializeField]
         private CharacterFSM _fsm;
 
         [Inject]
-        public void Constractor(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO)
+        public void Constractor(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO, IFatigue fatigueService)
         {
             _playerInputProvider = playerInputProvider;
             _playerStats = playerStatsSO;
+            _fatigueService = fatigueService;
         }
 
         public void FixedUpdate()
@@ -37,17 +38,14 @@ namespace Services.EventTriggers
                 {
                     if (collider.CompareTag("Enemy"))
                     {
-                        if (collider.TryGetComponent<Fatigue>(out var fatigue))
-                        {
-                            float knockbackMultiplier = fatigue.GetKnockbackMultiplier();
-                            KickEventPublisher.Instance.PublishPlayerKickEvent(
-                                gameObject,
-                                collider.gameObject,
-                                _playerStats.KickPower * knockbackMultiplier
-                            );
+                        float knockbackMultiplier = _fatigueService.GetKnockbackMultiplier();
+                        KickEventPublisher.Instance.PublishPlayerKickEvent(
+                            gameObject,
+                            collider.gameObject,
+                            _playerStats.KickPower * knockbackMultiplier
+                        );
 
-                            PlayerKickSound();
-                        }
+                        PlayerKickSound();
                     }
                 }
             }

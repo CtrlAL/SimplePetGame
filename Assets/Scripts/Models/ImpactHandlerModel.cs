@@ -1,10 +1,15 @@
 using System;
 using UniRx;
-public class ImpactHandlerModel : IDisposable
+
+namespace Models
 {
-    public ReactiveProperty<int> CurrentWeakHitCount = new(0);
-    public void Dispose()
+    public class ImpactHandlerModel : IDisposable
     {
-        CurrentWeakHitCount?.Dispose();
+        public ReactiveProperty<int> CurrentWeakHitCount = new(0);
+        public void Dispose()
+        {
+            CurrentWeakHitCount?.Dispose();
+        }
     }
 }
+

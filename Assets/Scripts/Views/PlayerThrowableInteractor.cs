@@ -11,7 +11,6 @@ using Zenject;
 
 namespace Views.Scene
 {
-    [RequireComponent(typeof(CharacterFSM))]
     public class PlayerThrowableInteractor : MonoBehaviour
     {
         [Inject]
