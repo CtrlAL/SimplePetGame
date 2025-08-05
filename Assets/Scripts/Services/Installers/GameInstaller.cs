@@ -55,7 +55,7 @@ namespace Services.Installers
         private void InstallPlayerInputs()
         {
             Container.Bind<IPlayerInputProvider>().To<PlayerInputProvider>().AsSingle().NonLazy();
-            Container.Bind<PlayerInputActions>().ToSelf().FromInstance(new PlayerInputActions()).AsSingle();
+            Container.Bind<PlayerInputActions>().ToSelf().AsSingle();
         }
 
 

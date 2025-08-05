@@ -28,15 +28,15 @@ namespace Services
 
             _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += PublishJump;
+            _playerInputProvider.Inputs.Move.performed += PublishMove;
         }
 
-        public void Tick()
+        
+
+        private void PublishMove(InputAction.CallbackContext context)
         {
-            if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
-            {
-                var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-                MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
-            }
+            var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
+            MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
         }
 
         private void PublishJump(InputAction.CallbackContext context)
@@ -49,7 +49,19 @@ namespace Services
         public void Dispose()
         {
             _playerInputProvider.Inputs.Jump.performed -= PublishJump;
+            _playerInputProvider.Inputs.Jump.performed -= PublishMove;
             _playerInputProvider.InputActions.Disable();
+        }
+
+        public void Tick()
+        {
+            Debug.Log("Я тикаю");
+
+            if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
+            {
+                var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
+                MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
+            }
         }
     }
 }
