@@ -16,7 +16,7 @@ namespace Presenters
     public class ThrowableInteractionPresenter : IInitializable, IDisposable, ITickable
     {
         private readonly ThrowableInteractionModel _model;
-        private readonly ThrowableInteractorView _view;
+        private readonly ThrowableInteractionView _view;
         private readonly IThrowableInteractor _interactor;
         private readonly IPlayerInputProvider _inputProvider;
         private readonly CharacterFSM _fsm;
@@ -26,7 +26,7 @@ namespace Presenters
 
         public ThrowableInteractionPresenter(
             ThrowableInteractionModel model,
-            ThrowableInteractorView view,
+            ThrowableInteractionView view,
             IThrowableInteractor interactor,
             IPlayerInputProvider inputProvider,
             CharacterFSM fsm,

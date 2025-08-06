@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Views.Scene
 {
-    public class ThrowableInteractorView : MonoBehaviour
+    public class ThrowableInteractionView : MonoBehaviour
     {
         public GameObject ThrowablesSlot;
 
