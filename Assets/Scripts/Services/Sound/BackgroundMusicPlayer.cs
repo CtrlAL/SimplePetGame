@@ -12,13 +12,10 @@ namespace Assets.Scripts
         [SerializeField]
         private Sound[] _backgroundSoundList;
 
-        private static BackgroundMusicPlayer _instance;
-
         private AudioSource _soundSource;
 
         private void Awake()
         {
-            _instance = this;
             _soundSource = GetComponent<AudioSource>();
             _soundSource.loop = true;
             _soundSource.playOnAwake = false;
@@ -27,7 +24,7 @@ namespace Assets.Scripts
 
         private void SwitchSound(object sender, PlaySoundEventArgs args)
         {
-            var clip = _instance._backgroundSoundList[(int)args.SoundType];
+            var clip = _backgroundSoundList[(int)args.SoundType];
             _soundSource.clip = clip.sound;
             _soundSource.volume = args.Volume;
         }

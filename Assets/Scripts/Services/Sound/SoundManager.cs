@@ -11,26 +11,23 @@ namespace Assets.Scripts
         [SerializeField]
         private Sound[] _soundList;
 
-        private static SoundManager _instance;
-
         private AudioSource _soundSource;
 
         private void Awake()
         {
-            _instance = this;
             SoundEventPublisher.Instance.PlaySoundRequested += PlaySound;
         }
 
         private void PlaySound(object sender, PlaySoundEventArgs args)
         {
-            var clip = _instance._soundList[(int)args.SoundType];
-            _instance._soundSource.PlayOneShot(clip.sound, args.Volume);
+            var clip = _soundList[(int)args.SoundType];
+            _soundSource.PlayOneShot(clip.sound, args.Volume);
         }
 
         public void PlaySound(int volume, SoundType soundType)
         {
-            var clip = _instance._soundList[(int)soundType];
-            _instance._soundSource.PlayOneShot(clip.sound, volume);
+            var clip = _soundList[(int)soundType];
+            _soundSource.PlayOneShot(clip.sound, volume);
         }
 
         private void Start()
