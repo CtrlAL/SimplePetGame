@@ -20,8 +20,7 @@ namespace Presenters
         private readonly IThrowableInteractor _interactor;
         private readonly IPlayerInputProvider _inputProvider;
         private readonly CharacterFSM _fsm;
-        private readonly Transform _ownerTransform;
-        private readonly Transform _slotTransform;
+
         private CompositeDisposable _disposebles;
 
         public ThrowableInteractionPresenter(
@@ -29,15 +28,13 @@ namespace Presenters
             ThrowableInteractionView view,
             IThrowableInteractor interactor,
             IPlayerInputProvider inputProvider,
-            CharacterFSM fsm,
-            Transform ownerTransform,
-            Transform slotTransform)
+            CharacterFSM fsm)
         {
             _interactor = interactor;
             _inputProvider = inputProvider;
             _fsm = fsm;
-            _ownerTransform = ownerTransform;
-            _slotTransform = slotTransform;
+            _view = view;
+            _model = model;
             _disposebles = new CompositeDisposable();
         }
 
@@ -68,7 +65,7 @@ namespace Presenters
 
             if (_model.IsHolding)
             {
-                _interactor.Put(_ownerTransform);
+                _interactor.Put(_view.transform);
             }
             else
             {
@@ -80,7 +77,7 @@ namespace Presenters
         {
             if (_fsm.GetCurrentState() is IdleState && _model.IsHolding)
             {
-                _interactor.Throw(_ownerTransform);
+                _interactor.Throw(_view.transform);
             }
         }
 
@@ -90,12 +87,12 @@ namespace Presenters
 
             var closest = _model.AllowedThrowables
                 .Where(go => go != null && GameHelpers.IsGrounded(go))
-                .OrderBy(go => Vector3.Distance(_ownerTransform.position, go.transform.position))
+                .OrderBy(go => Vector3.Distance(_view.transform.position, go.transform.position))
                 .FirstOrDefault();
 
             if (closest != null)
             {
-                _interactor.Pickup(closest, _slotTransform);
+                _interactor.Pickup(closest, _view.ThrowablesSlot.transform);
             }
         }
 
