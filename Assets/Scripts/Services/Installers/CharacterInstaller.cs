@@ -30,6 +30,8 @@ namespace Services.Installers
             Container.BindInterfacesAndSelfTo<ThrowableInteractionModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ThrowableInteractionPresenter>().AsSingle().NonLazy();
             Container.Bind<ThrowableInteractionView>().FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<IThrowableInteractor>().To<ThrowableInteractor>().AsSingle();
         }
     }
 }
