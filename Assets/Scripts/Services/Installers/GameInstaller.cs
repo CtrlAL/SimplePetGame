@@ -34,6 +34,7 @@ namespace Services.Installers
             InstallViews();
             InstallSO();
             InstallTickable();
+            InstallSound();
         }
 
         private void InstallServices()

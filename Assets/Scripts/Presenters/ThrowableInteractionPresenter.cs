@@ -31,13 +31,15 @@ namespace Presenters
             ThrowableInteractionView view,
             IThrowableInteractor interactor,
             IPlayerInputProvider inputProvider,
-            CharacterFSM fsm)
+            CharacterFSM fsm,
+            SoundManager soundManager)
         {
             _interactor = interactor;
             _inputProvider = inputProvider;
             _fsm = fsm;
             _view = view;
             _model = model;
+            _soundManager = soundManager;
             _disposebles = new CompositeDisposable();
         }
 
