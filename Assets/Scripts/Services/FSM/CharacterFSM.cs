@@ -6,10 +6,11 @@ using Services;
 using Zenject;
 using UnityEngine;
 using UniRx;
+using System;
 
 namespace FSM
 {
-    public class CharacterFSM : ITickable, IInitializable
+    public class CharacterFSM : ITickable, IInitializable, IDisposable
     {
         [Inject]
         private readonly Rigidbody _rigidbody;
@@ -54,7 +55,11 @@ namespace FSM
         public void Tick()
         {
             _stateMachine.Update();
-            _disposables?.Dispose();
+        }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
         }
     }
 }

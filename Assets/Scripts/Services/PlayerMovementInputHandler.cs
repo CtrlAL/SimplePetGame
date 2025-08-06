@@ -28,11 +28,6 @@ namespace Services
             _playerInputProvider.Inputs.Jump.performed += PublishJump;
         }
 
-        private void PublishMove(InputAction.CallbackContext context)
-        {
-            PublishMove();
-        }
-
         private void PublishJump(InputAction.CallbackContext context)
         {
             PublishJump();
@@ -41,7 +36,6 @@ namespace Services
         public void Dispose()
         {
             _playerInputProvider.Inputs.Jump.performed -= PublishJump;
-            _playerInputProvider.Inputs.Jump.performed -= PublishMove;
             _playerInputProvider.InputActions.Disable();
         }
 

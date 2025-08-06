@@ -120,7 +120,7 @@ namespace Views.Scene
 
         private void DeleteNullable()
         {
-            var toRemove = _allowThrowables.Where(item => item == null).ToList();
+            var toRemove = _allowThrowables?.Where(item => item == null).ToList();
             foreach (var item in toRemove)
             {
                 _allowThrowables.Remove(item);

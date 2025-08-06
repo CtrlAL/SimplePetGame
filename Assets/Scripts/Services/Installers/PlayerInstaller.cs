@@ -18,7 +18,7 @@ namespace Services.Installers
             Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
             Container.Bind<PlayerRadialKickTrigger>().ToSelf().FromComponentInHierarchy().AsSingle();
 
-            Container.Bind<ITickable>().To<PlayerUpdate>().AsSingle();
+            Container.Bind<IFixedTickable>().To<PlayerUpdate>().AsSingle();
         }
     }
 }

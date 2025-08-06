@@ -12,7 +12,8 @@ namespace Services.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<CharacterFSM>().ToSelf().AsSingle();
+            Container.BindInterfacesAndSelfTo<CharacterFSM>().AsSingle();
+
             Container.Bind<Rigidbody>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ImpactHandlerView>().FromComponentInHierarchy().AsSingle();
 

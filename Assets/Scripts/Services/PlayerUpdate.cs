@@ -1,17 +1,15 @@
 ﻿using Services.Interfaces;
-using UnityEngine;
 using Zenject;
 
 namespace Services
 {
-    public class PlayerUpdate : ITickable
+    public class PlayerUpdate : IFixedTickable
     {
         [Inject]
-        private IPlayerMovementInputHandler _playerMovementInputHandler { get; set; }
+        private IPlayerMovementInputHandler _playerMovementInputHandler;
 
-        public void Tick()
+        public void FixedTick()
         {
-            Debug.Log("Тикаю");
             _playerMovementInputHandler.MovePerFame();
         }
     }
