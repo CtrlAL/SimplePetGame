@@ -12,7 +12,7 @@ namespace Services
             KickEventPublisher.Instance.EnemyKickEvent += Kick;
         }
 
-        private void Kick(object sender, KickEventArgs args)
+        public void Kick(object sender, KickEventArgs args)
         {
             var kicked = args.Kicked;
             var kicker = args.Kicker;
