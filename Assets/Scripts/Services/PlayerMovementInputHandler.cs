@@ -1,15 +1,14 @@
+using Assets.Scripts.Services.Interfaces;
 using FSM;
 using ScriptableObjects;
 using Services.EventPublishers;
 using Services.Interfaces;
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Zenject;
 
 namespace Services
 {
-    public class PlayerMovementInputHandler : IDisposable, ITickable
+    public class PlayerMovementInputHandler : IPlayerMovementInputHandler
     {
         private PlayerStatsSO _stats;
 
