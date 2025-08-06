@@ -18,11 +18,11 @@ namespace Services.Installers
             Container.Bind<ImpactHandlerView>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<IFatigue>().To<Fatigue>().AsSingle();
-            Container.Bind<FatigueModel>().ToSelf().AsSingle();
-            Container.Bind<FatiguePresenter>().ToSelf().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<FatigueModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<FatiguePresenter>().AsSingle().NonLazy();
 
-            Container.Bind<ImpactHandlerModel>().ToSelf().AsSingle().NonLazy();
-            Container.Bind<ImpactHandlerPresenter>().ToSelf().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ImpactHandlerModel>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ImpactHandlerPresenter>().AsSingle().NonLazy();
         }
     }
 }
