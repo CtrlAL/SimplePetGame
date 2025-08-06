@@ -1,4 +1,3 @@
-using Assets.Scripts.Services.Interfaces;
 using FSM;
 using FSM.States.CharacterStates;
 using ScriptableObjects;

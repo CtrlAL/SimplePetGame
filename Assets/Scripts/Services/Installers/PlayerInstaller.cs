@@ -1,7 +1,8 @@
-﻿using Assets.Scripts.Services.Interfaces;
-using ScriptableObjects;
+﻿using ScriptableObjects;
 using Services.EventTriggers;
+using Services.Interfaces;
 using UnityEngine;
+using Zenject;
 
 namespace Services.Installers
 {
@@ -13,9 +14,11 @@ namespace Services.Installers
         public override void InstallBindings()
         {
             base.InstallBindings();
-            Container.Bind<IPlayerMovementInputHandler>().To<PlayerMovementInputHandler>().AsSingle().NonLazy();
+            Container.Bind<IPlayerMovementInputHandler>().To<PlayerMovementInputHandler>().AsSingle();
             Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
             Container.Bind<PlayerRadialKickTrigger>().ToSelf().FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<ITickable>().To<PlayerUpdate>().AsSingle();
         }
     }
 }

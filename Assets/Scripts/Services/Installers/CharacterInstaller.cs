@@ -3,8 +3,6 @@ using FSM;
 using Presenters;
 using Zenject;
 using Views.Scene.Characters;
-using Assets.Scripts.Services.Interfaces;
-using Assets.Scripts.Services;
 using UnityEngine;
 using Services.Interfaces;
 

@@ -11,10 +11,6 @@ namespace GameRoot
         [Inject] private IKiker _kiker;
         [Inject] private IMover _mover;
 
-        [Header("Factory")]
-        [Inject] 
-        private IEnemyFactory _enemyFactory;
-
         [Header("Effects")]
         [Inject]
         private DeathEffectPresenter _deathEffectPresenter;
@@ -23,7 +19,6 @@ namespace GameRoot
 
         void FixedUpdate()
         {
-            _enemyFactory?.Tick();
         }
     }
 }

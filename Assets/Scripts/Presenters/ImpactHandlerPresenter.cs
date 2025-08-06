@@ -6,8 +6,8 @@ using Enums;
 using FSM.States.CharacterStates;
 using Views.Scene.Characters;
 using Models;
-using Assets.Scripts.Services.Interfaces;
 using Constants;
+using Services.Interfaces;
 
 namespace Presenters
 {

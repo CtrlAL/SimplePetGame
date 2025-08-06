@@ -16,7 +16,7 @@ namespace Views.Scene
         [Inject]
         private IPlayerInputProvider _playerInputProvider;
 
-        [SerializeField]
+        [Inject]
         private CharacterFSM _fsm;
 
         [SerializeField]

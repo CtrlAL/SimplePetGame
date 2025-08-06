@@ -1,10 +1,10 @@
-﻿using Assets.Scripts.Services.Interfaces;
-using Models;
+﻿using Models;
 using ScriptableObjects;
+using Services.Interfaces;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Services
+namespace Services
 {
     public class Fatigue : IFatigue
     {

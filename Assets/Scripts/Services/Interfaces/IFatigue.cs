@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Services.Interfaces
+﻿namespace Services.Interfaces
 {
     public interface IFatigue
     {

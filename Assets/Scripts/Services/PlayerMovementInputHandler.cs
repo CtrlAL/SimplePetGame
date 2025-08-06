@@ -1,4 +1,3 @@
-using Assets.Scripts.Services.Interfaces;
 using FSM;
 using ScriptableObjects;
 using Services.EventPublishers;
@@ -27,22 +26,16 @@ namespace Services
 
             _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += PublishJump;
-            _playerInputProvider.Inputs.Move.performed += PublishMove;
         }
-
-        
 
         private void PublishMove(InputAction.CallbackContext context)
         {
-            var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-            MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
+            PublishMove();
         }
 
         private void PublishJump(InputAction.CallbackContext context)
         {
-            var fsm = PlayerInstanseHandler.Instance.GetComponent<CharacterFSM>();
-            var rb = PlayerInstanseHandler.Instance.GetComponent<Rigidbody>();
-            MoveEventPublisher.Instance.PublishJumpEvent(fsm, rb, _stats.JumpForce);
+            PublishJump();
         }
 
         public void Dispose()
@@ -52,15 +45,24 @@ namespace Services
             _playerInputProvider.InputActions.Disable();
         }
 
-        public void Tick()
+        public void MovePerFame()
         {
-            Debug.Log("Я тикаю");
-
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
                 var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
                 MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
             }
+        }
+
+        public void PublishMove()
+        {
+            var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
+            MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
+        }
+
+        public void PublishJump()
+        {
+            MoveEventPublisher.Instance.PublishJumpEvent(_characterFSM, _rigidbody, _stats.JumpForce);
         }
     }
 }

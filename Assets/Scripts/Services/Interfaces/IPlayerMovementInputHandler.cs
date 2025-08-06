@@ -1,9 +1,11 @@
 ﻿using System;
-using Zenject;
 
-namespace Assets.Scripts.Services.Interfaces
+namespace Services.Interfaces
 {
-    public interface IPlayerMovementInputHandler : ITickable, IDisposable
+    public interface IPlayerMovementInputHandler : IDisposable
     {
+        void PublishMove();
+        void MovePerFame();
+        void PublishJump();
     }
 }

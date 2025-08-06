@@ -33,6 +33,8 @@ namespace Services.Installers
             InstallPresenters();
 
             InstallSO();
+
+            InstallTickable();
         }
 
         private void InstallServices()
@@ -41,6 +43,7 @@ namespace Services.Installers
 
             Container.Bind<IMover>().To<Mover>().AsSingle();
             Container.Bind<IKiker>().To<Kicker>().AsSingle();
+            Container.Bind<IStuner>().To<Stuner>().AsSingle();
 
             Container.Bind<CoroutineRunner>().ToSelf()
                 .FromNewComponentOnNewGameObject()
@@ -65,6 +68,11 @@ namespace Services.Installers
 
         private void InstallPresenters()
         {
+        }
+
+        private void InstallTickable()
+        {
+            Container.Bind<ITickable>().To<SceneUpdate>().AsSingle();
         }
 
         private void InstallViews()
