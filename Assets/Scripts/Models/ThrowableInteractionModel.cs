@@ -6,7 +6,7 @@ namespace Models
 {
     public class ThrowableInteractionModel
     {
-        public ReactiveProperty<GameObject> PickedObject;
+        public ReactiveProperty<GameObject> PickedObject = new();
 
         public HashSet<GameObject> AllowedThrowables = new();
 
