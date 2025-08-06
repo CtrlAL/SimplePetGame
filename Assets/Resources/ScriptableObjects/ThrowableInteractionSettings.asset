@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06956f7048221f94887e406ab8546de9, type: 3}
   m_Name: ThrowableInteractionSettings
   m_EditorClassIdentifier: 
-  throwForce: 1000
-  dropDistance: 0.5
-  throwablesSlot: {fileID: 0}
+  ThrowForce: 15
+  DropDistance: 0.5
