@@ -15,6 +15,9 @@ namespace Services.Installers
         private EnemyStatsSO _enemyStatsSO;
 
         [SerializeField]
+        private ThrowableInteractionSettingsSO _throwableInteractionSettingsSO;
+
+        [SerializeField]
         private KickImpactSettigns _kickImpactSettigns;
 
         [SerializeField]
@@ -88,6 +91,7 @@ namespace Services.Installers
             Container.Bind<KickImpactSettigns>().ToSelf().FromInstance(_kickImpactSettigns).AsSingle();
             Container.Bind<CharacterVFX>().ToSelf().FromInstance(_characterVFX).AsSingle();
             Container.Bind<EnemyLibrary>().ToSelf().FromInstance(_enemyLibrary).AsSingle();
+            Container.Bind<ThrowableInteractionSettingsSO>().ToSelf().FromInstance(_throwableInteractionSettingsSO).AsSingle();
         }
     }
 }
