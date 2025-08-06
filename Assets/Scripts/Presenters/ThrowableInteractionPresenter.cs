@@ -10,6 +10,8 @@ using Zenject;
 using Models;
 using System.Linq;
 using Views.Scene;
+using Assets.Scripts;
+using Enums;
 
 namespace Presenters
 {
@@ -20,6 +22,7 @@ namespace Presenters
         private readonly IThrowableInteractor _interactor;
         private readonly IPlayerInputProvider _inputProvider;
         private readonly CharacterFSM _fsm;
+        private readonly SoundManager _soundManager;
 
         private CompositeDisposable _disposebles;
 
@@ -78,6 +81,7 @@ namespace Presenters
             if (_fsm.GetCurrentState() is IdleState && _model.IsHolding)
             {
                 _interactor.Throw(_view.transform);
+                _soundManager.PlaySound(1, SoundType.Throw);
             }
         }
 

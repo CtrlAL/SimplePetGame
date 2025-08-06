@@ -27,6 +27,12 @@ namespace Assets.Scripts
             _instance._soundSource.PlayOneShot(clip.sound, args.Volume);
         }
 
+        public void PlaySound(int volume, SoundType soundType)
+        {
+            var clip = _instance._soundList[(int)soundType];
+            _instance._soundSource.PlayOneShot(clip.sound, volume);
+        }
+
         private void Start()
         {
             _soundSource = GetComponent<AudioSource>();

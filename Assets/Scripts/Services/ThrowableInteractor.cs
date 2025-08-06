@@ -1,5 +1,6 @@
 ﻿using Models;
 using ScriptableObjects;
+using Services.EventPublishers;
 using Services.Interfaces;
 using System;
 using UniRx;
@@ -47,7 +48,6 @@ namespace Services
             rb.AddForce(throwDirection * _settings.ThrowForce, ForceMode.Impulse);
 
             _throwableModel.PickedObject.Value = null;
-
             _onObjectThrown.OnNext(Unit.Default);
         }
 

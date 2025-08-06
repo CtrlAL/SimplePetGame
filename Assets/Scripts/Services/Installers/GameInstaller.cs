@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using FSM;
 using ScriptableObjects;
 using Services.Interfaces;
@@ -29,14 +30,9 @@ namespace Services.Installers
         public override void InstallBindings()
         {
             InstallPlayerInputs();
-            InstallServices();
-
-            InstallModels();
+            InstallServices();;
             InstallViews();
-            InstallPresenters();
-
             InstallSO();
-
             InstallTickable();
         }
 
@@ -64,13 +60,10 @@ namespace Services.Installers
             Container.Bind<PlayerInputActions>().ToSelf().AsSingle();
         }
 
-
-        private void InstallModels()
+        private void InstallSound()
         {
-        }
-
-        private void InstallPresenters()
-        {
+            Container.Bind<SoundManager>().ToSelf().FromComponentInHierarchy().AsSingle();
+            Container.Bind<BackgroundMusicPlayer>().ToSelf().FromComponentInHierarchy().AsSingle();
         }
 
         private void InstallTickable()

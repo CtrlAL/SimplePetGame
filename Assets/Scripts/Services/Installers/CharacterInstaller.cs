@@ -5,7 +5,6 @@ using Zenject;
 using Views.Scene.Characters;
 using UnityEngine;
 using Services.Interfaces;
-using Views.Scene;
 
 namespace Services.Installers
 {
