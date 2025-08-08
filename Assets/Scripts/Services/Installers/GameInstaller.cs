@@ -1,8 +1,10 @@
 using Assets.Scripts.Services;
 using FSM;
+using Presenters;
 using ScriptableObjects;
 using Services.Interfaces;
 using Services.Sound;
+using System.Collections.Generic;
 using UnityEngine;
 using Views;
 using Zenject;
@@ -31,10 +33,11 @@ namespace Services.Installers
 
         public override void InstallBindings()
         {
-            InstallPlayerInputs();
-            InstallServices();;
-            InstallViews();
             InstallSO();
+            InstallPlayerInputs();
+            InstallServices();
+            InstallPresenters();
+            InstallViews();
             InstallTickable();
             InstallSound();
         }
@@ -47,16 +50,14 @@ namespace Services.Installers
             Container.Bind<IKiker>().To<Kicker>().AsSingle();
             Container.Bind<IStuner>().To<Stuner>().AsSingle();
 
-            Container.Bind<CoroutineRunner>().ToSelf()
-                .FromNewComponentOnNewGameObject()
-                .AsSingle()
-                .NonLazy();
-
             Container.Bind<IEnemyFactory>().To<EnemyFactory>()
                 .AsSingle()
                 .NonLazy();
 
             Container.Bind<IDeathEffectPool>().To<DeathEffectPool>()
+                .AsSingle();
+
+            Container.Bind<IStunEffectPool>().To<StunEffectPool>()
                 .AsSingle();
         }
 
@@ -73,6 +74,12 @@ namespace Services.Installers
             Container.BindInterfacesAndSelfTo<SoundEventRouter>().AsSingle();
         }
 
+        private void InstallPresenters()
+        {
+            Container.BindInterfacesAndSelfTo<CharacterDeathPresenter>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<CharacerRespawnPresenter>().AsSingle().NonLazy();
+        }
+
         private void InstallTickable()
         {
             Container.Bind<ITickable>().To<SceneUpdate>().AsSingle();
@@ -82,6 +89,9 @@ namespace Services.Installers
         {
             Container.Bind<DeathEffectView>().ToSelf().AsSingle();
             Container.Bind<StunEffectPresenter>().ToSelf().AsSingle();
+            Container.Bind<PlayerSpawnPoint>().FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<RespawnColiderView>().FromComponentsInHierarchy().AsSingle();
         }
 
         private void InstallSO()

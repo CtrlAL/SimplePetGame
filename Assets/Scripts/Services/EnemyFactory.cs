@@ -40,7 +40,7 @@ namespace Services
             _enemyObjects = new();
         }
 
-        public void DestroyEnemy(object sender, GameObject args)
+        public void DestroyEnemy(GameObject args)
         {
             _enemyObjects.Remove(args);
             GameObject.Destroy(args);

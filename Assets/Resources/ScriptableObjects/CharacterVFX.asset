@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3335715df389e741b8ee474f1e32f09, type: 3}
   m_Name: CharacterVFX
   m_EditorClassIdentifier: 
-  _deathEffect: {fileID: 2045822254258834818, guid: dde81fa48ea63764ea43ab6691e48086,
+  DeathEffect: {fileID: 2045822254258834818, guid: dde81fa48ea63764ea43ab6691e48086,
     type: 3}
-  _stundEffect: {fileID: 8857037907878830556, guid: df1ed888bdd937d4299bf5ca16f72e7d,
+  StunEffect: {fileID: 8857037907878830556, guid: df1ed888bdd937d4299bf5ca16f72e7d,
     type: 3}
-  _waveAnimation: {fileID: 7400000, guid: 3c5241cbb55020e46be4e58d217d9d44, type: 2}
+  WaveAnimation: {fileID: 7400000, guid: 3c5241cbb55020e46be4e58d217d9d44, type: 2}
+  DeathEffectPoolSizeLimit: 10
+  StunEffectPoolSizeLimit: 10

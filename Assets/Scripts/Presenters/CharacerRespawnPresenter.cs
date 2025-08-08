@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using Views;
@@ -9,18 +10,22 @@ namespace Presenters
 {
     public class CharacerRespawnPresenter : IInitializable, IDisposable
     {
-        [Inject]
-        private RespawnColiderView _respawnColiderView;
+        [Inject] private List<RespawnColiderView> _respawnColiderViews;
 
-        [Inject]
-        private PlayerSpawnPoint _playerSpawnPoint;
+        [Inject] private PlayerSpawnPoint _playerSpawnPoint;
 
-        private CompositeDisposable _compositeDisposable = new();
+        private CompositeDisposable _compositeDisposable;
 
         public void Initialize()
         {
-            _respawnColiderView.OnPlayerFell.Subscribe(co => Respawn(co))
+            _compositeDisposable = new CompositeDisposable();
+
+            _respawnColiderViews.ForEach(x =>
+            {
+                x.OnPlayerFell
+                .Subscribe(Respawn)
                 .AddTo(_compositeDisposable);
+            });
         }
 
         public void Dispose()

@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 7077153583311904936}
   - component: {fileID: 1441483897883717519}
   - component: {fileID: -6704113493351210641}
-  - component: {fileID: 7288550937247563894}
+  - component: {fileID: -8915784400538558666}
   m_Layer: 0
   m_Name: Enemy 6
   m_TagString: Enemy
@@ -327,11 +327,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 7288550937247563894}
+  - {fileID: -8915784400538558666}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &7288550937247563894
+--- !u!114 &-8915784400538558666
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -340,7 +340,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6295798114919579548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00fb6cc6054660b43b85bac734d748f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 4802e3cab7dcfd542a7011d550a416aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyStatsSO: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}

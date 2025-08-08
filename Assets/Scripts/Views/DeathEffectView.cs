@@ -1,22 +1,15 @@
 using Cysharp.Threading.Tasks;
-using Services.EventPublishers;
 using Services.Interfaces;
-using System;
 using UnityEngine;
 using Zenject;
 
 namespace Views
 {
-    public class DeathEffectView : IDisposable, IInitializable
+    public class DeathEffectView
     {
         [Inject] IDeathEffectPool _deathEffectPool;
 
-        public void Initialize()
-        {
-            DestroyEnemyEventPublisher.Instance.DestroyEnemy += ShowEffect;
-        }
-
-        private void ShowEffect(GameObject gameObject)
+        public void ShowEffect(GameObject gameObject)
         {
             gameObject.gameObject.SetActive(false);
             var particleSystem = _deathEffectPool.SpawnObject();
@@ -29,7 +22,7 @@ namespace Views
         {
             particleSystem.Play();
             await UniTask.WaitForSeconds(particleSystem.main.duration);
-            GameObject.Destroy(particleSystem);
+            _deathEffectPool.ReturnToPool(particleSystem);
         }
 
         private static void CopyMaterial(GameObject gameObject, ParticleSystem particleSystem)
@@ -40,11 +33,6 @@ namespace Views
             {
                 effectRenderer.material = eRenderer.material;
             }
-        }
-
-        public void Dispose()
-        {
-            DestroyEnemyEventPublisher.Instance.DestroyEnemy -= ShowEffect;
         }
     }
 }
