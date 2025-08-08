@@ -55,6 +55,7 @@ namespace Services
             var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
             enemy.transform.position = spawnPoint.transform.position;
             enemy.transform.SetParent(spawnPoint);
+            enemy.SetActive(true);
         }
 
         public void Dispose()
