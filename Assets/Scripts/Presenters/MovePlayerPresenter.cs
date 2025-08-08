@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Assets.Scripts.Presenters
 {
-    public class MovePlayerPresenter : ITickable, IInitializable, IDisposable
+    public class MovePlayerPresenter : IFixedTickable, IInitializable, IDisposable
     {
         [Inject]
         private MoveCharacterModel _moveCharacterModel;
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Presenters
             _mover.Jump(this, new JumpEventArgs(_fsm, _moveCharacterModel.Rigidbody, _stats.JumpForce));
         }
 
-        public void Tick()
+        public void FixedTick()
         {
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
