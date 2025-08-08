@@ -1240,14 +1240,8 @@ PrefabInstance:
     - target: {fileID: 6295798114919579548, guid: 8bafe7c728517424582de5e0a34fd13d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7085583880270199364, guid: 8bafe7c728517424582de5e0a34fd13d,
-        type: 3}
-      propertyPath: _stats
-      value: 
-      objectReference: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e,
-        type: 2}
     - target: {fileID: 8539465180467394902, guid: 8bafe7c728517424582de5e0a34fd13d,
         type: 3}
       propertyPath: _monoInstallers.Array.data[0]
@@ -2915,7 +2909,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

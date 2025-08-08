@@ -16,10 +16,6 @@ namespace GameRoot
         private DeathEffectPresenter _deathEffectPresenter;
         [Inject]
         private StunEffectPresenter _stunEffectPresenter;
-
-        void FixedUpdate()
-        {
-        }
     }
 }
 
