@@ -35,7 +35,6 @@ namespace Services
         {
             _pool.ReturnToPool(args);
             _currentCount--;
-            GameObject.Destroy(args);
         }
 
         public void Tick()
