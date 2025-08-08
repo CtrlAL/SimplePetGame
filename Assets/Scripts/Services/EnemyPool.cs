@@ -18,12 +18,17 @@ namespace Assets.Scripts.Services
 
         public GameObject SpawnObject()
         {
-            if (_enemies.TryPeek(out var enemy))
+            if (_enemies.TryPeek(out var enemy) && enemy != null)
             {
                 return enemy;
             }
             else
             {
+                if (enemy == null)
+                {
+                    _enemies.Clear();
+                }
+
                 var index = Random.Range(0, _enemyLibrary.GetLength());
                 var prefub = _enemyLibrary.GetEnemyPrefab(index);
 
