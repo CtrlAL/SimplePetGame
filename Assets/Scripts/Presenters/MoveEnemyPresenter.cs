@@ -11,7 +11,7 @@ using Services.EventPublishers;
 namespace Assets.Scripts.Presenters
 {
     
-    public class MoveEnemyPresenter : IFixedTickable
+    public class MoveEnemyPresenter : IFixedTickable, IInitializable
     {
         [Inject] 
         private MoveCharacterModel _moveCharacterModel;
@@ -28,10 +28,14 @@ namespace Assets.Scripts.Presenters
         [Inject] 
         private CharacterFSM _fsm;
 
+        public void Initialize()
+        {
+            _navMeshAgent.updatePosition = false;
+            _navMeshAgent.updateRotation = true;
+        }
+
         public void FixedTick()
         {
-            Debug.Log(_moveCharacterModel.Transform.position);
-
             var target = PlayerInstanseHandler.Instance.transform.position;
 
             _navMeshAgent.SetDestination(target);
