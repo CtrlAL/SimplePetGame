@@ -1,8 +1,10 @@
+using Assets.Scripts.Services;
 using FSM;
 using ScriptableObjects;
 using Services.Interfaces;
 using Services.Sound;
 using UnityEngine;
+using Views;
 using Zenject;
 
 namespace Services.Installers
@@ -53,6 +55,9 @@ namespace Services.Installers
             Container.Bind<IEnemyFactory>().To<EnemyFactory>()
                 .AsSingle()
                 .NonLazy();
+
+            Container.Bind<IDeathEffectPool>().To<DeathEffectPool>()
+                .AsSingle();
         }
 
         private void InstallPlayerInputs()
@@ -75,7 +80,7 @@ namespace Services.Installers
 
         private void InstallViews()
         {
-            Container.Bind<DeathEffectPresenter>().ToSelf().AsSingle();
+            Container.Bind<DeathEffectView>().ToSelf().AsSingle();
             Container.Bind<StunEffectPresenter>().ToSelf().AsSingle();
         }
 

@@ -26,7 +26,7 @@ namespace Services.EventPublishers
             }
         }
 
-        public event EventHandler<GameObject> DestroyEnemy;
+        public event Action<GameObject> DestroyEnemy;
 
         private void Awake()
         {
@@ -42,7 +42,7 @@ namespace Services.EventPublishers
 
         public void PublishEvent(GameObject objectForDelete)
         {
-            DestroyEnemy?.Invoke(this, objectForDelete);
+            DestroyEnemy?.Invoke(objectForDelete);
         }
     }
 }

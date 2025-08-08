@@ -3,9 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewCharacterVFX", menuName = "CharacterVFX")]
 public class CharacterVFX : ScriptableObject
 {
-    [SerializeField] private ParticleSystem _deathEffect;
+    public ParticleSystem DeathEffect;
 
-    [SerializeField] private ParticleSystem _stundEffect;
+    public ParticleSystem StundEffect;
 
-    [SerializeField] private AnimationClip _waveAnimation;
+    public AnimationClip WaveAnimation;
+
+    public int DeathEffectPoolSizeLimit = 10;
 }
