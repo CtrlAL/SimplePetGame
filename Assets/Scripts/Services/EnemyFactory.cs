@@ -52,9 +52,12 @@ namespace Services
         public void CreateEnemy()
         {
             var enemy = _pool.SpawnObject();
+
+            Debug.Break();
+
             var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
             enemy.transform.position = spawnPoint.transform.position;
-            enemy.transform.SetParent(spawnPoint);
+            enemy.transform.rotation = spawnPoint.rotation;
             enemy.SetActive(true);
         }
 
