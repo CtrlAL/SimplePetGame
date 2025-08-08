@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using Services.EventPublishers;
-using UniRx;
 
 namespace Services.Interfaces
 {
@@ -9,7 +8,7 @@ namespace Services.Interfaces
     {
         void Jump(object sender, JumpEventArgs args);
         void Move(object sender, MoveEventArgs args);
-        void Rotation(GameObject objectForMove, Vector3 movement);
+        void Rotation(GameObject objectForMove, Vector3 movement, float rotationSpeed);
 
         event Action OnJumped;
 

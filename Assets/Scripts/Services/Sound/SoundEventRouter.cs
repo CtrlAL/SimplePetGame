@@ -2,16 +2,13 @@ using Enums;
 using Services.EventPublishers;
 using Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using Zenject;
 
-namespace Assets.Scripts
+namespace Services.Sound
 {
     public class SoundEventRouter : IInitializable, IDisposable
     {
         [Inject] IMover _mover;
-
-        private readonly List<Action> _unsubscribers = new();
 
         public void Initialize()
         {
@@ -57,7 +54,6 @@ namespace Assets.Scripts
         public void Dispose()
         {
             _mover.OnJumped -= InvokeJump;
-            _unsubscribers.ForEach(x => x());
 
             KickEventPublisher.Instance.PlayerKickEvent -= InvokePlayerKick;
             KickEventPublisher.Instance.EnemyKickEvent -= InvokeEnemyKick;

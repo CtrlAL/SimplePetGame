@@ -1,7 +1,7 @@
-using Assets.Scripts;
 using FSM;
 using ScriptableObjects;
 using Services.Interfaces;
+using Services.Sound;
 using UnityEngine;
 using Zenject;
 

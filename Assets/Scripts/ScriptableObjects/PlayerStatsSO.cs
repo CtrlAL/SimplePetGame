@@ -6,6 +6,7 @@ namespace ScriptableObjects
     public class PlayerStatsSO : AbstractStatsSO
     {
         [SerializeField] private float _moveSpeed = 5f;
+        [SerializeField] private float _rotationSpeed= 7f;
         [SerializeField] private float _jumpForce = 10f;
         [SerializeField] private float _kickPower = 20f;
         [SerializeField] private float _kickRadius = 1.5f;
@@ -13,6 +14,7 @@ namespace ScriptableObjects
         [SerializeField] private float _fatigueRestoration = 5f;
 
         public override float MoveSpeed => _moveSpeed;
+        public override float RotationSpeed => _rotationSpeed;
         public override float JumpForce => _jumpForce;
         public override float KickPower => _kickPower;
         public float KickRadius => _kickRadius;

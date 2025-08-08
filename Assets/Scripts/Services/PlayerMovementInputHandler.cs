@@ -44,14 +44,14 @@ namespace Services
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
                 var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-                MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
+                MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed, _stats.RotationSpeed);
             }
         }
 
         public void PublishMove()
         {
             var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-            MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed);
+            MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed, _stats.RotationSpeed);
         }
 
         public void PublishJump()

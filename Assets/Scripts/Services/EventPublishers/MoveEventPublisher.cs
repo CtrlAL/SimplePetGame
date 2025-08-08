@@ -47,9 +47,9 @@ namespace Services.EventPublishers
             DontDestroyOnLoad(gameObject);
         }
 
-        public void PublishMoveEvent(Vector2 input, CharacterFSM fsm, Rigidbody rigidbody, float speed)
+        public void PublishMoveEvent(Vector2 input, CharacterFSM fsm, Rigidbody rigidbody, float speed, float rotationSpeed)
         {
-            MoveEvent?.Invoke(this, new MoveEventArgs(input, fsm, rigidbody, speed));
+            MoveEvent?.Invoke(this, new MoveEventArgs(input, fsm, rigidbody, speed, rotationSpeed));
         }
 
         public void PublishJumpEvent(CharacterFSM fsm, Rigidbody rigidbody, float jumpForce)
@@ -78,12 +78,15 @@ namespace Services.EventPublishers
 
         public float MoveSpeed;
 
-        public MoveEventArgs(Vector2 input, CharacterFSM fsm, Rigidbody rigidbody, float speed)
+        public float RotationSpeed;
+
+        public MoveEventArgs(Vector2 input, CharacterFSM fsm, Rigidbody rigidbody, float speed, float rotationSpeed)
         {
             Input = input;
             FSM = fsm;
             Rigidbody = rigidbody;
             MoveSpeed = speed;
+            RotationSpeed = rotationSpeed;
         }
     }
 

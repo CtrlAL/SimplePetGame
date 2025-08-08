@@ -9,8 +9,6 @@ namespace Services
 {
     public class Mover : IMover
     {
-        private readonly float _defaultRatationSpeed = 7f;
-
         public Mover()
         {
             MoveEventPublisher.Instance.MoveEvent += Move;
@@ -31,7 +29,7 @@ namespace Services
             {
                 rb.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
 
-                OnJumped.Invoke();
+                OnJumped?.Invoke();
             }
         }
 
@@ -47,20 +45,20 @@ namespace Services
                 Vector3 movement = new Vector3(input.x, 0f, input.y);
 
                 rb.AddForce(movement * args.MoveSpeed, ForceMode.Force);
-                Rotation(objectForMove, movement);
+                Rotation(objectForMove, movement, args.RotationSpeed);
 
-                OnMoved.Invoke();
+                OnMoved?.Invoke();
             }
         }
 
-        public void Rotation(GameObject objectForMove, Vector3 movement)
+        public void Rotation(GameObject objectForMove, Vector3 movement, float rotationSpeed)
         {
             var targetRotation = Quaternion.LookRotation(movement, Vector3.up);
 
             objectForMove.transform.rotation = Quaternion.Slerp(
                 objectForMove.transform.rotation,
                 targetRotation,
-                _defaultRatationSpeed * Time.deltaTime
+                rotationSpeed * Time.deltaTime
             );
         }
 

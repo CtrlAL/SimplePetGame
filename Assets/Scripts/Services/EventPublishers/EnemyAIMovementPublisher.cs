@@ -44,7 +44,7 @@ namespace Services.EventPublishers
 
             _agent.nextPosition = transform.position;
 
-            MoveEventPublisher.Instance.PublishMoveEvent(new Vector2(desiredVelocity.x, desiredVelocity.z), _fsm, _rigidbody, _stats.MoveSpeed);
+            MoveEventPublisher.Instance.PublishMoveEvent(new Vector2(desiredVelocity.x, desiredVelocity.z), _fsm, _rigidbody, _stats.MoveSpeed, _stats.RotationSpeed);
         }
     }
 }

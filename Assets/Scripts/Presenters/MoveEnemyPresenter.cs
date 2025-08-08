@@ -46,7 +46,7 @@ namespace Assets.Scripts.Presenters
 
             var input = new Vector2(desiredVelocity.x, desiredVelocity.z);
 
-            _mover.Move(this, new MoveEventArgs(input, _fsm, _moveCharacterModel.Rigidbody, _stats.MoveSpeed));
+            _mover.Move(this, new MoveEventArgs(input, _fsm, _moveCharacterModel.Rigidbody, _stats.MoveSpeed, _stats.RotationSpeed));
         }
     }
 }

@@ -3,7 +3,7 @@ using Services.EventPublishers;
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Services.Sound
 {
     [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
     public class SoundManager : MonoBehaviour
