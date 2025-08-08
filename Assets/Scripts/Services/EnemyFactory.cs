@@ -1,48 +1,40 @@
 using ScriptableObjects;
 using Services.EventPublishers;
 using Services.Interfaces;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Zenject;
-
 
 namespace Services
 {
     public class EnemyFactory : IEnemyFactory
     {
-        private DiContainer _container;
+        private IEnemyPool _pool;
 
-        private EnemyLibrary _enemyPrefubLibrary;
-
-        private List<GameObject> _enemyObjects;
+        private LevelSettings _levelSettings;
 
         private Transform[] _spawnPoints;
 
-        private int _maxEnemyCount = 10;
-
         private float _timer = 0f;
 
-        private float _maxTimer = 4f;
+        private int _currentCount = 0;
 
-        public EnemyFactory(DiContainer container, EnemyLibrary enemyLibrary)
+        public EnemyFactory(IEnemyPool enemyPool, LevelSettings levelSettings)
         {
-            _container = container;
+            _pool = enemyPool;
 
-            _enemyPrefubLibrary = enemyLibrary;
+            _levelSettings = levelSettings;
 
             _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint")
                 .Select(x => x.transform)
                 .ToArray();
 
             DestroyEnemyEventPublisher.Instance.DestroyEnemy += DestroyEnemy;
-
-            _enemyObjects = new();
         }
 
         public void DestroyEnemy(GameObject args)
         {
-            _enemyObjects.Remove(args);
+            _pool.ReturnToPool(args);
+            _currentCount--;
             GameObject.Destroy(args);
         }
 
@@ -50,21 +42,20 @@ namespace Services
         {
             _timer += Time.deltaTime;
 
-            if (_timer >= _maxTimer && _enemyObjects.Count < _maxEnemyCount)
+            if (_timer >= _levelSettings.EnemySpawnRate && _currentCount < _levelSettings.EnemyMaximumCount)
             {
                 CreateEnemy();
+                _currentCount++;
                 _timer = 0f;
             }
         }
 
         public void CreateEnemy()
         {
-            var index = Random.Range(0, _enemyPrefubLibrary.GetLength());
-            var prefub = _enemyPrefubLibrary.GetEnemyPrefab(index);
-
+            var enemy = _pool.SpawnObject();
             var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
-            var enemy =  _container.InstantiatePrefab(prefub, spawnPoint.position, spawnPoint.rotation, spawnPoint);
-            _enemyObjects.Add(enemy);
+            enemy.transform.position = spawnPoint.transform.position;
+            enemy.transform.SetParent(spawnPoint);
         }
 
         public void Dispose()

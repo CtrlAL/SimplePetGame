@@ -1,15 +1,18 @@
-﻿using Services.Interfaces;
+﻿using ScriptableObjects;
+using Services.Interfaces;
 using System.Collections.Concurrent;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Services
+namespace Services
 {
     public class DeathEffectPool : IDeathEffectPool
     {
         [Inject] private readonly DiContainer _diContainer;
 
         [Inject] private CharacterVFX _characterVFX;
+
+        [Inject] private PoolingSettings _poolingSettings;
 
         private ConcurrentBag<ParticleSystem> _particleSystems = new(); 
 
@@ -27,14 +30,15 @@ namespace Assets.Scripts.Services
 
         public void ReturnToPool(ParticleSystem particleSystem)
         {
-            if (_characterVFX.DeathEffectPoolSizeLimit >= _particleSystems.Count)
-            {
-                GameObject.Destroy(particleSystem);
-            }
-            else
+            if (_poolingSettings.DeathEffectPoolSizeLimit >= _particleSystems.Count)
             {
                 particleSystem.Stop();
                 particleSystem.gameObject.SetActive(false);
+                _particleSystems.Add(particleSystem);
+            }
+            else
+            {
+                GameObject.Destroy(particleSystem);
             }
         }
     }

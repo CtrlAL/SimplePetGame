@@ -9,7 +9,6 @@ namespace Models
         public ReactiveProperty<GameObject> PickedObject = new();
 
         public HashSet<GameObject> AllowedThrowables = new();
-
         public bool IsHolding => PickedObject.Value != null;
     }
 }

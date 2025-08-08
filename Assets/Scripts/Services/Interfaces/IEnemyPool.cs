@@ -2,7 +2,7 @@
 
 namespace Services.Interfaces
 {
-    public interface IStunEffectPool : IObjectPool<ParticleSystem>
+    public interface IEnemyPool : IObjectPool<GameObject>
     {
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Services.EventPublishers;
+using System;
 using System.Collections.Generic;
 using UniRx;
 using Views;
@@ -19,7 +20,13 @@ namespace Presenters
             _respawnColiderViews.ForEach(x =>
             {
                 x.OnEnemyFell
-                .Subscribe(co => _deathEffectView.ShowEffect(co.gameObject))
+                .Subscribe(
+                    co =>
+                    {
+                        _deathEffectView.ShowEffect(co.gameObject);
+                        DestroyEnemyEventPublisher.Instance.PublishEvent(co.gameObject);
+                    }
+                )
                 .AddTo(_compositeDisposable);
             });
         }

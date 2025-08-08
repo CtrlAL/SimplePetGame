@@ -4,7 +4,6 @@ using Presenters;
 using ScriptableObjects;
 using Services.Interfaces;
 using Services.Sound;
-using System.Collections.Generic;
 using UnityEngine;
 using Views;
 using Zenject;
@@ -13,6 +12,12 @@ namespace Services.Installers
 {
     public partial class GameInstaller : MonoInstaller
     {
+        [SerializeField]
+        private LevelSettings _levelSettings;
+
+        [SerializeField]
+        private PoolingSettings _poolingSettings;
+
         [SerializeField]
         private PlayerStatsSO _playerStatsSO;
 
@@ -50,15 +55,18 @@ namespace Services.Installers
             Container.Bind<IKiker>().To<Kicker>().AsSingle();
             Container.Bind<IStuner>().To<Stuner>().AsSingle();
 
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>()
-                .AsSingle()
-                .NonLazy();
+            Container.Bind<IEnemyPool>().To<EnemyPool>()
+                .AsSingle();
 
             Container.Bind<IDeathEffectPool>().To<DeathEffectPool>()
                 .AsSingle();
 
             Container.Bind<IStunEffectPool>().To<StunEffectPool>()
                 .AsSingle();
+
+            Container.Bind<IEnemyFactory>().To<EnemyFactory>()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void InstallPlayerInputs()
@@ -96,6 +104,8 @@ namespace Services.Installers
 
         private void InstallSO()
         {
+            Container.Bind<LevelSettings>().ToSelf().FromInstance(_levelSettings).AsSingle();
+            Container.Bind<PoolingSettings>().ToSelf().FromInstance(_poolingSettings).AsSingle();
             Container.Bind<PlayerStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
             Container.Bind<EnemyStatsSO>().ToSelf().FromInstance(_enemyStatsSO).AsSingle();
             Container.Bind<KickImpactSettigns>().ToSelf().FromInstance(_kickImpactSettigns).AsSingle();

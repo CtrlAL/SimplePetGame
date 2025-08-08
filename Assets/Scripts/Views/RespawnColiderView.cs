@@ -23,7 +23,6 @@ namespace Views
             else if (other.CompareTag("Enemy"))
             {
                 OnEnemyFell?.OnNext(other);
-                //DestroyEnemyEventPublisher.Instance.PublishEvent(other.gameObject);
             }
         }
     }

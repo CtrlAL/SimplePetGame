@@ -1,4 +1,5 @@
-﻿using Services.Interfaces;
+﻿using ScriptableObjects;
+using Services.Interfaces;
 using System.Collections.Concurrent;
 using UnityEngine;
 using Zenject;
@@ -10,6 +11,8 @@ namespace Services
         [Inject] private readonly DiContainer _diContainer;
 
         [Inject] private CharacterVFX _characterVFX;
+
+        [Inject] private PoolingSettings _poolingSettings;
 
         private ConcurrentBag<ParticleSystem> _particleSystems = new();
 
@@ -27,7 +30,7 @@ namespace Services
 
         public void ReturnToPool(ParticleSystem particleSystem)
         {
-            if (_characterVFX.StunEffectPoolSizeLimit >= _particleSystems.Count)
+            if (_poolingSettings.StunEffectPoolSizeLimit >= _particleSystems.Count)
             {
                 GameObject.Destroy(particleSystem);
             }

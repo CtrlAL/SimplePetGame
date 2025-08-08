@@ -2,9 +2,7 @@
 
 namespace Services.Interfaces
 {
-    public interface IDeathEffectPool
+    public interface IDeathEffectPool : IObjectPool<ParticleSystem>
     {
-        public ParticleSystem SpawnObject();
-        public void ReturnToPool(ParticleSystem particleSystem);
     }
 }
