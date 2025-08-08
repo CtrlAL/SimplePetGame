@@ -1,20 +1,32 @@
 using Enums;
 using Services.EventPublishers;
+using Services.Interfaces;
 using System;
-using UnityEngine;
+using System.Collections.Generic;
+using Zenject;
 
 namespace Assets.Scripts
 {
-    public class SoundEventRouter : MonoBehaviour
+    public class SoundEventRouter : IInitializable, IDisposable
     {
-        public void Awake()
+        [Inject] IMover _mover;
+
+        private readonly List<Action> _unsubscribers = new();
+
+        public void Initialize()
         {
+            _mover.OnJumped += InvokeJump;
+
             KickEventPublisher.Instance.PlayerKickEvent += InvokePlayerKick;
             KickEventPublisher.Instance.EnemyKickEvent += InvokeEnemyKick;
             ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrow;
-            MoveEventPublisher.Instance.ObjectJumped += InvokeJump;
             PickupEventPublisher.Instance.ObjetPickuped += InvokePickUp;
             AnimationEventPublisher.Instance.WaveAnimationStarted += InvokeWaveAnimationSound;
+        }
+
+        private void InvokeJump()
+        {
+            SoundEventPublisher.Instance.PlaySound(SoundType.Jump);
         }
 
         private void InvokeWaveAnimationSound(object sender, EventArgs e)
@@ -32,11 +44,6 @@ namespace Assets.Scripts
             SoundEventPublisher.Instance.PlaySound(SoundType.Throw);
         }
 
-        private void InvokeJump(object sender, EventArgs e)
-        {
-            SoundEventPublisher.Instance.PlaySound(SoundType.Jump);
-        }
-
         private void InvokeEnemyKick(object sender, KickEventArgs e)
         {
             SoundEventPublisher.Instance.PlaySound(SoundType.EnemyKick);
@@ -47,12 +54,14 @@ namespace Assets.Scripts
             SoundEventPublisher.Instance.PlaySound(SoundType.PlayerKick);
         }
 
-        public void OnDestroy()
+        public void Dispose()
         {
+            _mover.OnJumped -= InvokeJump;
+            _unsubscribers.ForEach(x => x());
+
             KickEventPublisher.Instance.PlayerKickEvent -= InvokePlayerKick;
             KickEventPublisher.Instance.EnemyKickEvent -= InvokeEnemyKick;
             ObjectThrownEventPublisher.Instance.ObjectThrown -= InvokeThrow;
-            MoveEventPublisher.Instance.ObjectJumped -= InvokeJump;
             PickupEventPublisher.Instance.ObjetPickuped -= InvokePickUp;
             AnimationEventPublisher.Instance.WaveAnimationStarted -= InvokeWaveAnimationSound;
         }

@@ -65,6 +65,7 @@ namespace Services.Installers
         {
             Container.Bind<SoundManager>().ToSelf().FromComponentInHierarchy().AsSingle();
             Container.Bind<BackgroundMusicPlayer>().ToSelf().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<SoundEventRouter>().AsSingle().NonLazy();
         }
 
         private void InstallTickable()

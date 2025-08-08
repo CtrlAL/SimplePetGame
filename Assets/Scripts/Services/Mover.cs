@@ -2,6 +2,7 @@ using FSM.States.CharacterStates;
 using Helpers;
 using Services.EventPublishers;
 using Services.Interfaces;
+using System;
 using UnityEngine;
 
 namespace Services
@@ -16,6 +17,10 @@ namespace Services
             MoveEventPublisher.Instance.JumpEvent += Jump;
         }
 
+        public event Action OnJumped;
+
+        public event Action OnMoved;
+
         public void Jump(object sender, JumpEventArgs args)
         {
             var gameObject = args.FSM.GameObject;
@@ -25,7 +30,8 @@ namespace Services
             if (GameHelpers.IsGrounded(gameObject) && fsm.GetCurrentState() is IdleState)
             {
                 rb.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
-                MoveEventPublisher.Instance.PublishObjectJumped();
+
+                OnJumped.Invoke();
             }
         }
 
@@ -43,7 +49,7 @@ namespace Services
                 rb.AddForce(movement * args.MoveSpeed, ForceMode.Force);
                 Rotation(objectForMove, movement);
 
-                MoveEventPublisher.Instance.PublishObjectMoved();
+                OnMoved.Invoke();
             }
         }
 
