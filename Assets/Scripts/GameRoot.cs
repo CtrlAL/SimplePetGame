@@ -10,9 +10,6 @@ namespace GameRoot
         [Header("Input Consumers")]
         [Inject] private IKiker _kiker;
         [Inject] private IMover _mover;
-
-        [Inject]
-        private StunEffectPresenter _stunEffectPresenter;
     }
 }
 

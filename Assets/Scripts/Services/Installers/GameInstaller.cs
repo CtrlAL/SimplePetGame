@@ -95,10 +95,10 @@ namespace Services.Installers
         private void InstallViews()
         {
             Container.Bind<DeathEffectView>().ToSelf().AsSingle();
-            Container.Bind<StunEffectPresenter>().ToSelf().AsSingle();
             Container.Bind<PlayerSpawnPoint>().FromComponentInHierarchy().AsSingle();
-
             Container.Bind<RespawnColiderView>().FromComponentsInHierarchy().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<StunEffectView>().AsSingle().NonLazy();
         }
 
         private void InstallSO()
