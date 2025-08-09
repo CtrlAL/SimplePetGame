@@ -2,21 +2,21 @@ using Enums;
 using FSM.States;
 using FSM.States.CharacterStates;
 using System.Collections.Generic;
-using Services;
 using Zenject;
 using UnityEngine;
 using UniRx;
 using System;
+using Services.Interfaces;
 
 namespace FSM
 {
     public class CharacterFSM : ITickable, IInitializable, IDisposable
     {
-        [Inject]
-        private readonly Rigidbody _rigidbody;
+        [Inject] private Rigidbody _rigidbody;
 
-        [Inject]
-        private StateMachine _stateMachine;
+        [Inject] private StateMachine _stateMachine;
+        
+        [Inject] private IStuner _stuner;
 
         private Dictionary<CharacterState, IState> _states;
 
@@ -27,7 +27,7 @@ namespace FSM
 
         public void Initialize()
         {
-            var state = new StunnedState(new Stuner(), _rigidbody.gameObject, _rigidbody);
+            var state = new StunnedState(_stuner, _rigidbody.gameObject, _rigidbody);
 
             state.OnStunEnd
                 .Subscribe(_ => ChangeToState(CharacterState.Idle))

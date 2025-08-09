@@ -1,4 +1,4 @@
-﻿using Services;
+﻿using Services.Interfaces;
 using System;
 using UniRx;
 using UnityEngine;
@@ -7,7 +7,7 @@ namespace FSM.States
 {
     public class StunnedState : IState
     {
-        private readonly Stuner _stunService;
+        private readonly IStuner _stunService;
         private readonly GameObject _gameObject;
         private readonly Rigidbody _rigidbody;
 
@@ -17,7 +17,7 @@ namespace FSM.States
         private readonly Subject<Unit> _onStunEnd = new();
         public IObservable<Unit> OnStunEnd => _onStunEnd;
 
-        public StunnedState(Stuner stunService, GameObject gameObject, Rigidbody rigidbody)
+        public StunnedState(IStuner stunService, GameObject gameObject, Rigidbody rigidbody)
         {
             _stunService = stunService;
             _gameObject = gameObject;

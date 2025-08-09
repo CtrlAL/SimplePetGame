@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5361ef25b0eef489141a4e7f1e0fff, type: 3}
   m_Name: KickImpactSettigns
   m_EditorClassIdentifier: 
-  MinStrongImpact: 100
-  MinWeakImpact: 50
+  MinStrongImpact: 25
+  MinWeakImpact: 10
   WeakHitCountNeeded: 3
