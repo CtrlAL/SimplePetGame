@@ -2,16 +2,20 @@ using Services.EventPublishers;
 using Services.Interfaces;
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using UnityEngine;
+using Zenject;
 
 namespace Views
 {
-    public class StunEffectView : IDisposable
+    public class StunEffectView : IDisposable, IFixedTickable
     {
         private readonly StunEventPublisher _stunEventPublisher;
         private readonly IStunEffectPool _stunEffectPool;
 
         private ConcurrentDictionary<int, ParticleSystem> _viewedEffects;
+
+        private ConcurrentDictionary<int, GameObject> _stunedCharacters;
 
         public StunEffectView(StunEventPublisher stunEventPublisher, IStunEffectPool stunEffectPool)
         {
@@ -19,6 +23,7 @@ namespace Views
             _stunEventPublisher = stunEventPublisher;
 
             _viewedEffects = new ConcurrentDictionary<int, ParticleSystem>();
+            _stunedCharacters = new ConcurrentDictionary<int, GameObject>();
 
             _stunEventPublisher.CharacterStuned += ShowStunEffect;
             _stunEventPublisher.StunStateExited += HideStunEffect;
@@ -35,6 +40,7 @@ namespace Views
 
             var stunEffect = _stunEffectPool.SpawnObject();
             _viewedEffects.TryAdd(key, stunEffect);
+            _stunedCharacters.TryAdd(key, e.Character);
 
             MoveOverObject(e.Character.transform, stunEffect);
             stunEffect.gameObject.SetActive(true);
@@ -49,14 +55,28 @@ namespace Views
 
         public void HideStunEffect(CharacterStunedEventArgs e)
         {
-            _viewedEffects.TryRemove(e.Character.GetHashCode(), out var stunEffect);
+            var key = e.Character.GetHashCode();
+
+            _viewedEffects.TryRemove(key, out var stunEffect);
+            _stunedCharacters.TryRemove(key, out _);
             _stunEffectPool.ReturnToPool(stunEffect);
         }
 
         public void Dispose()
         {
-            //_stunEventPublisher.CharacterStuned -= ShowStunEffect;
+            _stunEventPublisher.CharacterStuned -= ShowStunEffect;
             _stunEventPublisher.StunStateExited -= HideStunEffect;
+        }
+
+        public void FixedTick()
+        {
+            var zip = _stunedCharacters.Zip(_viewedEffects, 
+                (character, effect) => (Character: character.Value.transform, Effect: effect.Value));
+
+            foreach (var elem in zip)
+            {
+                MoveOverObject(elem.Character, elem.Effect);
+            }
         }
     }
 }

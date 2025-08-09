@@ -9,7 +9,7 @@ using System;
 
 namespace FSM
 {
-    public class CharacterFSM : ITickable, IInitializable, IDisposable
+    public class CharacterFSM : IFixedTickable, IInitializable, IDisposable
     {
         [Inject] private Rigidbody _rigidbody;
 
@@ -49,14 +49,14 @@ namespace FSM
             return _stateMachine.CurrentState;
         }
 
-        public void Tick()
-        {
-            _stateMachine.Update();
-        }
-
         public void Dispose()
         {
             _disposables.Dispose();
+        }
+
+        public void FixedTick()
+        {
+            _stateMachine.Update();
         }
     }
 }
