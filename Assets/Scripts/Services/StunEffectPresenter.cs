@@ -9,7 +9,6 @@ namespace Services
     public class StunEffectPresenter : IDisposable
     {
         private readonly StunEventPublisher _stunEventPublisher;
-
         private readonly IStunEffectPool _stunEffectPool;
 
         private ParticleSystem _particleSystem;
@@ -17,8 +16,10 @@ namespace Services
         private ConcurrentBag<ParticleSystem> _effectPool;
         private readonly float _offsetMult = 3f;
 
-        public StunEffectPresenter(StunEventPublisher stunEventPublisher)
+        public StunEffectPresenter(StunEventPublisher stunEventPublisher, IStunEffectPool stunEffectPool)
         {
+            _stunEffectPool = stunEffectPool;
+            _stunEventPublisher = stunEventPublisher;
             _effectPool = new ConcurrentBag<ParticleSystem>();
             _effectCash = new ConcurrentDictionary<int, ParticleSystem>();
             _particleSystem = Resources.Load<ParticleSystem>("Prefubs/Effects/ParticleStunEffect");

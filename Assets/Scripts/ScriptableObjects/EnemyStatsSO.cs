@@ -5,6 +5,7 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "NewEnemyStatsSO", menuName = "Game/Enemy Stats", order = 50)]
     public class EnemyStatsSO : AbstractStatsSO
     {
+        [SerializeField] private float _delayBeforeKick = 1f;
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _rotationSpeed = 7f;
         [SerializeField] private float _jumpForce = 10f;
@@ -18,5 +19,6 @@ namespace ScriptableObjects
         public override float KickPower => _kickPower;
         public override float Fatigue => _fatigue;
         public override float FatigueRestoration => _fatigueRestoration;
+        public float DelayBeforeKick => _delayBeforeKick;
     }
 }

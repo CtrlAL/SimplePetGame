@@ -11,9 +11,7 @@ namespace Services.EventTriggers
 {
     public class EnemyDelayedKickTrigger : MonoBehaviour
     {
-        [SerializeField] private CharacterFSM _fsm;
-
-        [SerializeField] private float delayBeforeKick = 1f;
+        [Inject] private CharacterFSM _fsm;
 
         [Inject] private KickEventPublisher _kickEventPublisher;
 
@@ -47,7 +45,7 @@ namespace Services.EventTriggers
 
         private IEnumerator DelayedKick()
         {
-            yield return new WaitForSeconds(delayBeforeKick);
+            yield return new WaitForSeconds(_stats.DelayBeforeKick);
 
             if (PlayerInstanseHandler.Instance != null && _fsm.GetCurrentState() is IdleState)
             {

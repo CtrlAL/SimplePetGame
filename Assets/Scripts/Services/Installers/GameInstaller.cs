@@ -81,7 +81,7 @@ namespace Services.Installers
 
         private void InstallSound()
         {
-            Container.Bind<SoundManager>().ToSelf().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<SoundManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<BackgroundMusicPlayer>().ToSelf().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<SoundEventRouter>().AsSingle();
         }

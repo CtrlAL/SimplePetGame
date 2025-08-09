@@ -7,7 +7,7 @@ using Zenject;
 namespace Services.Sound
 {
     [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : MonoBehaviour, IInitializable
     {
         [Inject] private SoundEventPublisher _soundEventPublisher;
 
@@ -15,7 +15,7 @@ namespace Services.Sound
 
         private AudioSource _soundSource;
 
-        private void Awake()
+        public void Initialize()
         {
             _soundEventPublisher.PlaySoundRequested += PlaySound;
             _soundSource = GetComponent<AudioSource>();
@@ -35,7 +35,10 @@ namespace Services.Sound
 
         private void OnDestroy()
         {
-            _soundEventPublisher.PlaySoundRequested -= PlaySound;
+            if (_soundEventPublisher != null)
+            {
+                _soundEventPublisher.PlaySoundRequested -= PlaySound;
+            }
         }
 
 #if UNITY_EDITOR

@@ -7,6 +7,7 @@ using UnityEngine.AI;
 namespace Services.Installers
 {
     [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(EnemyDelayedKickTrigger))]
     public class EnemyInstaller : CharacterInstaller
     {
         [SerializeField]

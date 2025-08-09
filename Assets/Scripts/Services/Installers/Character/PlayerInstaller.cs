@@ -6,9 +6,11 @@ using Services.EventTriggers;
 using Services.Interfaces;
 using UnityEngine;
 using Views.Scene;
+using Views.Scene.Animation;
 
 namespace Services.Installers
 {
+    [RequireComponent(typeof(CharacterAnimatior))]
     public class PlayerInstaller : CharacterInstaller
     {
         [SerializeField]
@@ -27,6 +29,8 @@ namespace Services.Installers
             Container.Bind<IThrowableInteractor>().To<ThrowableInteractor>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<MovePlayerPresenter>().AsSingle().NonLazy();
+
+            Container.Bind<CharacterAnimatior>().FromComponentInHierarchy().AsSingle();
 
             base.InstallBindings();
         }
