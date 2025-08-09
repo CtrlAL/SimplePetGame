@@ -20,6 +20,7 @@ namespace Views
 
         private async UniTaskVoid PlayAndDestroy(ParticleSystem particleSystem)
         {
+            particleSystem.gameObject.SetActive(true);
             particleSystem.Play();
             await UniTask.WaitForSeconds(particleSystem.main.duration);
             _deathEffectPool.ReturnToPool(particleSystem);
