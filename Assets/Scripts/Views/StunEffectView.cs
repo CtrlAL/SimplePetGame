@@ -24,7 +24,7 @@ namespace Views
             _stunEventPublisher.StunStateExited += HideStunEffect;
         }
 
-        private void ShowStunEffect(CharacterStunedEventArgs e)
+        public void ShowStunEffect(CharacterStunedEventArgs e)
         {
             var key = e.Character.GetHashCode();
 
@@ -47,7 +47,7 @@ namespace Views
             effect.transform.position += Vector3.up;
         }
 
-        private void HideStunEffect(CharacterStunedEventArgs e)
+        public void HideStunEffect(CharacterStunedEventArgs e)
         {
             _viewedEffects.TryRemove(e.Character.GetHashCode(), out var stunEffect);
             _stunEffectPool.ReturnToPool(stunEffect);
@@ -55,7 +55,7 @@ namespace Views
 
         public void Dispose()
         {
-            _stunEventPublisher.CharacterStuned -= ShowStunEffect;
+            //_stunEventPublisher.CharacterStuned -= ShowStunEffect;
             _stunEventPublisher.StunStateExited -= HideStunEffect;
         }
     }

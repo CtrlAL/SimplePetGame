@@ -16,6 +16,8 @@ namespace Services.Installers
     {
         public override void InstallBindings()
         {
+            Container.Bind<IStuner>().To<Stuner>().AsSingle();
+            Container.Bind<StateMachine>().ToSelf().AsSingle();
             Container.Bind<Transform>().FromComponentOnRoot().AsCached();
             Container.Bind<Rigidbody>().FromComponentOnRoot().AsSingle();
             Container.Bind<ImpactHandlerView>().FromComponentOnRoot().AsSingle();

@@ -11,7 +11,7 @@ namespace FSM.States
         [Inject] private readonly IStuner _stunService;
         [Inject] private readonly Rigidbody _rigidbody;
 
-        private float _stunDuration = 3f;
+        private float _stunDuration = 20f;
         private float _timer;
 
         private readonly Subject<Unit> _onStunEnd = new();

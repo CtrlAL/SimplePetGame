@@ -12,8 +12,6 @@ namespace Services
 
         public void ApplyStun(GameObject target, Rigidbody rigidbody)
         {
-            Debug.Log(target.tag);
-
             if (rigidbody != null)
             {
                 rigidbody.velocity = Vector3.zero;
@@ -29,8 +27,6 @@ namespace Services
 
         public void RemoveStun(GameObject target, Rigidbody rigidbody)
         {
-            Debug.Log(target.tag);
-
             if (rigidbody != null)
             {
                 if (StunDataStorage.TryGetOldTag(target, out string oldTag))
