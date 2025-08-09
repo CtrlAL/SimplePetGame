@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Presenters;
+using Assets.Scripts.Presenters;
 using Models;
 using Presenters;
 using ScriptableObjects;
@@ -16,7 +16,6 @@ namespace Services.Installers
 
         public override void InstallBindings()
         {
-            base.InstallBindings();
             Container.Bind<IPlayerMovementInputHandler>().To<PlayerMovementInputHandler>().AsSingle();
             Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
             Container.Bind<PlayerRadialKickTrigger>().ToSelf().FromComponentInHierarchy().AsSingle();
@@ -28,6 +27,8 @@ namespace Services.Installers
             Container.Bind<IThrowableInteractor>().To<ThrowableInteractor>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<MovePlayerPresenter>().AsSingle().NonLazy();
+
+            base.InstallBindings();
         }
     }
 }

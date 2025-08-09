@@ -8,7 +8,7 @@ namespace Services
 {
     public class EnemyPool : IEnemyPool
     {
-        [Inject] private readonly DiContainer _diContainer;
+        [Inject] private DiContainer _diContainer;
 
         [Inject] private EnemyLibrary _enemyLibrary;
 
@@ -41,9 +41,9 @@ namespace Services
 
                 var index = Random.Range(0, _enemyLibrary.GetLength());
                 var prefub = _enemyLibrary.GetEnemyPrefab(index);
+                enemy = _diContainer.InstantiatePrefab(prefub);
 
-                return GameObject.Instantiate(prefub);
-                //return _diContainer.InstantiatePrefab(prefub);
+                return enemy;
             }
         }
 

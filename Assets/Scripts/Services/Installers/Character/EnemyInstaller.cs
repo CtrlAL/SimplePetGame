@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Presenters;
+using Assets.Scripts.Presenters;
 using ScriptableObjects;
 using Services.EventTriggers;
 using UnityEngine;
@@ -24,3 +24,4 @@ namespace Services.Installers
         }
     }
 }
+

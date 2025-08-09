@@ -4,6 +4,7 @@ using Services.Interfaces;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 using UnityRandom = UnityEngine.Random;
 
@@ -54,13 +55,19 @@ namespace Services
 
         public void CreateEnemy()
         {
-            var enemy = _pool.SpawnObject();
             var spawnPoint = _spawnPoints[UnityRandom.Range(0, _spawnPoints.Length - 1)];
-            enemy.transform.position = spawnPoint.transform.position;
+            var enemy = _pool.SpawnObject();
+            enemy.transform.position = spawnPoint.position;
             enemy.transform.rotation = spawnPoint.rotation;
-            enemy.SetActive(true);
 
-            Debug.Break();
+            var navMesh = enemy.GetComponent<NavMeshAgent>();
+            navMesh.nextPosition = spawnPoint.transform.position;
+
+            var rb = enemy.GetComponent<Rigidbody>();
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            enemy.SetActive(true);
         }
 
         public void Dispose()

@@ -10,12 +10,14 @@ namespace Services.Installers
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Transform))]
+    [RequireComponent(typeof(ImpactHandlerView))]
     public abstract class CharacterInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {
             Container.Bind<Transform>().FromComponentOnRoot().AsSingle();
             Container.Bind<Rigidbody>().FromComponentOnRoot().AsSingle();
+            Container.Bind<ImpactHandlerView>().FromComponentOnRoot().AsSingle();
 
             Container.BindInterfacesAndSelfTo<CharacterFSM>().AsSingle();
             
@@ -25,7 +27,7 @@ namespace Services.Installers
 
             Container.BindInterfacesAndSelfTo<ImpactHandlerModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ImpactHandlerPresenter>().AsSingle().NonLazy();
-            Container.Bind<ImpactHandlerView>().FromComponentInHierarchy().AsSingle();
+            
             
             Container.BindInterfacesAndSelfTo<MoveCharacterModel>().AsSingle();
         }
