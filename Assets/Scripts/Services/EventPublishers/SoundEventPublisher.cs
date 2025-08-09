@@ -6,44 +6,12 @@ namespace Services.EventPublishers
 {
     public class SoundEventPublisher : MonoBehaviour
     {
-        private static SoundEventPublisher _instance;
-
-        public static SoundEventPublisher Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<SoundEventPublisher>();
-
-                    if (_instance == null)
-                    {
-                        GameObject publisherObject = new GameObject("SoundEventPublisher");
-                        _instance = publisherObject.AddComponent<SoundEventPublisher>();
-                     }
-                }
-
-                return _instance;
-            }
-        }
-
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-        }
-
-        public event EventHandler<PlaySoundEventArgs> PlaySoundRequested;
-        public event EventHandler<PlaySoundEventArgs> SwitchBackgroundMusicRequested;
+        public event Action<PlaySoundEventArgs> PlaySoundRequested;
+        public event Action<PlaySoundEventArgs> SwitchBackgroundMusicRequested;
 
         public void PlaySound(SoundType soundType, int volume = 1)
         {
-            PlaySoundRequested?.Invoke(this, new PlaySoundEventArgs(soundType, volume));
+            PlaySoundRequested?.Invoke(new PlaySoundEventArgs(soundType, volume));
         }
     }
 

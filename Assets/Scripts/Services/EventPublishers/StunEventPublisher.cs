@@ -5,43 +5,18 @@ namespace Services.EventPublishers
 {
     public class StunEventPublisher
     {
-        private static StunEventPublisher _instance;
+        public event Action<CharacterStunedEventArgs> CharacterStuned;
 
-        public static StunEventPublisher Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new StunEventPublisher();
-                }
-
-                return _instance;
-            }
-        }
-
-        private StunEventPublisher()
-        {
-            if (_instance != null)
-            {
-                return;
-            }
-
-            _instance = this;
-        }
-
-        public event EventHandler<CharacterStunedEventArgs> CharacterStuned;
-
-        public event EventHandler<CharacterStunedEventArgs> StunStateExited;
+        public event Action<CharacterStunedEventArgs> StunStateExited;
 
         public void PublishCharacterStunedEvent(GameObject character)
         {
-            CharacterStuned?.Invoke(this, new(character));
+            CharacterStuned?.Invoke(new(character));
         }
 
         public void PublishStunStateExitedEvent(GameObject character)
         {
-            StunStateExited?.Invoke(this, new(character));
+            StunStateExited?.Invoke(new(character));
         }
     }
 

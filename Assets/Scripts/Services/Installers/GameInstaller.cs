@@ -1,6 +1,7 @@
 using FSM;
 using Presenters;
 using ScriptableObjects;
+using Services.EventPublishers;
 using Services.Interfaces;
 using Services.Sound;
 using UnityEngine;
@@ -37,12 +38,25 @@ namespace Services.Installers
 
         public override void InstallBindings()
         {
+            InstallEvents();
             InstallSO();
             InstallPlayerInputs();
             InstallServices();
             InstallPresenters();
             InstallViews();
             InstallSound();
+        }
+
+        private void InstallEvents()
+        {
+            Container.Bind<AnimationEventPublisher>().ToSelf().AsSingle();
+            Container.Bind<DestroyEnemyEventPublisher>().ToSelf().AsSingle();
+            Container.Bind<KickEventPublisher>().ToSelf().AsSingle();
+            Container.Bind<MoveEventPublisher>().ToSelf().AsSingle();
+            Container.Bind<ObjectThrownEventPublisher>().ToSelf().AsSingle();
+            Container.Bind<PickupEventPublisher>().ToSelf().AsSingle();
+            Container.Bind<SoundEventPublisher>().ToSelf().AsSingle();
+            Container.Bind<StunEventPublisher>().ToSelf().AsSingle();
         }
 
         private void InstallServices()

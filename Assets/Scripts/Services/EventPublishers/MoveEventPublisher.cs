@@ -6,65 +6,32 @@ namespace Services.EventPublishers
 {
     public class MoveEventPublisher : MonoBehaviour
     {
-        private static MoveEventPublisher _instance;
-        public static MoveEventPublisher Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<MoveEventPublisher>();
+        public event Action<MoveEventArgs> MoveEvent;
 
-                    if (_instance == null)
-                    {
-                        GameObject singletonObject = new GameObject("MoveEventPublisher");
-                        _instance = singletonObject.AddComponent<MoveEventPublisher>();
-                        DontDestroyOnLoad(singletonObject);
-                    }
-                }
+        public event Action<JumpEventArgs> JumpEvent;
 
-                return _instance;
-            }
-        }
+        public event Action ObjectJumped;
 
-        public event EventHandler<MoveEventArgs> MoveEvent;
-
-        public event EventHandler<JumpEventArgs> JumpEvent;
-
-        public event EventHandler ObjectJumped;
-
-        public event EventHandler OjectMoved;
-
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        public event Action OjectMoved;
 
         public void PublishMoveEvent(Vector2 input, CharacterFSM fsm, Rigidbody rigidbody, float speed, float rotationSpeed)
         {
-            MoveEvent?.Invoke(this, new MoveEventArgs(input, fsm, rigidbody, speed, rotationSpeed));
+            MoveEvent?.Invoke(new MoveEventArgs(input, fsm, rigidbody, speed, rotationSpeed));
         }
 
         public void PublishJumpEvent(CharacterFSM fsm, Rigidbody rigidbody, float jumpForce)
         {
-            JumpEvent?.Invoke(this, new JumpEventArgs(fsm, rigidbody, jumpForce));
+            JumpEvent?.Invoke(new JumpEventArgs(fsm, rigidbody, jumpForce));
         }
 
         public void PublishObjectMoved()
         {
-            OjectMoved?.Invoke(this, new());
+            OjectMoved?.Invoke();
         }
 
         public void PublishObjectJumped()
         {
-            ObjectJumped?.Invoke(this, new());
+            ObjectJumped?.Invoke();
         }
     }
 

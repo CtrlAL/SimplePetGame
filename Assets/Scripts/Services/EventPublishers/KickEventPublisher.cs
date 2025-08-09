@@ -5,51 +5,18 @@ namespace Services.EventPublishers
 {
     public class KickEventPublisher : MonoBehaviour
     {
-        private static KickEventPublisher _instance;
-        public static KickEventPublisher Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<KickEventPublisher>();
+        public event Action<KickEventArgs> PlayerKickEvent;
 
-                    if (_instance == null)
-                    {
-                        GameObject singletonObject = new GameObject("KickEventPublisher");
-                        _instance = singletonObject.AddComponent<KickEventPublisher>();
-                        DontDestroyOnLoad(singletonObject);
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
-        public event EventHandler<KickEventArgs> PlayerKickEvent;
-
-        public event EventHandler<KickEventArgs> EnemyKickEvent;
-
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        public event Action<KickEventArgs> EnemyKickEvent;
 
         public void PublishPlayerKickEvent(GameObject kicker, GameObject kicked, float kickPower)
         {
-            PlayerKickEvent?.Invoke(this, new KickEventArgs(kicker, kicked, kickPower));
+            PlayerKickEvent?.Invoke(new KickEventArgs(kicker, kicked, kickPower));
         }
 
         public void PublishEnemyKickEvent(GameObject kicker, GameObject kicked, float kickPower)
         {
-            EnemyKickEvent?.Invoke(this, new KickEventArgs(kicker, kicked, kickPower));
+            EnemyKickEvent?.Invoke(new KickEventArgs(kicker, kicked, kickPower));
         }
     }
 
