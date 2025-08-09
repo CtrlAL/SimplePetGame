@@ -8,8 +8,7 @@ namespace Views.Scene.Characters
 {
     public class ImpactHandlerView : MonoBehaviour
     {
-        [Inject]
-        private CharacterFSM _characterFSM;
+        [Inject] private CharacterFSM _characterFSM;
 
         public readonly Subject<float> OnImpactDetected = new();
 
