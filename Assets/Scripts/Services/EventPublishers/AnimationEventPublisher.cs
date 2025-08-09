@@ -1,9 +1,8 @@
 using System;
-using UnityEngine;
 
 namespace Services.EventPublishers
 {
-    public class AnimationEventPublisher : MonoBehaviour
+    public class AnimationEventPublisher
     {
         public event Action WaveAnimationEnded;
 

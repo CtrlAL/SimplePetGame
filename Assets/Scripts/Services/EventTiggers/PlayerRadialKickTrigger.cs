@@ -10,17 +10,17 @@ namespace Services.EventTriggers
 {
     public class PlayerRadialKickTrigger : MonoBehaviour
     {
-        [Inject]
-        IPlayerInputProvider _playerInputProvider;
+        [Inject] IPlayerInputProvider _playerInputProvider;
 
-        [Inject]
-        private PlayerStatsSO _playerStats;
+        [Inject] KickEventPublisher _kickEventPublisher;
 
-        [Inject]
-        private IFatigue _fatigueService;
+        [Inject] SoundEventPublisher _soundEventPublisher;
 
-        [Inject]
-        private CharacterFSM _fsm;
+        [Inject] private PlayerStatsSO _playerStats;
+
+        [Inject] private IFatigue _fatigueService;
+
+        [Inject] private CharacterFSM _fsm;
 
         public void FixedUpdate()
         {
@@ -33,7 +33,7 @@ namespace Services.EventTriggers
                     if (collider.CompareTag("Enemy"))
                     {
                         float knockbackMultiplier = _fatigueService.GetKnockbackMultiplier();
-                        KickEventPublisher.Instance.PublishPlayerKickEvent(
+                        _kickEventPublisher.PublishPlayerKickEvent(
                             gameObject,
                             collider.gameObject,
                             _playerStats.KickPower * knockbackMultiplier
@@ -45,9 +45,11 @@ namespace Services.EventTriggers
             }
         }
 
+        // Это точно надо переделать SoundEventPublisher не должен быть в одном месте с KickEventPublisher
+
         private void PlayerKickSound()
         {
-            SoundEventPublisher.Instance.PlaySound(Enums.SoundType.PlayerKick, 1);
+            _soundEventPublisher.PlaySound(Enums.SoundType.PlayerKick, 1);
         }
     }
 }

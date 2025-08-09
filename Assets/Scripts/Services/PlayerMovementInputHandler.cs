@@ -17,8 +17,16 @@ namespace Services
 
         private IPlayerInputProvider _playerInputProvider;
 
-        public PlayerMovementInputHandler(IPlayerInputProvider playerInputProvider, PlayerStatsSO playerStatsSO, CharacterFSM characterFSM, Rigidbody rigidbody)
+        private MoveEventPublisher _moveEventPublisher;
+
+        public PlayerMovementInputHandler(IPlayerInputProvider playerInputProvider, 
+            PlayerStatsSO playerStatsSO, 
+            CharacterFSM characterFSM, 
+            Rigidbody rigidbody, 
+            MoveEventPublisher moveEventPublisher)
         {
+            _moveEventPublisher = moveEventPublisher;
+
             _playerInputProvider = playerInputProvider;
             _characterFSM = characterFSM;
             _rigidbody = rigidbody;
@@ -26,6 +34,7 @@ namespace Services
 
             _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += PublishJump;
+            _moveEventPublisher = moveEventPublisher;
         }
 
         private void PublishJump(InputAction.CallbackContext context)
@@ -44,19 +53,19 @@ namespace Services
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
                 var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-                MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed, _stats.RotationSpeed);
+                _moveEventPublisher.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed, _stats.RotationSpeed);
             }
         }
 
         public void PublishMove()
         {
             var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-            MoveEventPublisher.Instance.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed, _stats.RotationSpeed);
+            _moveEventPublisher.PublishMoveEvent(input, _characterFSM, _rigidbody, _stats.MoveSpeed, _stats.RotationSpeed);
         }
 
         public void PublishJump()
         {
-            MoveEventPublisher.Instance.PublishJumpEvent(_characterFSM, _rigidbody, _stats.JumpForce);
+            _moveEventPublisher.PublishJumpEvent(_characterFSM, _rigidbody, _stats.JumpForce);
         }
     }
 }

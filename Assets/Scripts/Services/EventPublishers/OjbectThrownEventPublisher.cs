@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Services.EventPublishers
 {
-    public class ObjectThrownEventPublisher : MonoBehaviour
+    public class ObjectThrownEventPublisher
     {
-        public event EventHandler ObjectThrown;
+        public event Action ObjectThrown;
 
         public void PublishEvent()
         {
-            ObjectThrown?.Invoke(this, new());
+            ObjectThrown?.Invoke();
         }
     }
 }

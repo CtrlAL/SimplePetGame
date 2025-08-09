@@ -9,6 +9,7 @@ namespace Presenters
 {
     public class CharacterDeathPresenter : IInitializable, IDisposable
     {
+        [Inject] private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
         [Inject] private List<RespawnColiderView> _respawnColiderViews;
         [Inject] private DeathEffectView _deathEffectView;
 
@@ -24,7 +25,7 @@ namespace Presenters
                     co =>
                     {
                         _deathEffectView.ShowEffect(co.gameObject);
-                        DestroyEnemyEventPublisher.Instance.PublishEvent(co.gameObject);
+                        _destroyEnemyEventPublisher.PublishEvent(co.gameObject);
                     }
                 )
                 .AddTo(_compositeDisposable);

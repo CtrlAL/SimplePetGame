@@ -1,6 +1,5 @@
 using Services.EventPublishers;
 using Services.Interfaces;
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -9,8 +8,9 @@ namespace Views.Scene.Animation
 {
     public class CharacterAnimatior : MonoBehaviour
     {
-        [Inject] 
-        private IPlayerInputProvider _playerInputProvider;
+        [Inject] private IPlayerInputProvider _playerInputProvider;
+
+        [Inject] private AnimationEventPublisher _animationEventPublisher;
 
         [SerializeField] private Animator _animator;
 
@@ -19,10 +19,10 @@ namespace Views.Scene.Animation
         public void Awake()
         {
             _playerInputProvider.Inputs.Kick.performed += PlayAnimtion;
-            AnimationEventPublisher.Instance.WaveAnimationEnded += EndAnimation;
+            _animationEventPublisher.WaveAnimationEnded += EndAnimation;
         }
 
-        private void EndAnimation(object sender, EventArgs e)
+        private void EndAnimation()
         {
             _animator.SetBool(_boolName, false);
         }
@@ -35,7 +35,7 @@ namespace Views.Scene.Animation
         private void OnDestroy()
         {
             _playerInputProvider.Inputs.Kick.performed -= PlayAnimtion;
-            AnimationEventPublisher.Instance.WaveAnimationEnded -= EndAnimation;
+            _animationEventPublisher.WaveAnimationEnded -= EndAnimation;
         }
     }
 }

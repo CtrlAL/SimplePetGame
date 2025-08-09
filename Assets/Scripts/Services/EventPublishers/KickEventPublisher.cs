@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Services.EventPublishers
 {
-    public class KickEventPublisher : MonoBehaviour
+    public class KickEventPublisher
     {
         public event Action<KickEventArgs> PlayerKickEvent;
 

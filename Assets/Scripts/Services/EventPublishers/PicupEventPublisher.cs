@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Services.EventPublishers
 {
-    public class PickupEventPublisher : MonoBehaviour
+    public class PickupEventPublisher
     {
         public event Action ObjetPickuped;
 

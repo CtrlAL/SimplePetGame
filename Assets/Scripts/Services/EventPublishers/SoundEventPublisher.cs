@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Services.EventPublishers
 {
-    public class SoundEventPublisher : MonoBehaviour
+    public class SoundEventPublisher
     {
         public event Action<PlaySoundEventArgs> PlaySoundRequested;
         public event Action<PlaySoundEventArgs> SwitchBackgroundMusicRequested;

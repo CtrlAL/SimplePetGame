@@ -9,17 +9,20 @@ namespace Services
 {
     public class Mover : IMover
     {
-        public Mover()
+        private readonly MoveEventPublisher _moveEventPublisher;
+
+        public Mover(MoveEventPublisher moveEventPublisher)
         {
-            MoveEventPublisher.Instance.MoveEvent += Move;
-            MoveEventPublisher.Instance.JumpEvent += Jump;
+            _moveEventPublisher = moveEventPublisher;
+            _moveEventPublisher.MoveEvent += Move;
+            _moveEventPublisher.JumpEvent += Jump;
         }
 
         public event Action OnJumped;
 
         public event Action OnMoved;
 
-        public void Jump(object sender, JumpEventArgs args)
+        public void Jump(JumpEventArgs args)
         {
             var gameObject = args.FSM.GameObject;
             var fsm = args.FSM;
@@ -33,7 +36,7 @@ namespace Services
             }
         }
 
-        public void Move(object sender, MoveEventArgs args)
+        public void Move(MoveEventArgs args)
         {
             var input = args.Input;
             var objectForMove = args.FSM.GameObject;
@@ -61,11 +64,10 @@ namespace Services
                 rotationSpeed * Time.deltaTime
             );
         }
-
         public void Dispose()
         {
-            MoveEventPublisher.Instance.MoveEvent -= Move;
-            MoveEventPublisher.Instance.JumpEvent -= Jump;
+            _moveEventPublisher.MoveEvent -= Move;
+            _moveEventPublisher.JumpEvent -= Jump;
         }
     }
 }

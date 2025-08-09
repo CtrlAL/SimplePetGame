@@ -12,29 +12,21 @@ namespace Services.Installers
 {
     public partial class GameInstaller : MonoInstaller
     {
-        [SerializeField]
-        private LevelSettings _levelSettings;
+        [SerializeField] private LevelSettings _levelSettings;
 
-        [SerializeField]
-        private PoolingSettings _poolingSettings;
+        [SerializeField] private PoolingSettings _poolingSettings;
 
-        [SerializeField]
-        private PlayerStatsSO _playerStatsSO;
+        [SerializeField] private PlayerStatsSO _playerStatsSO;
 
-        [SerializeField]
-        private EnemyStatsSO _enemyStatsSO;
+        [SerializeField] private EnemyStatsSO _enemyStatsSO;
 
-        [SerializeField]
-        private ThrowableInteractionSettingsSO _throwableInteractionSettingsSO;
+        [SerializeField] private ThrowableInteractionSettingsSO _throwableInteractionSettingsSO;
 
-        [SerializeField]
-        private KickImpactSettigns _kickImpactSettigns;
+        [SerializeField] private KickImpactSettigns _kickImpactSettigns;
 
-        [SerializeField]
-        private CharacterVFX _characterVFX;
+        [SerializeField] private CharacterVFX _characterVFX;
 
-        [SerializeField]
-        private EnemyLibrary _enemyLibrary;
+        [SerializeField] private EnemyLibrary _enemyLibrary;
 
         public override void InstallBindings()
         {

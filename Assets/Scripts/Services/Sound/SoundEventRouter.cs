@@ -8,58 +8,63 @@ namespace Services.Sound
 {
     public class SoundEventRouter : IInitializable, IDisposable
     {
-        [Inject] IMover _mover;
+        [Inject] private IMover _mover;
+        [Inject] private KickEventPublisher _kickEventPublisher;
+        [Inject] private ObjectThrownEventPublisher _objectThrownEventPublisher;
+        [Inject] private PickupEventPublisher _pickupEventPublisher;
+        [Inject] private AnimationEventPublisher _animationEventPublisher;
+        [Inject] private SoundEventPublisher _soundEventPublisher;
 
         public void Initialize()
         {
             _mover.OnJumped += InvokeJump;
 
-            KickEventPublisher.Instance.PlayerKickEvent += InvokePlayerKick;
-            KickEventPublisher.Instance.EnemyKickEvent += InvokeEnemyKick;
-            ObjectThrownEventPublisher.Instance.ObjectThrown += InvokeThrow;
-            PickupEventPublisher.Instance.ObjetPickuped += InvokePickUp;
-            AnimationEventPublisher.Instance.WaveAnimationStarted += InvokeWaveAnimationSound;
+            _kickEventPublisher.PlayerKickEvent += InvokePlayerKick;
+            _kickEventPublisher.EnemyKickEvent += InvokeEnemyKick;
+            _objectThrownEventPublisher.ObjectThrown += InvokeThrow;
+            _pickupEventPublisher.ObjetPickuped += InvokePickUp;
+            _animationEventPublisher.WaveAnimationStarted += InvokeWaveAnimationSound;
         }
 
         private void InvokeJump()
         {
-            SoundEventPublisher.Instance.PlaySound(SoundType.Jump);
+            _soundEventPublisher.PlaySound(SoundType.Jump);
         }
 
-        private void InvokeWaveAnimationSound(object sender, EventArgs e)
+        private void InvokeWaveAnimationSound()
         {
-            SoundEventPublisher.Instance.PlaySound(SoundType.WaveAnimationSound);
+            _soundEventPublisher.PlaySound(SoundType.WaveAnimationSound);
         }
 
-        private void InvokePickUp(object sender, EventArgs args)
+        private void InvokePickUp()
         {
-            SoundEventPublisher.Instance.PlaySound(SoundType.PickUp);
+            _soundEventPublisher.PlaySound(SoundType.PickUp);
         }
 
-        private void InvokeThrow(object sender, EventArgs args)
+        private void InvokeThrow()
         {
-            SoundEventPublisher.Instance.PlaySound(SoundType.Throw);
+            _soundEventPublisher.PlaySound(SoundType.Throw);
         }
 
-        private void InvokeEnemyKick(object sender, KickEventArgs e)
+        private void InvokeEnemyKick(KickEventArgs e)
         {
-            SoundEventPublisher.Instance.PlaySound(SoundType.EnemyKick);
+            _soundEventPublisher.PlaySound(SoundType.EnemyKick);
         }
 
-        private void InvokePlayerKick(object sender, KickEventArgs e)
+        private void InvokePlayerKick(KickEventArgs e)
         {
-            SoundEventPublisher.Instance.PlaySound(SoundType.PlayerKick);
+            _soundEventPublisher.PlaySound(SoundType.PlayerKick);
         }
 
         public void Dispose()
         {
             _mover.OnJumped -= InvokeJump;
 
-            KickEventPublisher.Instance.PlayerKickEvent -= InvokePlayerKick;
-            KickEventPublisher.Instance.EnemyKickEvent -= InvokeEnemyKick;
-            ObjectThrownEventPublisher.Instance.ObjectThrown -= InvokeThrow;
-            PickupEventPublisher.Instance.ObjetPickuped -= InvokePickUp;
-            AnimationEventPublisher.Instance.WaveAnimationStarted -= InvokeWaveAnimationSound;
+            _kickEventPublisher.PlayerKickEvent -= InvokePlayerKick;
+            _kickEventPublisher.EnemyKickEvent -= InvokeEnemyKick;
+            _objectThrownEventPublisher.ObjectThrown -= InvokeThrow;
+            _pickupEventPublisher.ObjetPickuped -= InvokePickUp;
+            _animationEventPublisher.WaveAnimationStarted -= InvokeWaveAnimationSound;
         }
     }
 }

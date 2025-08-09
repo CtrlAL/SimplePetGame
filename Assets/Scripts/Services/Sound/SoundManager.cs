@@ -2,23 +2,26 @@
 using Services.EventPublishers;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Services.Sound
 {
     [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
     public class SoundManager : MonoBehaviour
     {
-        [SerializeField]
-        private Sound[] _soundList;
+        [Inject] private SoundEventPublisher _soundEventPublisher;
+
+        [SerializeField] private Sound[] _soundList;
 
         private AudioSource _soundSource;
 
         private void Awake()
         {
-            SoundEventPublisher.Instance.PlaySoundRequested += PlaySound;
+            _soundEventPublisher.PlaySoundRequested += PlaySound;
+            _soundSource = GetComponent<AudioSource>();
         }
 
-        private void PlaySound(object sender, PlaySoundEventArgs args)
+        private void PlaySound(PlaySoundEventArgs args)
         {
             var clip = _soundList[(int)args.SoundType];
             _soundSource.PlayOneShot(clip.sound, args.Volume);
@@ -30,14 +33,9 @@ namespace Services.Sound
             _soundSource.PlayOneShot(clip.sound, volume);
         }
 
-        private void Start()
-        {
-            _soundSource = GetComponent<AudioSource>();
-        }
-
         private void OnDestroy()
         {
-            SoundEventPublisher.Instance.PlaySoundRequested -= PlaySound;
+            _soundEventPublisher.PlaySoundRequested -= PlaySound;
         }
 
 #if UNITY_EDITOR

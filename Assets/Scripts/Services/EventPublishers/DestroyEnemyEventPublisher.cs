@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Services.EventPublishers
 {
-    public class DestroyEnemyEventPublisher : MonoBehaviour
+    public class DestroyEnemyEventPublisher
     {
         public event Action<GameObject> DestroyEnemy;
 

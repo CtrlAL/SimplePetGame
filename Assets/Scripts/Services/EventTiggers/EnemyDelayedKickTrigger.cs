@@ -11,17 +11,15 @@ namespace Services.EventTriggers
 {
     public class EnemyDelayedKickTrigger : MonoBehaviour
     {
-        [SerializeField]
-        private CharacterFSM _fsm;
+        [SerializeField] private CharacterFSM _fsm;
 
-        [SerializeField]
-        private float delayBeforeKick = 1f;
+        [SerializeField] private float delayBeforeKick = 1f;
 
-        [Inject]
-        private EnemyStatsSO _stats;
+        [Inject] private KickEventPublisher _kickEventPublisher;
 
-        [Inject]
-        private IFatigue _fatigueService;
+        [Inject] private EnemyStatsSO _stats;
+
+        [Inject] private IFatigue _fatigueService;
 
         private Coroutine _delayCoroutine;
 
@@ -54,7 +52,7 @@ namespace Services.EventTriggers
             if (PlayerInstanseHandler.Instance != null && _fsm.GetCurrentState() is IdleState)
             {
                 var knockbackMultiplier = _fatigueService.GetKnockbackMultiplier();
-                KickEventPublisher.Instance.PublishEnemyKickEvent(gameObject, PlayerInstanseHandler.Instance, _stats.KickPower * knockbackMultiplier);
+                _kickEventPublisher.PublishEnemyKickEvent(gameObject, PlayerInstanseHandler.Instance, _stats.KickPower * knockbackMultiplier);
             }
         }
     }

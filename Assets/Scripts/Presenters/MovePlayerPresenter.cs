@@ -12,20 +12,15 @@ namespace Assets.Scripts.Presenters
 {
     public class MovePlayerPresenter : IFixedTickable, IInitializable, IDisposable
     {
-        [Inject]
-        private MoveCharacterModel _moveCharacterModel;
+        [Inject] private IMover _mover;
 
-        [Inject]
-        private IMover _mover;
+        [Inject] private IPlayerInputProvider _playerInputProvider;
 
-        [Inject]
-        private IPlayerInputProvider _playerInputProvider;
+        [Inject] private MoveCharacterModel _moveCharacterModel;
 
-        [Inject]
-        private PlayerStatsSO _stats;
+        [Inject] private PlayerStatsSO _stats;
 
-        [Inject]
-        private CharacterFSM _fsm;
+        [Inject] private CharacterFSM _fsm;
 
         public void Initialize()
         {
@@ -35,7 +30,7 @@ namespace Assets.Scripts.Presenters
 
         private void Jump(InputAction.CallbackContext context)
         {
-            _mover.Jump(this, new JumpEventArgs(_fsm, _moveCharacterModel.Rigidbody, _stats.JumpForce));
+            _mover.Jump(new JumpEventArgs(_fsm, _moveCharacterModel.Rigidbody, _stats.JumpForce));
         }
 
         public void FixedTick()
@@ -43,7 +38,12 @@ namespace Assets.Scripts.Presenters
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
                 var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-                _mover.Move(this, new MoveEventArgs(input, _fsm, _moveCharacterModel.Rigidbody, _stats.MoveSpeed, _stats.RotationSpeed));
+                _mover.Move(new MoveEventArgs(input, 
+                    _fsm, 
+                    _moveCharacterModel.Rigidbody, 
+                    _stats.MoveSpeed, 
+                    _stats.RotationSpeed)
+                );
             }
         }
 

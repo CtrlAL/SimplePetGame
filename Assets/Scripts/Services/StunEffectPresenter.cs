@@ -1,30 +1,33 @@
 using Services.EventPublishers;
+using Services.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using UnityEngine;
-
 
 namespace Services
 {
     public class StunEffectPresenter : IDisposable
     {
-        private ParticleSystem _particleSystem;
+        private readonly StunEventPublisher _stunEventPublisher;
 
+        private readonly IStunEffectPool _stunEffectPool;
+
+        private ParticleSystem _particleSystem;
         private ConcurrentDictionary<int, ParticleSystem> _effectCash;
         private ConcurrentBag<ParticleSystem> _effectPool;
         private readonly float _offsetMult = 3f;
 
-        public StunEffectPresenter()
+        public StunEffectPresenter(StunEventPublisher stunEventPublisher)
         {
             _effectPool = new ConcurrentBag<ParticleSystem>();
             _effectCash = new ConcurrentDictionary<int, ParticleSystem>();
             _particleSystem = Resources.Load<ParticleSystem>("Prefubs/Effects/ParticleStunEffect");
 
-            StunEventPublisher.Instance.CharacterStuned += ShowStunEffect;
-            StunEventPublisher.Instance.StunStateExited += HideStunEffect;
+            _stunEventPublisher.CharacterStuned += ShowStunEffect;
+            _stunEventPublisher.StunStateExited += HideStunEffect;
         }
 
-        private void ShowStunEffect(object sender, CharacterStunedEventArgs e)
+        private void ShowStunEffect(CharacterStunedEventArgs e)
         {
             if (_effectCash.ContainsKey(e.Character.gameObject.GetHashCode()))
             {
@@ -55,7 +58,7 @@ namespace Services
             effect.transform.position += Vector3.up;
         }
 
-        private void HideStunEffect(object sender, CharacterStunedEventArgs e)
+        private void HideStunEffect(CharacterStunedEventArgs e)
         {
             if (_effectCash.TryGetValue(e.Character.gameObject.GetHashCode(), out var effect) && effect != null)
             {
@@ -67,8 +70,8 @@ namespace Services
 
         public void Dispose()
         {
-            StunEventPublisher.Instance.CharacterStuned -= ShowStunEffect;
-            StunEventPublisher.Instance.StunStateExited -= HideStunEffect;
+            _stunEventPublisher.CharacterStuned -= ShowStunEffect;
+            _stunEventPublisher.StunStateExited -= HideStunEffect;
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Services.Interfaces
 {
     public interface IKiker : IDisposable
     {
-        void Kick(object sender, KickEventArgs args);
+        void Kick(KickEventArgs args);
     }
 }

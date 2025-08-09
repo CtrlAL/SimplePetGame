@@ -12,6 +12,8 @@ namespace Services
 {
     public class EnemyFactory : IEnemyFactory, IFixedTickable, IDisposable
     {
+        private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
+
         private IEnemyPool _pool;
 
         private LevelSettings _levelSettings;
@@ -22,7 +24,7 @@ namespace Services
 
         private int _currentCount = 0;
 
-        public EnemyFactory(IEnemyPool enemyPool, LevelSettings levelSettings)
+        public EnemyFactory(IEnemyPool enemyPool, LevelSettings levelSettings, DestroyEnemyEventPublisher destroyEnemyEventPublisher)
         {
             _pool = enemyPool;
 
@@ -32,7 +34,8 @@ namespace Services
                 .Select(x => x.transform)
                 .ToArray();
 
-            DestroyEnemyEventPublisher.Instance.DestroyEnemy += DestroyEnemy;
+            _destroyEnemyEventPublisher = destroyEnemyEventPublisher;
+            _destroyEnemyEventPublisher.DestroyEnemy += DestroyEnemy;
         }
 
         public void DestroyEnemy(GameObject args)
@@ -72,7 +75,7 @@ namespace Services
 
         public void Dispose()
         {
-            DestroyEnemyEventPublisher.Instance.DestroyEnemy -= DestroyEnemy;
+            _destroyEnemyEventPublisher.DestroyEnemy -= DestroyEnemy;
         }
     }
 }

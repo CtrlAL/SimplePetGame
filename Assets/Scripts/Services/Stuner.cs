@@ -2,11 +2,14 @@ using Constants;
 using Services.EventPublishers;
 using Services.Interfaces;
 using UnityEngine;
+using Zenject;
 
 namespace Services
 {
     public class Stuner : IStuner
     {
+        [Inject] private StunEventPublisher _stunEventPublisher;
+
         public void ApplyStun(GameObject target, Rigidbody rigidbody)
         {
             if (rigidbody != null)
@@ -18,7 +21,7 @@ namespace Services
                 StunDataStorage.StoreOldTag(target, oldTag);
                 target.tag = EnvironmentTags.Throwable;
 
-                StunEventPublisher.Instance.PublishCharacterStunedEvent(target);
+                _stunEventPublisher.PublishCharacterStunedEvent(target);
             }
         }
 
@@ -32,7 +35,7 @@ namespace Services
                     StunDataStorage.RemoveOldTag(target);
                 }
 
-                StunEventPublisher.Instance.PublishStunStateExitedEvent(target);
+                _stunEventPublisher.PublishStunStateExitedEvent(target);
             }
         }
     }

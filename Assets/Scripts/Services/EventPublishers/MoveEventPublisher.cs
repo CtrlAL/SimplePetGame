@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Services.EventPublishers
 {
-    public class MoveEventPublisher : MonoBehaviour
+    public class MoveEventPublisher
     {
         public event Action<MoveEventArgs> MoveEvent;
 

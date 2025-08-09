@@ -2,14 +2,16 @@
 using Services.EventPublishers;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Services.Sound
 {
     [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
     public class BackgroundMusicPlayer : MonoBehaviour
     {
-        [SerializeField]
-        private Sound[] _backgroundSoundList;
+        [SerializeField] private Sound[] _backgroundSoundList;
+
+        [Inject] private SoundEventPublisher _soundEventPublisher;
 
         private AudioSource _soundSource;
 
@@ -18,10 +20,10 @@ namespace Services.Sound
             _soundSource = GetComponent<AudioSource>();
             _soundSource.loop = true;
             _soundSource.playOnAwake = false;
-            SoundEventPublisher.Instance.SwitchBackgroundMusicRequested += SwitchSound;
+            _soundEventPublisher.SwitchBackgroundMusicRequested += SwitchSound;
         }
 
-        private void SwitchSound(object sender, PlaySoundEventArgs args)
+        private void SwitchSound(PlaySoundEventArgs args)
         {
             var clip = _backgroundSoundList[(int)args.SoundType];
             _soundSource.clip = clip.sound;

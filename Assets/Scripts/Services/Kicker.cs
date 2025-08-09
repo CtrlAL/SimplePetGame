@@ -6,13 +6,17 @@ namespace Services
 {
     public class Kicker : IKiker
     {
-        public Kicker()
+        private readonly KickEventPublisher _kickEventPublisher;
+
+        public Kicker(KickEventPublisher kickEventPublisher)
         {
-            KickEventPublisher.Instance.PlayerKickEvent += Kick;
-            KickEventPublisher.Instance.EnemyKickEvent += Kick;
+            _kickEventPublisher = kickEventPublisher;
+
+            _kickEventPublisher.PlayerKickEvent += Kick;
+            _kickEventPublisher.EnemyKickEvent += Kick;
         }
 
-        public void Kick(object sender, KickEventArgs args)
+        public void Kick(KickEventArgs args)
         {
             var kicked = args.Kicked;
             var kicker = args.Kicker;
@@ -29,8 +33,8 @@ namespace Services
 
         public void Dispose()
         {
-            KickEventPublisher.Instance.PlayerKickEvent -= Kick;
-            KickEventPublisher.Instance.EnemyKickEvent -= Kick;
+            _kickEventPublisher.PlayerKickEvent -= Kick;
+            _kickEventPublisher.EnemyKickEvent -= Kick;
         }
     }
 }
