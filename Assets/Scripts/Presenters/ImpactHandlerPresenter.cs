@@ -8,7 +8,6 @@ using Views.Scene.Characters;
 using Models;
 using Constants;
 using Services.Interfaces;
-using UnityEngine;
 
 namespace Presenters
 {
@@ -45,8 +44,6 @@ namespace Presenters
 
         private void HandleImpact(float impactForce)
         {
-            Debug.Log(impactForce);
-
             if (impactForce > _settings.MinStrongImpact)
             {
                 _onStrongHit.OnNext(Unit.Default);

@@ -18,7 +18,6 @@ namespace Services.Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<IPlayerMovementInputHandler>().To<PlayerMovementInputHandler>().AsSingle();
             Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
             Container.Bind<PlayerRadialKickTrigger>().ToSelf().FromComponentInHierarchy().AsSingle();
 

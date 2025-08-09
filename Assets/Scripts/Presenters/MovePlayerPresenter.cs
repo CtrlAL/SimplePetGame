@@ -35,6 +35,8 @@ namespace Assets.Scripts.Presenters
 
         public void FixedTick()
         {
+            Debug.Log($"{_fsm.GetCurrentState().ToString()}, {_fsm.GameObject.tag}");
+
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
                 var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();

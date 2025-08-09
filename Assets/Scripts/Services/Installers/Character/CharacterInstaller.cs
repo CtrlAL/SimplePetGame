@@ -5,6 +5,7 @@ using Zenject;
 using Views.Scene.Characters;
 using UnityEngine;
 using Services.Interfaces;
+using FSM.States;
 
 namespace Services.Installers
 {
@@ -15,12 +16,13 @@ namespace Services.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<Transform>().FromComponentOnRoot().AsSingle();
+            Container.Bind<Transform>().FromComponentOnRoot().AsCached();
             Container.Bind<Rigidbody>().FromComponentOnRoot().AsSingle();
             Container.Bind<ImpactHandlerView>().FromComponentOnRoot().AsSingle();
 
             Container.BindInterfacesAndSelfTo<CharacterFSM>().AsSingle();
-            
+            Container.Bind<StunnedState>().ToSelf().AsSingle();
+
             Container.Bind<IFatigue>().To<Fatigue>().AsSingle();
             Container.BindInterfacesAndSelfTo<FatigueModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<FatiguePresenter>().AsSingle().NonLazy();

@@ -2,14 +2,14 @@
 using System;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace FSM.States
 {
     public class StunnedState : IState
     {
-        private readonly IStuner _stunService;
-        private readonly GameObject _gameObject;
-        private readonly Rigidbody _rigidbody;
+        [Inject] private readonly IStuner _stunService;
+        [Inject] private readonly Rigidbody _rigidbody;
 
         private float _stunDuration = 3f;
         private float _timer;
@@ -17,16 +17,9 @@ namespace FSM.States
         private readonly Subject<Unit> _onStunEnd = new();
         public IObservable<Unit> OnStunEnd => _onStunEnd;
 
-        public StunnedState(IStuner stunService, GameObject gameObject, Rigidbody rigidbody)
-        {
-            _stunService = stunService;
-            _gameObject = gameObject;
-            _rigidbody = rigidbody;
-        }
-
         public void Enter()
         {
-            _stunService.ApplyStun(_gameObject, _rigidbody);
+            _stunService.ApplyStun(_rigidbody.gameObject, _rigidbody);
         }
 
         public void Update()
@@ -38,7 +31,7 @@ namespace FSM.States
 
         public void Exit()
         {
-            _stunService.RemoveStun(_gameObject, _rigidbody);
+            _stunService.RemoveStun(_rigidbody.gameObject, _rigidbody);
             _timer = 0f;
         }
     }

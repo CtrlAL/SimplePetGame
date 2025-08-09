@@ -6,7 +6,6 @@ using Zenject;
 using UnityEngine;
 using UniRx;
 using System;
-using Services.Interfaces;
 
 namespace FSM
 {
@@ -15,8 +14,8 @@ namespace FSM
         [Inject] private Rigidbody _rigidbody;
 
         [Inject] private StateMachine _stateMachine;
-        
-        [Inject] private IStuner _stuner;
+
+        [Inject] private StunnedState _stunnedState;
 
         private Dictionary<CharacterState, IState> _states;
 
@@ -27,16 +26,14 @@ namespace FSM
 
         public void Initialize()
         {
-            var state = new StunnedState(_stuner, _rigidbody.gameObject, _rigidbody);
-
-            state.OnStunEnd
+            _stunnedState.OnStunEnd
                 .Subscribe(_ => ChangeToState(CharacterState.Idle))
                 .AddTo(_disposables);
 
             _states = new()
             {
                 [CharacterState.Idle] = new IdleState(),
-                [CharacterState.Stunned] = state
+                [CharacterState.Stunned] = _stunnedState
             };
 
             _stateMachine.ChangeState(_states[CharacterState.Idle]);
