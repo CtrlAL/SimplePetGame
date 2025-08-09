@@ -1,4 +1,3 @@
-using Assets.Scripts.Services;
 using FSM;
 using Presenters;
 using ScriptableObjects;
@@ -43,7 +42,6 @@ namespace Services.Installers
             InstallServices();
             InstallPresenters();
             InstallViews();
-            InstallTickable();
             InstallSound();
         }
 
@@ -64,7 +62,7 @@ namespace Services.Installers
             Container.Bind<IStunEffectPool>().To<StunEffectPool>()
                 .AsSingle();
 
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>()
+            Container.BindInterfacesTo<EnemyFactory>()
                 .AsSingle()
                 .NonLazy();
         }
@@ -86,11 +84,6 @@ namespace Services.Installers
         {
             Container.BindInterfacesAndSelfTo<CharacterDeathPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<CharacerRespawnPresenter>().AsSingle().NonLazy();
-        }
-
-        private void InstallTickable()
-        {
-            Container.Bind<ITickable>().To<SceneUpdate>().AsSingle();
         }
 
         private void InstallViews()

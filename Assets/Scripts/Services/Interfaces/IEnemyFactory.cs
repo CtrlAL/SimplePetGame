@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Services.Interfaces
 {
-    public interface IEnemyFactory : ITickable, IDisposable
+    public interface IEnemyFactory 
     {
         void DestroyEnemy(GameObject args);
         void CreateEnemy();

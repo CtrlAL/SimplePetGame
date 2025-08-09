@@ -14,11 +14,11 @@ namespace Services
 
         [Inject] private PoolingSettings _poolingSettings;
 
-        private ConcurrentBag<ParticleSystem> _particleSystems = new();
+        private ConcurrentQueue<ParticleSystem> _particleSystems = new();
 
         public ParticleSystem SpawnObject()
         {
-            if (_particleSystems.TryPeek(out var effect))
+            if (_particleSystems.TryDequeue(out var effect))
             {
                 return effect;
             }
@@ -32,12 +32,13 @@ namespace Services
         {
             if (_poolingSettings.StunEffectPoolSizeLimit >= _particleSystems.Count)
             {
-                GameObject.Destroy(particleSystem);
+                particleSystem.Stop();
+                particleSystem.gameObject.SetActive(false);
+                _particleSystems.Enqueue(particleSystem);
             }
             else
             {
-                particleSystem.Stop();
-                particleSystem.gameObject.SetActive(false);
+                GameObject.Destroy(particleSystem);
             }
         }
     }

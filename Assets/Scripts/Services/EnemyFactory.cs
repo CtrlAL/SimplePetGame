@@ -1,12 +1,15 @@
 using ScriptableObjects;
 using Services.EventPublishers;
 using Services.Interfaces;
+using System;
 using System.Linq;
 using UnityEngine;
+using Zenject;
+using UnityRandom = UnityEngine.Random;
 
 namespace Services
 {
-    public class EnemyFactory : IEnemyFactory
+    public class EnemyFactory : IEnemyFactory, IFixedTickable, IDisposable
     {
         private IEnemyPool _pool;
 
@@ -37,7 +40,7 @@ namespace Services
             _currentCount--;
         }
 
-        public void Tick()
+        public void FixedTick()
         {
             _timer += Time.deltaTime;
 
@@ -52,13 +55,12 @@ namespace Services
         public void CreateEnemy()
         {
             var enemy = _pool.SpawnObject();
-
-            Debug.Break();
-
-            var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)];
+            var spawnPoint = _spawnPoints[UnityRandom.Range(0, _spawnPoints.Length - 1)];
             enemy.transform.position = spawnPoint.transform.position;
             enemy.transform.rotation = spawnPoint.rotation;
             enemy.SetActive(true);
+
+            Debug.Break();
         }
 
         public void Dispose()

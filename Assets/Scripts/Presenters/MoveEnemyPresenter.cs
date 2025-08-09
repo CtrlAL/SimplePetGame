@@ -36,7 +36,12 @@ namespace Assets.Scripts.Presenters
 
         public void FixedTick()
         {
-            var target = PlayerInstanseHandler.Instance.transform.position;
+            if (PlayerInstanseHandler.Instance == null)
+            {
+                return;
+            }
+
+            var target = PlayerInstanseHandler.Instance.transform.position;            
 
             _navMeshAgent.SetDestination(target);
 

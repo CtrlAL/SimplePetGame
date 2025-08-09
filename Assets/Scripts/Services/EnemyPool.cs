@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Services
+namespace Services
 {
     public class EnemyPool : IEnemyPool
     {
@@ -14,11 +14,21 @@ namespace Assets.Scripts.Services
 
         [Inject] private PoolingSettings _poolingSettings;
 
-        private ConcurrentBag<GameObject> _enemies = new();
+        private ConcurrentQueue<GameObject> _enemies = new();
 
         public GameObject SpawnObject()
         {
-            if (_enemies.TryPeek(out var enemy) && enemy != null)
+            GameObject enemy = null;
+
+            while (_enemies.Count > 0) 
+            {
+                if (_enemies.TryDequeue(out enemy) && enemy == null)
+                {
+                    continue;
+                }
+            }
+
+            if (enemy != null && enemy.scene.IsValid())
             {
                 return enemy;
             }
@@ -32,7 +42,8 @@ namespace Assets.Scripts.Services
                 var index = Random.Range(0, _enemyLibrary.GetLength());
                 var prefub = _enemyLibrary.GetEnemyPrefab(index);
 
-                return _diContainer.InstantiatePrefab(prefub);
+                return GameObject.Instantiate(prefub);
+                //return _diContainer.InstantiatePrefab(prefub);
             }
         }
 
@@ -41,7 +52,7 @@ namespace Assets.Scripts.Services
             if (_poolingSettings.EnemyPoolSizeLimit >= _enemies.Count)
             {
                 gameObject.gameObject.SetActive(false);
-                _enemies.Add(gameObject);
+                _enemies.Enqueue(gameObject);
             }
             else
             {

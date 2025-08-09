@@ -14,11 +14,11 @@ namespace Services
 
         [Inject] private PoolingSettings _poolingSettings;
 
-        private ConcurrentBag<ParticleSystem> _particleSystems = new(); 
+        private ConcurrentQueue<ParticleSystem> _particleSystems = new(); 
 
         public ParticleSystem SpawnObject() 
         {
-            if (_particleSystems.TryPeek(out var effect))
+            if (_particleSystems.TryDequeue(out var effect))
             {
                 return effect;
             }
@@ -34,7 +34,7 @@ namespace Services
             {
                 particleSystem.Stop();
                 particleSystem.gameObject.SetActive(false);
-                _particleSystems.Add(particleSystem);
+                _particleSystems.Enqueue(particleSystem);
             }
             else
             {
