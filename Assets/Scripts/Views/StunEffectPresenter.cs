@@ -4,7 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using UnityEngine;
 
-namespace Services
+namespace Views
 {
     public class StunEffectPresenter : IDisposable
     {
