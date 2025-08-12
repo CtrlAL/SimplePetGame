@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using ScriptableObjects;
 using Services;
+using System;
 using System.Threading;
 using UniRx;
 using UnityEngine;
@@ -16,23 +17,45 @@ namespace Views
 
         private CancellationTokenSource _cancellationTokenSource = new();
 
-        public void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
-            var token = _cancellationTokenSource.Token;
+            if (other.gameObject != PlayerInstanseHandler.Instance) return;
 
-            if (other.gameObject == PlayerInstanseHandler.Instance)
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            StartKickDelay(other, _cancellationTokenSource.Token).Forget();
+        }
+
+        private async UniTaskVoid StartKickDelay(Collider other, CancellationToken token)
+        {
+            try
             {
-                UniTask.RunOnThreadPool(async () =>
-                {
-                    await UniTask.WaitForSeconds(_enemyStatsSO.DelayBeforeKick);
-                    KickPerformed.OnNext(other);
-                }, true, token);
+                await UniTask.Delay(TimeSpan.FromSeconds(_enemyStatsSO.DelayBeforeKick), cancellationToken: token);
+
+                KickPerformed.OnNext(other);
+            }
+            catch (OperationCanceledException)
+            {
+
             }
         }
 
-        public void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject == PlayerInstanseHandler.Instance)
+            {
+                _cancellationTokenSource?.Cancel();
+            }
+        }
+
+        private void OnDestroy()
         {
             _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+            KickPerformed?.Dispose();
         }
     }
 }

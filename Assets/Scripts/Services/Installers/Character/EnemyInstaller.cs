@@ -18,7 +18,7 @@ namespace Services.Installers
             Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_enemyStatsSO).AsSingle();
 
             Container.BindInterfacesAndSelfTo<EnemyKickPresenter>().AsSingle().NonLazy();
-            Container.Bind<EnemyKickView>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<EnemyKickView>().FromComponentOnRoot().AsSingle();
 
             Container.BindInterfacesAndSelfTo<MoveEnemyPresenter>().AsSingle().NonLazy();
 

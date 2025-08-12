@@ -16,7 +16,8 @@ namespace Services.Installers
         public override void InstallBindings()
         {
             Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
-            Container.Bind<PlayerKickPresenter>().ToSelf().FromComponentInHierarchy().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<PlayerKickPresenter>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<ThrowableInteractionModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ThrowableInteractionPresenter>().AsSingle().NonLazy();

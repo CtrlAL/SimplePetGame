@@ -12,13 +12,11 @@ namespace Presenters
     {
         [Inject] IPlayerInputProvider _playerInputProvider;
 
-        [Inject] KickEventPublisher _kickEventPublisher;
+        [Inject] IKiker _kiker;
 
         [Inject] SoundEventPublisher _soundEventPublisher;
 
         [Inject] private PlayerStatsSO _playerStats;
-
-        [Inject] private IFatigue _fatigueService;
 
         [Inject] private CharacterFSM _fsm;
 
@@ -40,13 +38,8 @@ namespace Presenters
             {
                 if (collider.CompareTag("Enemy"))
                 {
-                    float knockbackMultiplier = _fatigueService.GetKnockbackMultiplier();
-                    _kickEventPublisher.PublishPlayerKickEvent(
-                        _transform.gameObject,
-                        collider.gameObject,
-                        _playerStats.KickPower * knockbackMultiplier
-                    );
-
+                    var args = new KickEventArgs(_transform.gameObject, collider.gameObject, _playerStats.KickPower);
+                    _kiker.Kick(args);
                     PlayerKickSound();
                 }
             }

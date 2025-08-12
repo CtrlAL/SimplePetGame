@@ -122,8 +122,8 @@ GameObject:
   - component: {fileID: 910407871168924846}
   - component: {fileID: 1441483897883717519}
   - component: {fileID: 763888867106876974}
-  - component: {fileID: 3893629006204203275}
   - component: {fileID: -3301151630011049340}
+  - component: {fileID: 3893629006204203275}
   m_Layer: 0
   m_Name: Enemy 1
   m_TagString: Enemy
@@ -318,6 +318,18 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &-3301151630011049340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295798114919579548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1f61064cd86d7448551ad5203c21fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3893629006204203275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,15 +343,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyStatsSO: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}
---- !u!114 &-3301151630011049340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6295798114919579548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e1f61064cd86d7448551ad5203c21fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

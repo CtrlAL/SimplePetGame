@@ -21,7 +21,7 @@ namespace Presenters
 
         [Inject] private IKiker _kicker;
 
-        private CompositeDisposable _disposables;
+        private CompositeDisposable _disposables = new();
 
         public void Initialize()
         {
