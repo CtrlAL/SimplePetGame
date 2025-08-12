@@ -1,13 +1,12 @@
 using Assets.Scripts.Presenters;
+using Presenters;
 using ScriptableObjects;
-using Services.EventTriggers;
 using UnityEngine;
 using UnityEngine.AI;
+using Views;
 
 namespace Services.Installers
 {
-    [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(EnemyDelayedKickTrigger))]
     public class EnemyInstaller : CharacterInstaller
     {
         [SerializeField]
@@ -17,7 +16,9 @@ namespace Services.Installers
         {
             Container.Bind<NavMeshAgent>().FromComponentOnRoot().AsSingle();
             Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_enemyStatsSO).AsSingle();
-            Container.Bind<EnemyDelayedKickTrigger>().ToSelf().FromComponentInHierarchy().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<EnemyKickPresenter>().AsSingle().NonLazy();
+            Container.Bind<EnemyKickView>().FromComponentInHierarchy().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<MoveEnemyPresenter>().AsSingle().NonLazy();
 

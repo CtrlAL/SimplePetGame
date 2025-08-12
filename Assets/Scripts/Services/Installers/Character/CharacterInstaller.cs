@@ -9,9 +9,6 @@ using FSM.States;
 
 namespace Services.Installers
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(Transform))]
-    [RequireComponent(typeof(ImpactHandlerView))]
     public abstract class CharacterInstaller : MonoInstaller
     {
         public override void InstallBindings()
