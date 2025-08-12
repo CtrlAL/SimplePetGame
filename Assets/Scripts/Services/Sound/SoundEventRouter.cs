@@ -22,11 +22,6 @@ namespace Services.Sound
             _animationEventPublisher.WaveAnimationStarted += InvokeWaveAnimationSound;
         }
 
-        private void InvokeJump()
-        {
-            _soundEventPublisher.PlaySound(SoundType.Jump);
-        }
-
         private void InvokeWaveAnimationSound()
         {
             _soundEventPublisher.PlaySound(SoundType.WaveAnimationSound);

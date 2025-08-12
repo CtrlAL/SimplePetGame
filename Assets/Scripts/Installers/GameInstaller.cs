@@ -1,4 +1,3 @@
-using FSM;
 using Presenters;
 using ScriptableObjects;
 using Services.EventPublishers;
@@ -44,7 +43,6 @@ namespace Services.Installers
             Container.Bind<AnimationEventPublisher>().ToSelf().AsSingle();
             Container.Bind<DestroyEnemyEventPublisher>().ToSelf().AsSingle();
             Container.Bind<KickEventPublisher>().ToSelf().AsSingle();
-            Container.Bind<MoveEventPublisher>().ToSelf().AsSingle();
             Container.Bind<ObjectThrownEventPublisher>().ToSelf().AsSingle();
             Container.Bind<PickupEventPublisher>().ToSelf().AsSingle();
             Container.Bind<SoundEventPublisher>().ToSelf().AsSingle();

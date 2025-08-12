@@ -2491,7 +2491,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1647730539}
-  - component: {fileID: 1647730538}
   m_Layer: 0
   m_Name: SceneRoot
   m_TagString: Untagged
@@ -2499,18 +2498,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1647730538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647730537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09b8f864156e8b94ab14d16e5b3864d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1647730539
 Transform:
   m_ObjectHideFlags: 0
