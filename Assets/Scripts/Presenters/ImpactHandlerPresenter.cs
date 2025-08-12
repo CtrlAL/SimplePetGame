@@ -8,7 +8,6 @@ using Views.Scene.Characters;
 using Models;
 using Constants;
 using Services.Interfaces;
-using UnityEngine;
 
 namespace Presenters
 {
@@ -16,8 +15,6 @@ namespace Presenters
     {
         private readonly Subject<Unit> _onStrongHit = new();
         private readonly Subject<Unit> _onWeakHit = new();
-
-        private static int countMembers = 0;
 
         private readonly Subject<Unit> _onThresholdReached = new();
         public IObservable<Unit> OnStrongHit => _onStrongHit;
