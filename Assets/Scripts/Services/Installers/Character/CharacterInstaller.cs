@@ -31,8 +31,7 @@ namespace Services.Installers
 
             Container.BindInterfacesAndSelfTo<ImpactHandlerModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ImpactHandlerPresenter>().AsSingle().NonLazy();
-            
-            
+
             Container.BindInterfacesAndSelfTo<MoveCharacterModel>().AsSingle();
         }
     }
