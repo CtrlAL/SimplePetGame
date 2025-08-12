@@ -1,7 +1,6 @@
 ﻿using FSM;
 using ScriptableObjects;
 using Services.Interfaces;
-using Services.EventPublishers;
 using UnityEngine;
 using Zenject;
 using Views;
@@ -39,8 +38,7 @@ namespace Presenters
         {
             if (other != null && _fsm.IsIdleState())
             {
-                var kickEventArgs = new KickEventArgs(_fsm.GameObject, other.gameObject, _stats.KickPower);
-                _kicker.Kick(kickEventArgs);
+                _kicker.Kick(_fsm.GameObject, other.gameObject, _stats.KickPower);
             }
         }
     }

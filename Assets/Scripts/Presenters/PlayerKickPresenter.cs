@@ -38,11 +38,15 @@ namespace Presenters
             {
                 if (collider.CompareTag("Enemy"))
                 {
-                    var args = new KickEventArgs(_transform.gameObject, collider.gameObject, _playerStats.KickPower);
-                    _kiker.Kick(args);
-                    PlayerKickSound();
+                    _kiker.Kick(_transform.gameObject, collider.gameObject, _playerStats.KickPower);
+                    OnEnemyKicked();
                 }
             }
+        }
+
+        private void OnEnemyKicked()
+        {
+            PlayKickSound();
         }
 
         private bool CheckKickPresed()
@@ -50,9 +54,7 @@ namespace Presenters
             return _playerInputProvider?.Inputs.Kick.IsPressed() == true;
         }
 
-        // Это точно надо переделать SoundEventPublisher не должен быть в одном месте с KickEventPublisher
-
-        private void PlayerKickSound()
+        private void PlayKickSound()
         {
             _soundEventPublisher.PlaySound(Enums.SoundType.PlayerKick, 1);
         }

@@ -1,9 +1,10 @@
-﻿using FSM;
-using Models;
+﻿using Cysharp.Threading.Tasks;
+using Enums;
 using ScriptableObjects;
-using Services.EventPublishers;
 using Services.Interfaces;
+using Services.Sound;
 using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -16,21 +17,25 @@ namespace Presenters
 
         [Inject] private IPlayerInputProvider _playerInputProvider;
 
-        [Inject] private MoveCharacterModel _moveCharacterModel;
-
         [Inject] private PlayerStatsSO _stats;
 
-        [Inject] private CharacterFSM _fsm;
+        [Inject] private SoundManager _soundManager;
+
+        private CompositeDisposable _disposables = new();
 
         public void Initialize()
         {
             _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += Jump;
+
+            _mover.OnJumped
+                .Subscribe(_ => _soundManager.PlaySound(1, SoundType.Jump))
+                .AddTo(_disposables);
         }
 
         private void Jump(InputAction.CallbackContext context)
         {
-            _mover.Jump(new JumpEventArgs(_fsm, _moveCharacterModel.Rigidbody, _stats.JumpForce));
+            _mover.Jump(_stats.JumpForce);
         }
 
         public void FixedTick()
@@ -38,18 +43,16 @@ namespace Presenters
             if (_playerInputProvider.InputActions.Inputs.Move.IsPressed())
             {
                 var input = _playerInputProvider.Inputs.Move.ReadValue<Vector2>();
-                _mover.Move(new MoveEventArgs(input, 
-                    _fsm, 
-                    _moveCharacterModel.Rigidbody, 
-                    _stats.MoveSpeed, 
-                    _stats.RotationSpeed)
-                );
+                _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
             }
         }
 
         public void Dispose()
         {
+            _playerInputProvider.InputActions.Disable();
             _playerInputProvider.Inputs.Jump.performed -= Jump;
+
+            _disposables?.Dispose();
         }
     }
 }

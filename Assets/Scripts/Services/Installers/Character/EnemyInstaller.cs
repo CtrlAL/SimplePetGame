@@ -1,4 +1,3 @@
-using Assets.Scripts.Presenters;
 using Presenters;
 using ScriptableObjects;
 using UnityEngine;
@@ -26,4 +25,3 @@ namespace Services.Installers
         }
     }
 }
-

@@ -53,9 +53,6 @@ namespace Services.Installers
 
         private void InstallServices()
         {
-            Container.Bind<IMover>().To<Mover>().AsSingle();
-            Container.Bind<IKiker>().To<Kicker>().AsSingle();
-
             Container.Bind<IEnemyPool>().To<EnemyPool>()
                 .AsSingle();
 

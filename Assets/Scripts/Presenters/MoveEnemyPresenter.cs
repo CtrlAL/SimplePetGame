@@ -1,32 +1,23 @@
-﻿using FSM;
-using Models;
+﻿using Models;
 using ScriptableObjects;
 using Services;
 using Services.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
-using Services.EventPublishers;
 
-namespace Assets.Scripts.Presenters
+namespace Presenters
 {
     
     public class MoveEnemyPresenter : IFixedTickable, IInitializable
     {
-        [Inject] 
-        private MoveCharacterModel _moveCharacterModel;
+        [Inject] private MoveCharacterModel _moveCharacterModel;
 
-        [Inject] 
-        private IMover _mover;
+        [Inject] private IMover _mover;
 
-        [Inject] 
-        private NavMeshAgent _navMeshAgent;
+        [Inject] private NavMeshAgent _navMeshAgent;
 
-        [Inject] 
-        private EnemyStatsSO _stats;
-
-        [Inject] 
-        private CharacterFSM _fsm;
+        [Inject] private EnemyStatsSO _stats;
 
         public void Initialize()
         {
@@ -51,12 +42,7 @@ namespace Assets.Scripts.Presenters
 
             var input = new Vector2(desiredVelocity.x, desiredVelocity.z);
 
-            _mover.Move(new MoveEventArgs(input, 
-                _fsm, 
-                _moveCharacterModel.Rigidbody, 
-                _stats.MoveSpeed, 
-                _stats.RotationSpeed)
-            );
+            _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
         }
     }
 }

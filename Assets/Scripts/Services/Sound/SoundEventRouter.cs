@@ -1,6 +1,5 @@
 using Enums;
 using Services.EventPublishers;
-using Services.Interfaces;
 using System;
 using Zenject;
 
@@ -8,7 +7,6 @@ namespace Services.Sound
 {
     public class SoundEventRouter : IInitializable, IDisposable
     {
-        [Inject] private IMover _mover;
         [Inject] private KickEventPublisher _kickEventPublisher;
         [Inject] private ObjectThrownEventPublisher _objectThrownEventPublisher;
         [Inject] private PickupEventPublisher _pickupEventPublisher;
@@ -17,8 +15,6 @@ namespace Services.Sound
 
         public void Initialize()
         {
-            _mover.OnJumped += InvokeJump;
-
             _kickEventPublisher.PlayerKickEvent += InvokePlayerKick;
             _kickEventPublisher.EnemyKickEvent += InvokeEnemyKick;
             _objectThrownEventPublisher.ObjectThrown += InvokeThrow;
@@ -58,8 +54,6 @@ namespace Services.Sound
 
         public void Dispose()
         {
-            _mover.OnJumped -= InvokeJump;
-
             _kickEventPublisher.PlayerKickEvent -= InvokePlayerKick;
             _kickEventPublisher.EnemyKickEvent -= InvokeEnemyKick;
             _objectThrownEventPublisher.ObjectThrown -= InvokeThrow;

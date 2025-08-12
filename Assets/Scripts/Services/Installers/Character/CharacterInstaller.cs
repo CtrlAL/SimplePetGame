@@ -13,6 +13,8 @@ namespace Services.Installers
     {
         public override void InstallBindings()
         {
+            Container.Bind<IMover>().To<Mover>().AsSingle();
+            Container.Bind<IKiker>().To<Kicker>().AsSingle();
             Container.Bind<IStuner>().To<Stuner>().AsSingle();
             Container.Bind<StateMachine>().ToSelf().AsSingle();
             Container.Bind<Transform>().FromComponentOnRoot().AsCached();

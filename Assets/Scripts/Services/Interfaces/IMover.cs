@@ -1,17 +1,16 @@
 using UnityEngine;
 using System;
-using Services.EventPublishers;
+using Models;
+using UniRx;
 
 namespace Services.Interfaces
 {
-    public interface IMover : IDisposable
+    public interface IMover
     {
-        void Jump(JumpEventArgs args);
-        void Move(MoveEventArgs args);
-        void Rotation(GameObject objectForMove, Vector3 movement, float rotationSpeed);
-
-        event Action OnJumped;
-
-        event Action OnMoved;
+        void Move(Vector2 input, float speed, float rotationSpeed);
+        void Jump(float jumpForce);
+        void Rotation(Vector3 movement, float rotationSpeed);
+        IObservable<MoveCharacterModel> OnJumped { get; }
+        IObservable<MoveCharacterModel> OnMoved { get; }
     }
 }

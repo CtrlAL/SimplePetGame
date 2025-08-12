@@ -1,73 +1,59 @@
-using FSM.States.CharacterStates;
+using Extensions;
+using FSM;
 using Helpers;
-using Services.EventPublishers;
+using Models;
 using Services.Interfaces;
 using System;
+using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace Services
 {
     public class Mover : IMover
     {
-        private readonly MoveEventPublisher _moveEventPublisher;
+        [Inject] CharacterFSM _characterFSM;
 
-        public Mover(MoveEventPublisher moveEventPublisher)
+        [Inject] MoveCharacterModel _moveCharacterModel;
+
+        public Subject<MoveCharacterModel> _onJumped = new();
+
+        public Subject<MoveCharacterModel> _onMoved = new();
+
+        IObservable<MoveCharacterModel> IMover.OnJumped => _onJumped;
+
+        IObservable<MoveCharacterModel> IMover.OnMoved => _onMoved;
+
+        public void Move(Vector2 input, float speed, float rotationSpeed)
         {
-            _moveEventPublisher = moveEventPublisher;
-            _moveEventPublisher.MoveEvent += Move;
-            _moveEventPublisher.JumpEvent += Jump;
-        }
-
-        public event Action OnJumped;
-
-        public event Action OnMoved;
-
-        public void Jump(JumpEventArgs args)
-        {
-            var gameObject = args.FSM.GameObject;
-            var fsm = args.FSM;
-            var rb = args.Rigidbody;
-
-            if (GameHelpers.IsGrounded(gameObject) && fsm.GetCurrentState() is IdleState)
-            {
-                rb.AddForce(Vector3.up * args.JumpForce, ForceMode.Impulse);
-
-                OnJumped?.Invoke();
-            }
-        }
-
-        public void Move(MoveEventArgs args)
-        {
-            var input = args.Input;
-            var objectForMove = args.FSM.GameObject;
-            var fsm = args.FSM;
-            var rb = args.Rigidbody;
-
-            if (rb != null && fsm.GetCurrentState() is IdleState)
+            if (_moveCharacterModel.Rigidbody != null && _characterFSM.IsIdleState())
             {
                 Vector3 movement = new Vector3(input.x, 0f, input.y);
 
-                rb.AddForce(movement * args.MoveSpeed, ForceMode.Force);
-                Rotation(objectForMove, movement, args.RotationSpeed);
-
-                OnMoved?.Invoke();
+                _moveCharacterModel.Rigidbody.AddForce(movement * speed, ForceMode.Force);
+                Rotation(movement, rotationSpeed);
+                _onMoved.OnNext(_moveCharacterModel);
             }
         }
 
-        public void Rotation(GameObject objectForMove, Vector3 movement, float rotationSpeed)
+        public void Jump(float jumpForce)
+        {
+            if (GameHelpers.IsGrounded(_moveCharacterModel.Rigidbody.gameObject) && _characterFSM.IsIdleState())
+            {
+                _moveCharacterModel.Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                _onJumped.OnNext(_moveCharacterModel);
+            }
+        }
+
+        public void Rotation(Vector3 movement, float rotationSpeed)
         {
             var targetRotation = Quaternion.LookRotation(movement, Vector3.up);
 
-            objectForMove.transform.rotation = Quaternion.Slerp(
-                objectForMove.transform.rotation,
+            _moveCharacterModel.Transform.rotation = Quaternion.Slerp(
+                _moveCharacterModel.Transform.rotation,
                 targetRotation,
                 rotationSpeed * Time.deltaTime
             );
-        }
-        public void Dispose()
-        {
-            _moveEventPublisher.MoveEvent -= Move;
-            _moveEventPublisher.JumpEvent -= Jump;
         }
     }
 }

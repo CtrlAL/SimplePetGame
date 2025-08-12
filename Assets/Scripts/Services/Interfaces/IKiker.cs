@@ -1,10 +1,9 @@
-using Services.EventPublishers;
-using System;
+using UnityEngine;
 
 namespace Services.Interfaces
 {
-    public interface IKiker : IDisposable
+    public interface IKiker
     {
-        void Kick(KickEventArgs args);
+        void Kick(GameObject kicker, GameObject kicked, float kickPower);
     }
 }
