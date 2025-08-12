@@ -38,7 +38,7 @@ namespace Presenters
             {
                 if (collider.CompareTag("Enemy"))
                 {
-                    _kiker.Kick(_transform.gameObject, collider.gameObject, _playerStats.KickPower);
+                    _kiker.Kick(collider.gameObject, _playerStats.KickPower);
                     OnEnemyKicked();
                 }
             }

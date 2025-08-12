@@ -1,18 +1,18 @@
 using Services.Interfaces;
 using UnityEngine;
+using Zenject;
 
 namespace Services
 {
     public class Kicker : IKiker
     {
-        public void Kick(GameObject kicker, GameObject kicked, float kickPower)
-        {
-            var rb = kicked.GetComponent<Rigidbody>();
+        [Inject] private Transform _transform;
 
-            if (rb != null)
+        public void Kick(GameObject kicked, float kickPower)
+        {
+            if (kicked?.TryGetComponent<Rigidbody>(out var rb) == true)
             {
-                var kickerTransform = kicker.transform;
-                Vector3 direction = (kicked.transform.position - kickerTransform.position).normalized;
+                Vector3 direction = (kicked.transform.position - _transform.position).normalized;
                 rb.AddForce(direction * kickPower, ForceMode.Impulse);
             }
         }

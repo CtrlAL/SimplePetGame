@@ -38,7 +38,7 @@ namespace Presenters
         {
             if (other != null && _fsm.IsIdleState())
             {
-                _kicker.Kick(_fsm.GameObject, other.gameObject, _stats.KickPower);
+                _kicker.Kick(other.gameObject, _stats.KickPower);
             }
         }
     }
