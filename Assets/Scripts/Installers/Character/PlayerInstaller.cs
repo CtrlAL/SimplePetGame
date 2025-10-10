@@ -27,7 +27,7 @@ namespace Services.Installers
 
             Container.BindInterfacesAndSelfTo<MovePlayerPresenter>().AsSingle().NonLazy();
 
-            Container.Bind<CharacterAnimatior>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<CharacterAnimator>().FromComponentInHierarchy().AsSingle();
 
             base.InstallBindings();
         }

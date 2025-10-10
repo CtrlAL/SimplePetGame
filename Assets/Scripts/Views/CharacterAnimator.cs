@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Views.Scene.Animation
 {
-    public class CharacterAnimatior : MonoBehaviour
+    public class CharacterAnimator : MonoBehaviour
     {
         [Inject] private IPlayerInputProvider _playerInputProvider;
 

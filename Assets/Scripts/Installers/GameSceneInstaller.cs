@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Services.Installers
 {
-    public partial class GameInstaller : MonoInstaller
+    public partial class GameSceneInstaller : MonoInstaller
     {
         [SerializeField] private LevelSettings _levelSettings;
 
