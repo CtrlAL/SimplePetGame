@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Presenters
 {
-    public class TimerPresenter : ITickable, IInitializable, IDisposable
+    public class TimerPresenter : IFixedTickable, IInitializable, IDisposable
     {
         [Inject]
         public TimerModel TimerModel { get; set; }
@@ -21,7 +21,7 @@ namespace Presenters
                 .Subscribe(OnTimeUpdated);
         }
 
-        public void Tick()
+        public void FixedTick()
         {
             TimerModel.GameTime.Value += Time.fixedDeltaTime;
         }
