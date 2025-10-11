@@ -35,6 +35,7 @@ namespace Services.Installers
             InstallServices();
             InstallPresenters();
             InstallViews();
+            InstallModels();
             InstallSound();
         }
 
@@ -79,15 +80,22 @@ namespace Services.Installers
         {
             Container.BindInterfacesAndSelfTo<CharacterDeathPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<CharacerRespawnPresenter>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TimerPresenter>().AsSingle().NonLazy();
         }
 
         private void InstallViews()
         {
             Container.Bind<DeathEffectView>().ToSelf().AsSingle();
+            Container.Bind<TimerView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerSpawnPoint>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RespawnColiderView>().FromComponentsInHierarchy().AsSingle();
 
             Container.BindInterfacesAndSelfTo<StunEffectView>().AsSingle().NonLazy();
+        }
+
+        private void InstallModels()
+        {
+            Container.BindInterfacesAndSelfTo<TimerModel>().AsSingle().NonLazy();
         }
 
         private void InstallSO()
