@@ -31,10 +31,6 @@ namespace FSM
 
         public void Initialize()
         {
-            _stunnedState.OnStateExit
-                .Subscribe(_ => ChangeToState(CharacterState.Idle))
-                .AddTo(_disposables);
-
             _states = new()
             {
                 [CharacterState.Idle] = new IdleState(),
