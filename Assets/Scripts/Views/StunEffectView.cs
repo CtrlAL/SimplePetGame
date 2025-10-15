@@ -1,83 +1,52 @@
-using Services.EventPublishers;
 using Services.Interfaces;
-using System;
-using System.Collections.Concurrent;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace Views
 {
-    public class StunEffectView : IDisposable, IFixedTickable
+    public class StunEffectView
     {
-        private readonly StunEventPublisher _stunEventPublisher;
-        private readonly IStunEffectPool _stunEffectPool;
+        private readonly IStunEffectPool _effectPool;
+        private readonly Dictionary<int, ParticleSystem> _effects = new();
+        private readonly Dictionary<int, Transform> _targets = new();
 
-        private ConcurrentDictionary<int, ParticleSystem> _viewedEffects;
+        public StunEffectView(IStunEffectPool effectPool) => _effectPool = effectPool;
 
-        private ConcurrentDictionary<int, GameObject> _stunedCharacters;
-
-        public StunEffectView(StunEventPublisher stunEventPublisher, IStunEffectPool stunEffectPool)
+        public void ShowStunEffect(int id, Transform target)
         {
-            _stunEffectPool = stunEffectPool;
-            _stunEventPublisher = stunEventPublisher;
+            if (_effects.ContainsKey(id)) return;
 
-            _viewedEffects = new ConcurrentDictionary<int, ParticleSystem>();
-            _stunedCharacters = new ConcurrentDictionary<int, GameObject>();
+            var effect = _effectPool.SpawnObject();
+            effect.transform.position = target.position + Vector3.up;
+            effect.gameObject.SetActive(true);
+            effect.Play();
 
-            _stunEventPublisher.CharacterStuned += ShowStunEffect;
-            _stunEventPublisher.StunStateExited += HideStunEffect;
+            _effects[id] = effect;
+            _targets[id] = target;
         }
 
-        public void ShowStunEffect(CharacterStunedEventArgs e)
+        public void HideStunEffect(int id)
         {
-            var key = e.Character.GetHashCode();
-
-            if (_viewedEffects.ContainsKey(key))
+            if (_effects.TryGetValue(id, out var effect))
             {
-                HideStunEffect(e);
+                _effectPool.ReturnToPool(effect);
+                _effects.Remove(id);
+                _targets.Remove(id);
             }
-
-            var stunEffect = _stunEffectPool.SpawnObject();
-            _viewedEffects.TryAdd(key, stunEffect);
-            _stunedCharacters.TryAdd(key, e.Character);
-
-            MoveOverObject(e.Character.transform, stunEffect);
-            stunEffect.gameObject.SetActive(true);
-            stunEffect.Play();
         }
 
-        private static void MoveOverObject(Transform transform, ParticleSystem effect)
+        public void UpdateAllPositions()
         {
-            effect.transform.position = transform.position;
-            effect.transform.position += Vector3.up;
+            foreach (var (id, target) in _targets)
+                _effects[id].transform.position = target.position + Vector3.up;
         }
 
-        public void HideStunEffect(CharacterStunedEventArgs e)
+        public void Cleanup()
         {
-            var key = e.Character.GetHashCode();
-
-            _viewedEffects.TryRemove(key, out var stunEffect);
-            _stunedCharacters.TryRemove(key, out _);
-            _stunEffectPool.ReturnToPool(stunEffect);
-        }
-
-        public void Dispose()
-        {
-            _stunEventPublisher.CharacterStuned -= ShowStunEffect;
-            _stunEventPublisher.StunStateExited -= HideStunEffect;
-        }
-
-        public void FixedTick()
-        {
-            var zip = _stunedCharacters.Zip(_viewedEffects, 
-                (character, effect) => (Character: character.Value.transform, Effect: effect.Value));
-
-            foreach (var elem in zip)
-            {
-                MoveOverObject(elem.Character, elem.Effect);
-            }
+            foreach (var effect in _effects.Values)
+                _effectPool.ReturnToPool(effect);
+            _effects.Clear();
+            _targets.Clear();
         }
     }
 }
-

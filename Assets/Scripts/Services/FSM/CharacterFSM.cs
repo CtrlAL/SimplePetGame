@@ -11,6 +11,10 @@ namespace FSM
 {
     public class CharacterFSM : IFixedTickable, IInitializable, IDisposable
     {
+        public IObservable<CharacterState> OnStateChanged => _onStateChanged;
+        public GameObject GameObject => _rigidbody.gameObject;
+        public Rigidbody Rigidbody => _rigidbody;
+
         [Inject] private Rigidbody _rigidbody;
 
         [Inject] private StateMachine _stateMachine;
@@ -21,12 +25,11 @@ namespace FSM
 
         private readonly CompositeDisposable _disposables = new();
 
-        public GameObject GameObject => _rigidbody.gameObject;
-        public Rigidbody Rigidbody => _rigidbody;
+        private readonly Subject<CharacterState> _onStateChanged = new();
 
         public void Initialize()
         {
-            _stunnedState.OnStunEnd
+            _stunnedState.OnStateExit
                 .Subscribe(_ => ChangeToState(CharacterState.Idle))
                 .AddTo(_disposables);
 
@@ -42,6 +45,7 @@ namespace FSM
         public void ChangeToState(CharacterState stateDiscriptor)
         {
             _stateMachine.ChangeState(_states[stateDiscriptor]);
+            _onStateChanged.OnNext(stateDiscriptor);
         }
 
         public IState GetCurrentState()
@@ -49,15 +53,9 @@ namespace FSM
             return _stateMachine.CurrentState;
         }
 
-        public void Dispose()
-        {
-            _disposables.Dispose();
-        }
+        public void FixedTick() => _stateMachine.Update();
 
-        public void FixedTick()
-        {
-            _stateMachine.Update();
-        }
+        public void Dispose() => _onStateChanged?.Dispose();
     }
 }
 

@@ -44,7 +44,6 @@ namespace Services.Installers
             Container.Bind<AnimationEventPublisher>().ToSelf().AsSingle();
             Container.Bind<DestroyEnemyEventPublisher>().ToSelf().AsSingle();
             Container.Bind<SoundEventPublisher>().ToSelf().AsSingle();
-            Container.Bind<StunEventPublisher>().ToSelf().AsSingle();
         }
 
         private void InstallServices()
@@ -89,8 +88,6 @@ namespace Services.Installers
             Container.Bind<TimerView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerSpawnPoint>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RespawnColiderView>().FromComponentsInHierarchy().AsSingle();
-
-            Container.BindInterfacesAndSelfTo<StunEffectView>().AsSingle().NonLazy();
         }
 
         private void InstallModels()

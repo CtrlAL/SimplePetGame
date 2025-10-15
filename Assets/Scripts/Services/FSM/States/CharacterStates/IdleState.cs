@@ -1,6 +1,6 @@
 ﻿namespace FSM.States.CharacterStates
 {
-    public class IdleState : IState
+    public class IdleState : ObservableState, IState
     {
     }
 }
