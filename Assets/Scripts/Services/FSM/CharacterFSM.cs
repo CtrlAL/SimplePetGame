@@ -27,6 +27,8 @@ namespace FSM
 
         private readonly Subject<CharacterState> _onStateChanged = new();
 
+        private IDisposable _stunTimer;
+
         public void Initialize()
         {
             _stunnedState.OnStateExit
@@ -42,10 +44,18 @@ namespace FSM
             _stateMachine.ChangeState(_states[CharacterState.Idle]);
         }
 
-        public void ChangeToState(CharacterState stateDiscriptor)
+        public void ChangeToState(CharacterState state)
         {
-            _stateMachine.ChangeState(_states[stateDiscriptor]);
-            _onStateChanged.OnNext(stateDiscriptor);
+            _stunTimer?.Dispose();
+
+            _stateMachine.ChangeState(_states[state]);
+
+            if (state == CharacterState.Stunned)
+            {
+                _stunTimer = Observable.Timer(TimeSpan.FromSeconds(4))
+                    .Subscribe(_ => ChangeToState(CharacterState.Idle))
+                    .AddTo(_disposables);
+            }
         }
 
         public IState GetCurrentState()

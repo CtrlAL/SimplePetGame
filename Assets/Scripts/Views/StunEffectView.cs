@@ -45,6 +45,7 @@ namespace Views
         {
             foreach (var effect in _effects.Values)
                 _effectPool.ReturnToPool(effect);
+
             _effects.Clear();
             _targets.Clear();
         }
