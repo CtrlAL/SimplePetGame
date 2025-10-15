@@ -7,7 +7,7 @@ using FSM.States;
 
 namespace Presenters
 {
-    public class CharacterStunPresenter : IInitializable, IDisposable
+    public class CharacterStunPresenter : IInitializable, IDisposable, IFixedTickable
     {
         private readonly CharacterFSM _fsm;
         private readonly StunnedState _state;
@@ -41,6 +41,11 @@ namespace Presenters
         {
             _view.HideStunEffect(_id);
             _disposables.Dispose();
+        }
+
+        public void FixedTick()
+        {
+            _view.UpdateAllPositions();
         }
     }
 }
