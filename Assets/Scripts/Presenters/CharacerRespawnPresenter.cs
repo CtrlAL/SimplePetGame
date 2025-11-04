@@ -12,7 +12,7 @@ namespace Presenters
     {
         [Inject] private List<RespawnColiderView> _respawnColiderViews;
 
-        [Inject] private PlayerSpawnPoint _playerSpawnPoint;
+        [Inject] private PlayerSpawnPointView _playerSpawnPoint;
 
         private CompositeDisposable _compositeDisposable;
 

@@ -22,7 +22,7 @@ namespace Presenters
         public IObservable<Unit> OnThresholdReached => _onThresholdReached;
 
         [Inject] private KickImpactSettigns _settings;
-        [Inject] private ImpactHandlerView _impactHandler;
+        [Inject] private ImpactDetectorView _impactHandler;
         [Inject] private ImpactHandlerModel _model;
         [Inject] private CharacterFSM _characterFSM;
         [Inject] private IFatigue _fatigueService;

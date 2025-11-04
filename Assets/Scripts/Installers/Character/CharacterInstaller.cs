@@ -24,7 +24,7 @@ namespace Services.Installers
             Container.BindInterfacesAndSelfTo<MoveCharacterModel>().AsSingle();
 
             Container.Bind<IKiker>().To<Kicker>().AsSingle();
-            Container.Bind<ImpactHandlerView>().FromComponentOnRoot().AsSingle();
+            Container.Bind<ImpactDetectorView>().FromComponentOnRoot().AsSingle();
             Container.BindInterfacesAndSelfTo<ImpactHandlerModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ImpactHandlerPresenter>().AsSingle().NonLazy();
 
@@ -35,7 +35,7 @@ namespace Services.Installers
 
             Container.Bind<IStuner>().To<Stuner>().AsSingle();
             Container.Bind<StunnedState>().ToSelf().AsSingle();
-            Container.Bind<StunEffectView>().AsSingle();
+            Container.Bind<IStunEffectService>().To<StunEffectService>().AsSingle();
             Container.BindInterfacesAndSelfTo<CharacterStunPresenter>().AsSingle();
         }
     }

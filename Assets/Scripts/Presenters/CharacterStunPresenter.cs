@@ -4,6 +4,7 @@ using Views;
 using UniRx;
 using System;
 using FSM.States;
+using Services.Interfaces;
 
 namespace Presenters
 {
@@ -11,13 +12,13 @@ namespace Presenters
     {
         private readonly CharacterFSM _fsm;
         private readonly StunnedState _state;
-        private readonly StunEffectView _view;
+        private readonly IStunEffectService _view;
         private readonly int _id;
 
         private CompositeDisposable _disposables = new();
 
-        public CharacterStunPresenter(CharacterFSM fsm, 
-            StunEffectView view, 
+        public CharacterStunPresenter(CharacterFSM fsm,
+            IStunEffectService view, 
             StunnedState stunnedState)
         {
             _fsm = fsm;

@@ -49,7 +49,7 @@ namespace Services.Installers
         private void InstallViews()
         {
             Container.Bind<TimerView>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<PlayerSpawnPoint>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<PlayerSpawnPointView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RespawnColiderView>().FromComponentsInHierarchy().AsSingle();
         }
 

@@ -2,15 +2,18 @@ using Services.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Views
+namespace Services
 {
-    public class StunEffectView
+    public class StunEffectService : IStunEffectService
     {
         private readonly IStunEffectPool _effectPool;
         private readonly Dictionary<int, ParticleSystem> _effects = new();
         private readonly Dictionary<int, Transform> _targets = new();
 
-        public StunEffectView(IStunEffectPool effectPool) => _effectPool = effectPool;
+        public StunEffectService(IStunEffectPool effectPool)
+        {
+            _effectPool = effectPool;
+        }
 
         public void ShowStunEffect(int id, Transform target)
         {
@@ -38,13 +41,17 @@ namespace Views
         public void UpdateAllPositions()
         {
             foreach (var (id, target) in _targets)
+            {
                 _effects[id].transform.position = target.position + Vector3.up;
+            }
         }
 
         public void Cleanup()
         {
             foreach (var effect in _effects.Values)
+            {
                 _effectPool.ReturnToPool(effect);
+            }
 
             _effects.Clear();
             _targets.Clear();

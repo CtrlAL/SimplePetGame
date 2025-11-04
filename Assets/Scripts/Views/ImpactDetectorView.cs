@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Views
 {
-    public class ImpactHandlerView : MonoBehaviour
+    public class ImpactDetectorView : MonoBehaviour
     {
         [Inject] private CharacterFSM _characterFSM;
 
