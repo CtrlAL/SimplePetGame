@@ -10,6 +10,10 @@ namespace Services.Installers
 {
     public partial class GameSceneInstaller : MonoInstaller
     {
+        [SerializeField] private BackgroundSounds _backgroundSounds;
+
+        [SerializeField] private CharacterSounds _characterSounds;
+
         [SerializeField] private LevelSettings _levelSettings;
 
         [SerializeField] private PoolingSettings _poolingSettings;
@@ -62,7 +66,7 @@ namespace Services.Installers
         private void InstallSound()
         {
             Container.BindInterfacesAndSelfTo<SoundManager>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<BackgroundMusicPlayer>().ToSelf().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<BackgroundMusicPlayer>().FromComponentInHierarchy().AsSingle();
         }
 
         private void InstallPresenters()
@@ -87,6 +91,9 @@ namespace Services.Installers
 
         private void InstallSO()
         {
+            Container.Bind<BackgroundSounds>().ToSelf().FromInstance(_backgroundSounds).AsSingle();
+            Container.Bind<CharacterSounds>().ToSelf().FromInstance(_characterSounds).AsSingle();
+
             Container.Bind<LevelSettings>().ToSelf().FromInstance(_levelSettings).AsSingle();
             Container.Bind<PoolingSettings>().ToSelf().FromInstance(_poolingSettings).AsSingle();
             Container.Bind<PlayerStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
