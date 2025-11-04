@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Presenters
 {
-    public class FatiguePresenter : ITickable
+    public class FatigueRestorationService : ITickable
     {
         [Inject] private FatigueModel _model;
         [Inject] private AbstractStats _stats;

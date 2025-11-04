@@ -30,7 +30,7 @@ namespace Services.Installers
 
             Container.Bind<IFatigue>().To<Fatigue>().AsSingle();
             Container.BindInterfacesAndSelfTo<FatigueModel>().AsSingle();
-            Container.BindInterfacesAndSelfTo<FatiguePresenter>().AsSingle().NonLazy();            
+            Container.BindInterfacesAndSelfTo<FatigueRestorationService>().AsSingle().NonLazy();            
 
 
             Container.Bind<IStuner>().To<Stuner>().AsSingle();

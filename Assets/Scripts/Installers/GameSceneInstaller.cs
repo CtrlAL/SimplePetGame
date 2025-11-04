@@ -2,6 +2,7 @@ using Presenters;
 using Services.Interfaces;
 using Services.Sound;
 using Views;
+using Views.UI;
 using Zenject;
 
 namespace Services.Installers
@@ -49,6 +50,7 @@ namespace Services.Installers
         private void InstallViews()
         {
             Container.Bind<TimerView>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<FatigueBarView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerSpawnPointView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RespawnColiderView>().FromComponentsInHierarchy().AsSingle();
         }

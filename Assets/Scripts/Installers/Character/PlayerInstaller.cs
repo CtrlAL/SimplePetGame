@@ -10,14 +10,11 @@ namespace Services.Installers
     public class PlayerInstaller : CharacterInstaller
     {
         [SerializeField]
-        private PlayerStats _playerStatsSO;
-
-        [SerializeField]
         private Animator _animator;
 
         public override void InstallBindings()
         {
-            Container.Bind<AbstractStats>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
+            Container.Bind<AbstractStats>().To<PlayerStats>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<PlayerKickPresenter>().AsSingle();
 
@@ -31,6 +28,8 @@ namespace Services.Installers
 
             Container.BindInterfacesAndSelfTo<CharacterAnimantionPresenter>().AsSingle();
             Container.Bind<Animator>().ToSelf().FromInstance(_animator).AsSingle();
+
+            Container.BindInterfacesAndSelfTo<FatigueBarPresenter>().AsSingle();
 
             base.InstallBindings();
         }
