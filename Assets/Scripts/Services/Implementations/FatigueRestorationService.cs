@@ -5,12 +5,12 @@ using Zenject;
 
 namespace Presenters
 {
-    public class FatigueRestorationService : ITickable
+    public class FatigueRestorationService : IFixedTickable
     {
         [Inject] private FatigueModel _model;
         [Inject] private AbstractStats _stats;
 
-        public void Tick()
+        public void FixedTick()
         {
             if (_model.CurrentFatigue.Value > 0)
             {

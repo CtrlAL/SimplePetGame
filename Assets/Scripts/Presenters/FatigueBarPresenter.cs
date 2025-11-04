@@ -17,13 +17,11 @@ namespace Presenters
 
         public void Initialize()
         {
-            _view.SetMaxvalue(1);
-
             _subscription = _model.CurrentFatigue
-                .Subscribe(value => _view.SetValue(value));
+                .Subscribe(SetPercent);
         }
 
-        public void SetPercent(int currentFutigue)
+        public void SetPercent(float currentFutigue)
         {
             _view.SetValue((_playerStats.Fatigue - currentFutigue) / _playerStats.Fatigue);
         }

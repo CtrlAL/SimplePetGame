@@ -15,11 +15,6 @@ namespace Views.UI
                 _slider.value = percent;
             }
         }
-
-        public void SetMaxvalue(int value)
-        {
-            _slider.value = value;
-        }
     }
 }
 

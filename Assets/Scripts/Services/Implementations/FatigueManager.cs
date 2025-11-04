@@ -20,7 +20,7 @@ namespace Services
             _model.CurrentFatigue.Value = Mathf.Min(newFatigue, _stats.Fatigue);
         }
 
-        public float GetKnockbackMultiplier(float maxMultiplier = 2f)
+        public float GetKnockbackMultiplier(float maxMultiplier = 5f)
         {
             if (_stats.Fatigue <= 0) return 1f;
 
