@@ -38,9 +38,6 @@ namespace Services.Installers
             Container.Bind<StunnedState>().ToSelf().AsSingle();
             Container.Bind<StunEffectView>().AsSingle();
             Container.BindInterfacesAndSelfTo<CharacterStunPresenter>().AsSingle();
-
-            Container.Bind<CharacterAnimantionPresenter>().AsSingle();
-            Container.Bind<Animator>().FromComponentInChildren().AsSingle();
         }
     }
 }

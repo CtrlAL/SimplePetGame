@@ -41,8 +41,6 @@ namespace Services.Installers
 
         private void InstallEvents()
         {
-            Container.Bind<AnimationEventPublisher>().ToSelf().AsSingle();
-            Container.Bind<DestroyEnemyEventPublisher>().ToSelf().AsSingle();
             Container.Bind<SoundEventPublisher>().ToSelf().AsSingle();
         }
 
@@ -72,7 +70,6 @@ namespace Services.Installers
         {
             Container.BindInterfacesAndSelfTo<SoundManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<BackgroundMusicPlayer>().ToSelf().FromComponentInHierarchy().AsSingle();
-            Container.BindInterfacesAndSelfTo<SoundEventRouter>().AsSingle();
         }
 
         private void InstallPresenters()

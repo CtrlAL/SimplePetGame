@@ -4,7 +4,6 @@ using ScriptableObjects;
 using Services.Interfaces;
 using UnityEngine;
 using Views.Scene;
-using Views.Scene.Animation;
 
 namespace Services.Installers
 {
@@ -12,6 +11,9 @@ namespace Services.Installers
     {
         [SerializeField]
         private PlayerStatsSO _playerStatsSO;
+
+        [SerializeField]
+        private Animator _animator;
 
         public override void InstallBindings()
         {
@@ -27,7 +29,8 @@ namespace Services.Installers
 
             Container.BindInterfacesAndSelfTo<MovePlayerPresenter>().AsSingle().NonLazy();
 
-            Container.Bind<CharacterAnimator>().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<CharacterAnimantionPresenter>().AsSingle();
+            Container.Bind<Animator>().ToSelf().FromInstance(_animator).AsSingle();
 
             base.InstallBindings();
         }

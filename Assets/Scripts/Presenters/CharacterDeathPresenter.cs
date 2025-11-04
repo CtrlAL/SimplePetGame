@@ -1,4 +1,5 @@
-﻿using Services.EventPublishers;
+﻿using Services;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using UniRx;
@@ -9,7 +10,7 @@ namespace Presenters
 {
     public class CharacterDeathPresenter : IInitializable, IDisposable
     {
-        [Inject] private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
+        [Inject] private IEnemyFactory _enemyFactory;
         [Inject] private List<RespawnColiderView> _respawnColiderViews;
         [Inject] private DeathEffectView _deathEffectView;
 
@@ -25,7 +26,7 @@ namespace Presenters
                     co =>
                     {
                         _deathEffectView.ShowEffect(co.gameObject);
-                        _destroyEnemyEventPublisher.PublishEvent(co.gameObject);
+                        _enemyFactory.DestroyEnemy(co.gameObject);
                     }
                 )
                 .AddTo(_compositeDisposable);

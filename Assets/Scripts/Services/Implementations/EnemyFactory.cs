@@ -1,5 +1,4 @@
 using ScriptableObjects;
-using Services.EventPublishers;
 using Services.Interfaces;
 using System;
 using System.Linq;
@@ -10,10 +9,8 @@ using UnityRandom = UnityEngine.Random;
 
 namespace Services
 {
-    public class EnemyFactory : IEnemyFactory, IFixedTickable, IDisposable
+    public class EnemyFactory : IEnemyFactory, IFixedTickable
     {
-        private DestroyEnemyEventPublisher _destroyEnemyEventPublisher;
-
         private IEnemyPool _pool;
 
         private LevelSettings _levelSettings;
@@ -24,7 +21,7 @@ namespace Services
 
         private int _currentCount = 0;
 
-        public EnemyFactory(IEnemyPool enemyPool, LevelSettings levelSettings, DestroyEnemyEventPublisher destroyEnemyEventPublisher)
+        public EnemyFactory(IEnemyPool enemyPool, LevelSettings levelSettings)
         {
             _pool = enemyPool;
 
@@ -33,9 +30,6 @@ namespace Services
             _spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint")
                 .Select(x => x.transform)
                 .ToArray();
-
-            _destroyEnemyEventPublisher = destroyEnemyEventPublisher;
-            _destroyEnemyEventPublisher.DestroyEnemy += DestroyEnemy;
         }
 
         public void DestroyEnemy(GameObject args)
@@ -71,11 +65,6 @@ namespace Services
             rb.angularVelocity = Vector3.zero;
 
             enemy.SetActive(true);
-        }
-
-        public void Dispose()
-        {
-            _destroyEnemyEventPublisher.DestroyEnemy -= DestroyEnemy;
         }
     }
 }
