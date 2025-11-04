@@ -25,10 +25,17 @@ namespace Services.Sound
             _audioSource.playOnAwake = false;
             _audioSource.loop = false;
 
-            if (!Application.isPlaying) return;
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+            
             BuildPlayOrder();
+
             if (_playOrder.Count > 0)
+            {
                 PlayTrack(0);
+            }
         }
 
         public void SwitchToTrack(BackgroundSoundType type)
