@@ -25,7 +25,7 @@ namespace Presenters
         [Inject] private ImpactDetectorView _impactHandler;
         [Inject] private ImpactHandlerModel _model;
         [Inject] private CharacterFSM _characterFSM;
-        [Inject] private IFatigue _fatigueService;
+        [Inject] private IFatigueManager _fatigueService;
 
         private readonly CompositeDisposable _disposables = new();
 

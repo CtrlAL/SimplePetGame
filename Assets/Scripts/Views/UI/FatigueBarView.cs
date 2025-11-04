@@ -6,16 +6,20 @@ namespace Views.UI
     public class FatigueBarView : MonoBehaviour
     {
         [SerializeField]
-        private Image _fatigueBarImage;
+        private Slider _slider;
 
         public void SetValue(float percent)
         {
-            if (_fatigueBarImage != null)
+            if (_slider != null)
             {
-                _fatigueBarImage.fillAmount = percent;
+                _slider.value = percent;
             }
+        }
+
+        public void SetMaxvalue(int value)
+        {
+            _slider.value = value;
         }
     }
 }
-
 

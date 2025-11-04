@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Services
 {
-    public class Fatigue : IFatigue
+    public class FatigueManager : IFatigueManager
     {
         [Inject]
         private readonly FatigueModel _model;

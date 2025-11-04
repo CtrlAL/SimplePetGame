@@ -17,6 +17,8 @@ namespace Presenters
 
         public void Initialize()
         {
+            _view.SetMaxvalue(1);
+
             _subscription = _model.CurrentFatigue
                 .Subscribe(value => _view.SetValue(value));
         }

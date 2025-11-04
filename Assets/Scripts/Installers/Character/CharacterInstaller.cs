@@ -28,7 +28,7 @@ namespace Services.Installers
             Container.BindInterfacesAndSelfTo<ImpactHandlerModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ImpactHandlerPresenter>().AsSingle().NonLazy();
 
-            Container.Bind<IFatigue>().To<Fatigue>().AsSingle();
+            Container.Bind<IFatigueManager>().To<FatigueManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<FatigueModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<FatigueRestorationService>().AsSingle().NonLazy();            
 
