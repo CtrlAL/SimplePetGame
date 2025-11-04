@@ -1,10 +1,10 @@
 ﻿using FSM;
 using ScriptableObjects;
-using Services.EventPublishers;
 using Services.Interfaces;
 using UnityEngine;
 using Zenject;
 using Extensions;
+using Services.Sound;
 
 namespace Presenters
 {
@@ -14,7 +14,7 @@ namespace Presenters
 
         [Inject] IKiker _kiker;
 
-        [Inject] SoundEventPublisher _soundEventPublisher;
+        [Inject] SoundManager _soundManager;
 
         [Inject] private PlayerStatsSO _playerStats;
 
@@ -56,7 +56,7 @@ namespace Presenters
 
         private void PlayKickSound()
         {
-            _soundEventPublisher.PlaySound(Enums.SoundType.PlayerKick, 1);
+            _soundManager.PlaySound(1, Enums.SoundType.PlayerKick);
         }
     }
 }

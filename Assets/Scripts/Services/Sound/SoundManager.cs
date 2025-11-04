@@ -1,5 +1,4 @@
 ﻿using Enums;
-using Services.EventPublishers;
 using System;
 using UnityEngine;
 using Zenject;
@@ -9,7 +8,6 @@ namespace Services.Sound
     [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
     public class SoundManager : MonoBehaviour, IInitializable
     {
-        [Inject] private SoundEventPublisher _soundEventPublisher;
 
         [SerializeField] private Sound[] _soundList;
 
@@ -17,28 +15,13 @@ namespace Services.Sound
 
         public void Initialize()
         {
-            _soundEventPublisher.PlaySoundRequested += PlaySound;
             _soundSource = GetComponent<AudioSource>();
-        }
-
-        private void PlaySound(PlaySoundEventArgs args)
-        {
-            var clip = _soundList[(int)args.SoundType];
-            _soundSource.PlayOneShot(clip.sound, args.Volume);
         }
 
         public void PlaySound(int volume, SoundType soundType)
         {
             var clip = _soundList[(int)soundType];
             _soundSource.PlayOneShot(clip.sound, volume);
-        }
-
-        private void OnDestroy()
-        {
-            if (_soundEventPublisher != null)
-            {
-                _soundEventPublisher.PlaySoundRequested -= PlaySound;
-            }
         }
 
 #if UNITY_EDITOR

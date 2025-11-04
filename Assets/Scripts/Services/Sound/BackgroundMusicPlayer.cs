@@ -1,8 +1,6 @@
 ﻿using Enums;
-using Services.EventPublishers;
 using System;
 using UnityEngine;
-using Zenject;
 
 namespace Services.Sound
 {
@@ -11,23 +9,20 @@ namespace Services.Sound
     {
         [SerializeField] private Sound[] _backgroundSoundList;
 
-        [Inject] private SoundEventPublisher _soundEventPublisher;
-
         private AudioSource _soundSource;
 
         private void Awake()
         {
             _soundSource = GetComponent<AudioSource>();
             _soundSource.loop = true;
-            _soundSource.playOnAwake = false;
-            _soundEventPublisher.SwitchBackgroundMusicRequested += SwitchSound;
+            _soundSource.playOnAwake = false;            
         }
 
-        private void SwitchSound(PlaySoundEventArgs args)
+        public void SwitchSound(int volume, SoundType soundType)
         {
-            var clip = _backgroundSoundList[(int)args.SoundType];
+            var clip = _backgroundSoundList[(int)soundType];
             _soundSource.clip = clip.sound;
-            _soundSource.volume = args.Volume;
+            _soundSource.volume = volume;
         }
 
         void Start()

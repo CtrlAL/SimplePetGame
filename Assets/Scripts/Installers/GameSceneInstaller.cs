@@ -1,6 +1,5 @@
 using Presenters;
 using ScriptableObjects;
-using Services.EventPublishers;
 using Services.Interfaces;
 using Services.Sound;
 using UnityEngine;
@@ -29,7 +28,6 @@ namespace Services.Installers
 
         public override void InstallBindings()
         {
-            InstallEvents();
             InstallSO();
             InstallPlayerInputs();
             InstallServices();
@@ -37,11 +35,6 @@ namespace Services.Installers
             InstallViews();
             InstallModels();
             InstallSound();
-        }
-
-        private void InstallEvents()
-        {
-            Container.Bind<SoundEventPublisher>().ToSelf().AsSingle();
         }
 
         private void InstallServices()
