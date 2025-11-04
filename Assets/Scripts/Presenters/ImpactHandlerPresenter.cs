@@ -65,6 +65,7 @@ namespace Presenters
 
         private void ApplyWeakHit()
         {
+            _fatigueService.MakeFatigueDamage(FatigueDamage.WeakHitDamage);
             _model.CurrentWeakHitCount.Value++;
         }
 
