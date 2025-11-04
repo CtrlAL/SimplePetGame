@@ -17,7 +17,7 @@ namespace Presenters
 
         [Inject] private NavMeshAgent _navMeshAgent;
 
-        [Inject] private EnemyStatsSO _stats;
+        [Inject] private EnemyStats _stats;
 
         public void Initialize()
         {

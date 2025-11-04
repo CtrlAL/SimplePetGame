@@ -9,9 +9,9 @@ using Zenject;
 
 namespace Views
 {
-    public class EnemyKickView : MonoBehaviour
+    public class EnemyKickZoneView : MonoBehaviour
     {
-        [Inject] private EnemyStatsSO _enemyStatsSO;
+        [Inject] private EnemyStats _enemyStatsSO;
 
         public Subject<Collider> KickPerformed = new();
 

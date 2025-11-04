@@ -12,7 +12,7 @@ namespace Services
         private readonly FatigueModel _model;
 
         [Inject]
-        private readonly AbstractStatsSO _stats;
+        private readonly AbstractStats _stats;
         
         public void MakeFatigueDamage(float damage)
         {

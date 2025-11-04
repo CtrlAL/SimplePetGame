@@ -17,7 +17,7 @@ namespace Presenters
 
         [Inject] private IPlayerInputProvider _playerInputProvider;
 
-        [Inject] private PlayerStatsSO _stats;
+        [Inject] private PlayerStats _stats;
 
         [Inject] private SoundManager _soundManager;
 

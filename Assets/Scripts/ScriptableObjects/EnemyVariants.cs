@@ -3,8 +3,8 @@
 namespace ScriptableObjects
 {
 
-    [CreateAssetMenu(fileName = "NewEnemyLibrary", menuName = "Enemy/Enemy Library", order = 50)]
-    public class EnemyLibrary : ScriptableObject
+    [CreateAssetMenu(fileName = "EnemyVariants", menuName = "Enemy/EnemyVariants", order = 50)]
+    public class EnemyVariants : ScriptableObject
     {
         [SerializeField]
         private EnemyEntry[] _enemies;

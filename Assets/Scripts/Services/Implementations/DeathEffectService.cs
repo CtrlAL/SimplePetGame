@@ -3,9 +3,9 @@ using Services.Interfaces;
 using UnityEngine;
 using Zenject;
 
-namespace Views
+namespace Services
 {
-    public class DeathEffectView
+    public class DeathEffectService : IDeathEffectService
     {
         [Inject] IDeathEffectPool _deathEffectPool;
 
@@ -37,4 +37,3 @@ namespace Views
         }
     }
 }
-

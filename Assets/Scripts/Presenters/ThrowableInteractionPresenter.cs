@@ -9,9 +9,9 @@ using UnityEngine;
 using Zenject;
 using Models;
 using System.Linq;
-using Views.Scene;
 using Enums;
 using Services.Sound;
+using Views;
 
 namespace Presenters
 {

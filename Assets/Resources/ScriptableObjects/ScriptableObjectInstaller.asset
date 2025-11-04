@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688eef71614a083458da926f97a95fd1, type: 3}
+  m_Name: ScriptableObjectInstaller
+  m_EditorClassIdentifier: 
+  _backgroundSounds: {fileID: 11400000, guid: 059d11e80c129a44cb725c39d42c0494, type: 2}
+  _characterSounds: {fileID: 11400000, guid: 2d27ecbbd17aadd44978e415a7d185b4, type: 2}
+  _levelSettings: {fileID: 11400000, guid: 10979e495bb3e0e469b0f37ba6b509e1, type: 2}
+  _poolingSettings: {fileID: 11400000, guid: e01ce2354b658db4bbfa920ab36897b9, type: 2}
+  _playerStatsSO: {fileID: 11400000, guid: 84f2421b5fd9eeb40a1b3de3688a5db3, type: 2}
+  _enemyStatsSO: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}
+  _throwableInteractionSettingsSO: {fileID: 11400000, guid: 99b7aee68c67bc9459863a8dfe781f55,
+    type: 2}
+  _kickImpactSettigns: {fileID: 11400000, guid: 33af7a41d181c5c44ae507751d1bed97,
+    type: 2}
+  _characterVFX: {fileID: 11400000, guid: 23379c72f5b7d0140ba6d20dd534c624, type: 2}
+  _enemyLibrary: {fileID: 11400000, guid: 43c239864b73ebd45b034c2ce923d4ce, type: 2}

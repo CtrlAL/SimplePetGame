@@ -10,7 +10,7 @@ namespace Services
     {
         [Inject] private DiContainer _diContainer;
 
-        [Inject] private EnemyLibrary _enemyLibrary;
+        [Inject] private EnemyVariants _enemyLibrary;
 
         [Inject] private PoolingSettings _poolingSettings;
 

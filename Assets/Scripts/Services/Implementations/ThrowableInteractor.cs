@@ -14,7 +14,7 @@ namespace Services
         private ThrowableInteractionModel _throwableModel;
 
         [Inject]
-        private ThrowableInteractionSettingsSO _settings;
+        private InteractionSettings _settings;
 
         private Subject<Unit> _onObjectThrown = new();
         public IObservable<Unit> OnObjectThrown => _onObjectThrown;

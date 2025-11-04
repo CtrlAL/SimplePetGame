@@ -2,7 +2,7 @@
 
 namespace ScriptableObjects
 {
-    public abstract class AbstractStatsSO : ScriptableObject
+    public abstract class AbstractStats : ScriptableObject
     {
         public abstract float MoveSpeed { get; }
         public abstract float RotationSpeed { get; }

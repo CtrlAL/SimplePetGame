@@ -2,8 +2,8 @@
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "ThrowableInteractionSettings", menuName = "ThrowableInteractionSettings")]
-    public class ThrowableInteractionSettingsSO : ScriptableObject
+    [CreateAssetMenu(fileName = "InteractionSettings", menuName = "InteractionSettings")]
+    public class InteractionSettings : ScriptableObject
     {
         [Header("Physics")]
         public float ThrowForce = 1000f;

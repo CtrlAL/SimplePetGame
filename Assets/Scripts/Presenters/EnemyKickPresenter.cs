@@ -14,9 +14,9 @@ namespace Presenters
     {
         [Inject] private CharacterFSM _fsm;
 
-        [Inject] private EnemyKickView _enemyKickView;
+        [Inject] private EnemyKickZoneView _enemyKickView;
 
-        [Inject] private EnemyStatsSO _stats;
+        [Inject] private EnemyStats _stats;
 
         [Inject] private IKiker _kicker;
 

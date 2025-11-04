@@ -9,15 +9,15 @@ namespace Services.Installers
     public class EnemyInstaller : CharacterInstaller
     {
         [SerializeField]
-        private EnemyStatsSO _enemyStatsSO;
+        private EnemyStats _enemyStatsSO;
 
         public override void InstallBindings()
         {
             Container.Bind<NavMeshAgent>().FromComponentOnRoot().AsSingle();
-            Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_enemyStatsSO).AsSingle();
+            Container.Bind<AbstractStats>().ToSelf().FromInstance(_enemyStatsSO).AsSingle();
 
             Container.BindInterfacesAndSelfTo<EnemyKickPresenter>().AsSingle().NonLazy();
-            Container.Bind<EnemyKickView>().FromComponentOnRoot().AsSingle();
+            Container.Bind<EnemyKickZoneView>().FromComponentOnRoot().AsSingle();
 
             Container.BindInterfacesAndSelfTo<MoveEnemyPresenter>().AsSingle().NonLazy();
 

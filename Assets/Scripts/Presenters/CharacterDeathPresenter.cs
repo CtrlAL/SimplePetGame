@@ -1,5 +1,4 @@
-﻿using Services;
-using Services.Interfaces;
+﻿using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using UniRx;
@@ -12,7 +11,7 @@ namespace Presenters
     {
         [Inject] private IEnemyFactory _enemyFactory;
         [Inject] private List<RespawnColiderView> _respawnColiderViews;
-        [Inject] private DeathEffectView _deathEffectView;
+        [Inject] private IDeathEffectService _deathEffectView;
 
         private CompositeDisposable _compositeDisposable;
         public void Initialize()

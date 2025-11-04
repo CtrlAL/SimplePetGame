@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Views.Scene.Characters
+namespace Views
 {
     public class ImpactHandlerView : MonoBehaviour
     {

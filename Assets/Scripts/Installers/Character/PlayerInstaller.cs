@@ -3,21 +3,21 @@ using Presenters;
 using ScriptableObjects;
 using Services.Interfaces;
 using UnityEngine;
-using Views.Scene;
+using Views;
 
 namespace Services.Installers
 {
     public class PlayerInstaller : CharacterInstaller
     {
         [SerializeField]
-        private PlayerStatsSO _playerStatsSO;
+        private PlayerStats _playerStatsSO;
 
         [SerializeField]
         private Animator _animator;
 
         public override void InstallBindings()
         {
-            Container.Bind<AbstractStatsSO>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
+            Container.Bind<AbstractStats>().ToSelf().FromInstance(_playerStatsSO).AsSingle();
 
             Container.BindInterfacesAndSelfTo<PlayerKickPresenter>().AsSingle();
 

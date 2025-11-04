@@ -16,7 +16,7 @@ namespace Presenters
 
         [Inject] SoundManager _soundManager;
 
-        [Inject] private PlayerStatsSO _playerStats;
+        [Inject] private PlayerStats _playerStats;
 
         [Inject] private CharacterFSM _fsm;
 

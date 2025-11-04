@@ -2,7 +2,6 @@ using Models;
 using FSM;
 using Presenters;
 using Zenject;
-using Views.Scene.Characters;
 using UnityEngine;
 using Services.Interfaces;
 using FSM.States;

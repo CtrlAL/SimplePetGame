@@ -4,10 +4,10 @@ using UniRx;
 using Zenject;
 using Enums;
 using FSM.States.CharacterStates;
-using Views.Scene.Characters;
 using Models;
 using Constants;
 using Services.Interfaces;
+using Views;
 
 namespace Presenters
 {

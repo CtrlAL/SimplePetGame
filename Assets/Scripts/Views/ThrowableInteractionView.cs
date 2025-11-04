@@ -1,7 +1,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Views.Scene
+namespace Views
 {
     public class ThrowableInteractionView : MonoBehaviour
     {
@@ -21,4 +21,3 @@ namespace Views.Scene
             OnObjectExitedRange?.OnNext(other.gameObject);
     }
 }
-

@@ -1,7 +1,10 @@
 using TMPro;
 using UnityEngine;
 
-public class TimerView : MonoBehaviour
+namespace Views
 {
-    public TMP_Text TimerText;
+    public class TimerView : MonoBehaviour
+    {
+        public TMP_Text TimerText;
+    }
 }

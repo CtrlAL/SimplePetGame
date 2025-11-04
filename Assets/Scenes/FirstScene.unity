@@ -986,7 +986,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
+  _scriptableObjectInstallers:
+  - {fileID: 11400000, guid: 4b91d557f817b1a4ca6ce62f20cc6ae6, type: 2}
   _monoInstallers:
   - {fileID: 1570193931}
   _installerPrefabs: []
@@ -1739,7 +1740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &937408631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,9 +1753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d40af77b01faf8542a3ff4c654e3aa29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSoundList:
-  - name: DefaultBackground
-    sound: {fileID: 8300000, guid: 510c33ca580a3c24ab2f050263ad4011, type: 3}
+  _shuffle: 0
 --- !u!82 &937408632
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2215,31 +2214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9fd79a523f2b0498da13083818adc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundList:
-  - name: PlayerKick
-    sound: {fileID: 8300000, guid: 9f79d759e08b9b64db080bd318582c0f, type: 3}
-  - name: EnemyKick
-    sound: {fileID: 8300000, guid: 7449f16fdb624944e8a3ac7908e2a972, type: 3}
-  - name: Jump
-    sound: {fileID: 8300000, guid: becf2d19fedff7b479581f8ea2716d3c, type: 3}
-  - name: Throw
-    sound: {fileID: 8300000, guid: 8c39516544cd4554d82b3223cc046187, type: 3}
-  - name: Death
-    sound: {fileID: 8300000, guid: ba305da4a7a187d4f8e3f177e8df811b, type: 3}
-  - name: FallDown
-    sound: {fileID: 8300000, guid: ebf1dbbbb4522d9439674a6c56bbc58c, type: 3}
-  - name: BottleHit
-    sound: {fileID: 8300000, guid: 0d6ed334089c9414184c57d5a587f7b5, type: 3}
-  - name: BottleDropOnFloor
-    sound: {fileID: 8300000, guid: e4ecae8e01140074097e816d301e60df, type: 3}
-  - name: GameOver
-    sound: {fileID: 8300000, guid: f04eace44dd667e45827d516f2b9009d, type: 3}
-  - name: Win
-    sound: {fileID: 8300000, guid: f48ceb437de78aa4584832f3a23d4a7d, type: 3}
-  - name: PickUp
-    sound: {fileID: 8300000, guid: 08045bf8c7d1d4f46a19537fce5cf47b, type: 3}
-  - name: WaveAnimationSound
-    sound: {fileID: 8300000, guid: d4285260b9751db418fc3f84e5c9def9, type: 3}
 --- !u!1 &1206079963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2404,16 +2378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0757a2af50b2a4dbd69a3ffb722231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelSettings: {fileID: 11400000, guid: 10979e495bb3e0e469b0f37ba6b509e1, type: 2}
-  _poolingSettings: {fileID: 11400000, guid: e01ce2354b658db4bbfa920ab36897b9, type: 2}
-  _playerStatsSO: {fileID: 11400000, guid: 84f2421b5fd9eeb40a1b3de3688a5db3, type: 2}
-  _enemyStatsSO: {fileID: 11400000, guid: 18e924ef13db2014683bd9481403db0e, type: 2}
-  _throwableInteractionSettingsSO: {fileID: 11400000, guid: 99b7aee68c67bc9459863a8dfe781f55,
-    type: 2}
-  _kickImpactSettigns: {fileID: 11400000, guid: 33af7a41d181c5c44ae507751d1bed97,
-    type: 2}
-  _characterVFX: {fileID: 11400000, guid: 23379c72f5b7d0140ba6d20dd534c624, type: 2}
-  _enemyLibrary: {fileID: 11400000, guid: 43c239864b73ebd45b034c2ce923d4ce, type: 2}
 --- !u!95 &1584165790 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9167069576236429502, guid: 3ba02bc2e0a02cf47a393e948aab97c1,

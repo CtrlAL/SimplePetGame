@@ -1,5 +1,9 @@
 using UnityEngine;
 
-public class PlayerSpawnPoint : MonoBehaviour
+namespace Views
 {
+    public class PlayerSpawnPoint : MonoBehaviour
+    {
+    }
 }
+

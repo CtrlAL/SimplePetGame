@@ -8,7 +8,7 @@ namespace Presenters
     public class FatiguePresenter : ITickable
     {
         [Inject] private FatigueModel _model;
-        [Inject] private AbstractStatsSO _stats;
+        [Inject] private AbstractStats _stats;
 
         public void Tick()
         {
