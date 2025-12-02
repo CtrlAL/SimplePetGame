@@ -49,6 +49,7 @@ namespace Presenters
             }
             else
             {
+                Debug.Log("Reload scene");
                 Scene currentScene = SceneManager.GetActiveScene();
                 SceneManager.LoadScene(currentScene.name);
             }
