@@ -1,3 +1,4 @@
+using ScriptableObjects;
 using System;
 using UniRx;
 using UnityEngine;
@@ -8,11 +9,11 @@ namespace Presenters
 {
     public class TimerPresenter : IFixedTickable, IInitializable, IDisposable
     {
-        [Inject]
-        public TimerModel TimerModel { get; set; }
+        [Inject] public LevelSettings LevelSettings;
 
-        [Inject]
-        public TimerView TimerView { get; set; }
+        [Inject] public TimerModel TimerModel;
+
+        [Inject] public TimerView TimerView;
 
         private IDisposable _subscription;
 
@@ -24,7 +25,10 @@ namespace Presenters
 
         public void FixedTick()
         {
-            TimerModel.GameTime.Value += Time.fixedDeltaTime;
+            while (TimerModel.GameTime.Value / 60 < LevelSettings.LevelDuration)
+            {
+                TimerModel.GameTime.Value += Time.fixedDeltaTime;
+            }
         }
 
         public void Dispose()
