@@ -13,10 +13,12 @@ public class PauseMenu : MonoBehaviour
     public void SetStartedMenu()
     {
         StartRestartButtonText.text = "Start";
+        ResumeButton.gameObject.SetActive(true);
     }
 
     public void SetNotStartedMenu()
     {
+        ResumeButton.gameObject.SetActive(false);
         StartRestartButtonText.text = "Restart";
     }
 }

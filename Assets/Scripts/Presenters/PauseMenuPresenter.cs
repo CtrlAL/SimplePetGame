@@ -1,22 +1,21 @@
 using Services.Interfaces;
-using UniRx;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Presenters
 {
-    public class PauseMenuPresenter : IInitializable
+    public class PauseMenuPresenter : IInitializable, IDisposable
     {
         [Inject] private PauseMenu _view;
 
         [Inject] private IPlayerInputProvider _playerInputProvider;
 
-        private CompositeDisposable _disposables = new();
-
         public void Initialize()
         {
             _view.SetNotStartedMenu();
+            _view.gameObject.SetActive(true);
             _view.StartRestartButton.onClick.AddListener(Start);
             _view.ResumeButton.onClick.AddListener(Resume);
             _view.ExitButton.onClick.AddListener(Exit);
@@ -54,6 +53,11 @@ namespace Presenters
 #else
             Application.Quit();
 #endif
+        }
+
+        public void Dispose()
+        {
+            _playerInputProvider.Inputs.Menu.performed -= OpenMenu;
         }
     }
 }
