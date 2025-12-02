@@ -15,7 +15,6 @@ namespace Presenters
         public void Initialize()
         {
             _view.SetNotStartedMenu();
-            _view.gameObject.SetActive(true);
             _view.StartRestartButton.onClick.AddListener(Start);
             _view.ResumeButton.onClick.AddListener(Resume);
             _view.ExitButton.onClick.AddListener(Exit);
@@ -25,12 +24,14 @@ namespace Presenters
 
         private void OpenMenu(InputAction.CallbackContext context)
         {
+            _playerInputProvider.Inputs.Disable();
             _view.gameObject.SetActive(true);
             Time.timeScale = 0;
         }
 
         private void CloseMenu(InputAction.CallbackContext context)
         {
+            _playerInputProvider.Inputs.Enable();
             _view.gameObject.SetActive(false);
             Time.timeScale = 1;
         }
