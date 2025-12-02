@@ -14,7 +14,9 @@ namespace Services.Installers
             InstallPlayerInputs();
             InstallServices();
             InstallPresenters();
+            InstallUIPresenters();
             InstallViews();
+            InstallUIViews();
             InstallModels();
             InstallSound();
         }
@@ -50,9 +52,19 @@ namespace Services.Installers
         private void InstallViews()
         {
             Container.Bind<TimerView>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<FatigueBarView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerSpawnPointView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RespawnColiderView>().FromComponentsInHierarchy().AsSingle();
+        }
+
+        private void InstallUIViews()
+        {
+            Container.Bind<FatigueBarView>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<PauseMenu>().FromComponentInHierarchy().AsSingle();
+        }
+
+        private void InstallUIPresenters()
+        {
+            Container.BindInterfacesAndSelfTo<PauseMenuPresenter>().AsSingle().NonLazy();
         }
 
         private void InstallModels()
