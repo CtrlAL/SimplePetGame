@@ -1,4 +1,3 @@
-using Models;
 using Services.Interfaces;
 using UniRx;
 using UnityEngine;
@@ -9,8 +8,6 @@ namespace Presenters
     public class PauseMenuPresenter : IInitializable
     {
         [Inject] private PauseMenu _view;
-
-        [Inject] private GameStateModel _gameStateModel;
 
         [Inject] private IPlayerInputProvider _playerInputProvider;
 
