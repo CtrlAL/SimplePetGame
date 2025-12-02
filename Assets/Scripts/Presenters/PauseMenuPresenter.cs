@@ -1,6 +1,7 @@
 using Services.Interfaces;
 using UniRx;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Presenters
@@ -19,17 +20,31 @@ namespace Presenters
             _view.StartRestartButton.onClick.AddListener(Start);
             _view.ResumeButton.onClick.AddListener(Resume);
             _view.ExitButton.onClick.AddListener(Exit);
+
+            _playerInputProvider.Inputs.Menu.performed += OpenMenu;
+        }
+
+        private void OpenMenu(InputAction.CallbackContext context)
+        {
+            _view.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        private void CloseMenu(InputAction.CallbackContext context)
+        {
+            _view.gameObject.SetActive(false);
+            Time.timeScale = 1;
         }
 
         public void Start()
         {
             _view.SetStartedMenu();
-            Time.timeScale = 1;
+            CloseMenu(default);
         }
 
         public void Resume()
         {
-            Time.timeScale = 1;
+            CloseMenu(default);
         }
 
         public void Exit()
