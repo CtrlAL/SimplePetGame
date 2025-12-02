@@ -2,6 +2,7 @@ using Services.Interfaces;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Presenters
@@ -11,6 +12,8 @@ namespace Presenters
         [Inject] private PauseMenu _view;
 
         [Inject] private IPlayerInputProvider _playerInputProvider;
+
+        private bool _IsStarted = false;
 
         public void Initialize()
         {
@@ -38,8 +41,17 @@ namespace Presenters
 
         public void Start()
         {
-            _view.SetStartedMenu();
-            CloseMenu(default);
+            if (!_IsStarted)
+            {
+                _view.SetStartedMenu();
+                CloseMenu(default);
+                _IsStarted = true;
+            }
+            else
+            {
+                Scene currentScene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(currentScene.name);
+            }
         }
 
         public void Resume()

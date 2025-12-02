@@ -25,7 +25,6 @@ namespace Presenters
 
         public void Initialize()
         {
-            _playerInputProvider.InputActions.Enable();
             _playerInputProvider.Inputs.Jump.performed += Jump;
 
             _mover.OnJumped

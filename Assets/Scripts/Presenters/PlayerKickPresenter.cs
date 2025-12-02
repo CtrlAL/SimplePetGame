@@ -51,7 +51,7 @@ namespace Presenters
 
         private bool CheckKickPresed()
         {
-            return _playerInputProvider?.Inputs.Kick.IsPressed() == true;
+            return _playerInputProvider.Inputs.Kick.IsPressed() == true;
         }
 
         private void PlayKickSound()
