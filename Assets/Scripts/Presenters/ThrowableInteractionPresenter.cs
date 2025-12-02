@@ -15,7 +15,7 @@ using Views;
 
 namespace Presenters
 {
-    public class ThrowableInteractionPresenter : IInitializable, IDisposable, ITickable
+    public class ThrowableInteractionPresenter : IInitializable, IDisposable, IFixedTickable
     {
         private readonly ThrowableInteractionModel _model;
         private readonly ThrowableInteractionView _view;
@@ -113,7 +113,7 @@ namespace Presenters
                 _model.AllowedThrowables.Add(obj);
         }
 
-        public void Tick()
+        public void FixedTick()
         {
             CleanupNulls();
         }
