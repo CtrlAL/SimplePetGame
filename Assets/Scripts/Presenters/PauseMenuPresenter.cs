@@ -19,7 +19,6 @@ namespace Presenters
             _view.StartRestartButton.onClick.AddListener(Start);
             _view.ResumeButton.onClick.AddListener(Resume);
             _view.ExitButton.onClick.AddListener(Exit);
-
             _playerInputProvider.Inputs.Menu.performed += OpenMenu;
         }
 
