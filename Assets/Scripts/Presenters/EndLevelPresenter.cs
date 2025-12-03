@@ -1,7 +1,6 @@
 using Models;
 using ScriptableObjects;
 using Services.Interfaces;
-using System;
 using UniRx;
 using UnityEngine.SceneManagement;
 using Views.UI;
