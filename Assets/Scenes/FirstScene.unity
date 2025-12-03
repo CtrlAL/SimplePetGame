@@ -2170,9 +2170,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RestartButton: {fileID: 104395541}
+  BackButton: {fileID: 1522130128}
   ScoreButton: {fileID: 1502134603}
   ExitButton: {fileID: 1599190698}
   _scoreView: {fileID: 1764673970}
+  _menuView: {fileID: 1756347409}
   _killedCount: {fileID: 630157817}
   _timeAlived: {fileID: 1804073160}
 --- !u!1 &737872098
