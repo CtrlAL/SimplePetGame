@@ -37,6 +37,7 @@ namespace Presenters
 
         private void ShowResultView()
         {
+            Time.timeScale = 0;
             _playerInputProvider.Inputs.Disable();
             _resultMenuView.InItScore(_statsModel.KilledCubes.Value, _timerModel.GameTime.Value);
             _resultMenuView.gameObject.SetActive(true);
