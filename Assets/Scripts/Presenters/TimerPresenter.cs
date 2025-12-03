@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Presenters
 {
-    public class TimerPresenter : IFixedTickable, IInitializable, IDisposable
+    public class TimerPresenter : IInitializable, IDisposable
     {
         [Inject] public LevelSettings LevelSettings;
 
@@ -21,14 +21,6 @@ namespace Presenters
         {
             _subscription = TimerModel.GameTime
                 .Subscribe(OnTimeUpdated);
-        }
-
-        public void FixedTick()
-        {
-            while (TimerModel.GameTime.Value / 60 < LevelSettings.LevelDuration)
-            {
-                TimerModel.GameTime.Value += Time.fixedDeltaTime;
-            }
         }
 
         public void Dispose()
