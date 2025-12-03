@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Presenters
 {
-    public class TimerPresenter : IInitializable, IDisposable
+    public class TimerPresenter : IInitializable, IDisposable, IFixedTickable
     {
         [Inject] public LevelSettings LevelSettings;
         [Inject] public TimerModel TimerModel;
@@ -36,6 +36,11 @@ namespace Presenters
             string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
 
             TimerView.TimerText.text = formattedTime;
+        }
+
+        public void FixedTick()
+        {
+            TimerModel.GameTime.Value += Time.deltaTime;
         }
     }
 }
