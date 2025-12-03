@@ -6,9 +6,9 @@ namespace Views.UI
 {
     public class ResultMenuView : MonoBehaviour
     {
-        [SerializeField] public Button ScoreButton;
-        [SerializeField] public Button MainMenuButton;
         [SerializeField] public Button RestartButton;
+        [SerializeField] public Button ScoreButton;
+        [SerializeField] public Button ExitButton;
 
         [SerializeField] private GameObject _scoreView;
 

@@ -3,12 +3,13 @@ using ScriptableObjects;
 using Services.Interfaces;
 using System;
 using UniRx;
+using UnityEngine.SceneManagement;
 using Views.UI;
 using Zenject;
 
 namespace Presenters
 {
-    public class EndLevelPresenter : IInitializable, IDisposable, IFixedTickable
+    public class EndLevelPresenter : IInitializable, IFixedTickable
     {
         [Inject] private IPlayerInputProvider _playerInputProvider;
         [Inject] private StatsModel _statsModel;
@@ -17,14 +18,11 @@ namespace Presenters
         [Inject] private ResultMenuView _resultMenuView;
 
         private CompositeDisposable _compositeDisposable;
+
         public void Initialize()
         {
-            
-        }
-
-        public void Dispose()
-        {
-            _compositeDisposable.Dispose();
+            _resultMenuView.RestartButton.onClick.AddListener(Restart);
+            _resultMenuView.ExitButton.onClick.AddListener(Exit);
         }
 
         public void FixedTick()
@@ -40,6 +38,21 @@ namespace Presenters
             _playerInputProvider.Inputs.Disable();
             _resultMenuView.InItScore(_statsModel.KilledCubes.Value, _timerModel.GameTime.Value);
             _resultMenuView.gameObject.SetActive(true);
+        }
+
+        private void Restart()
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
+        }
+
+        private void Exit()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }
