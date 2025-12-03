@@ -1,6 +1,5 @@
 ﻿using FSM;
 using Zenject;
-using Views;
 using UniRx;
 using System;
 using FSM.States;

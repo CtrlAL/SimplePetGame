@@ -46,7 +46,6 @@ namespace Services.Installers
         private void InstallPresenters()
         {
             Container.BindInterfacesAndSelfTo<CharacterDeathPresenter>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<CharacerRespawnPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TimerPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EndLevelPresenter>().AsSingle().NonLazy();
         }

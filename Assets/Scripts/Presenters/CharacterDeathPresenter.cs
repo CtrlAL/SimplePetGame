@@ -22,11 +22,15 @@ namespace Presenters
 
             _respawnColiderViews.ForEach(x =>
             {
-                x.OnEnemyFell
+                x.OnCharacterFell
                 .Subscribe(
                     co =>
                     {
-                        _statsModel.KilledCubes.Value++;
+                        if (co.CompareTag("Enemy"))
+                        {
+                            _statsModel.KilledCubes.Value++;
+                        }
+
                         _deathEffectView.ShowEffect(co.gameObject);
                         _enemyFactory.DestroyEnemy(co.gameObject);
                     }
