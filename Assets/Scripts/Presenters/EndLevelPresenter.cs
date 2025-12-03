@@ -27,7 +27,7 @@ namespace Presenters
 
         public void FixedTick()
         {
-            int minutes = (int)(_timerModel.GameTime.Value / 60f);
+            float minutes = (float)(_timerModel.GameTime.Value / 60f);
 
             if (minutes >= _levelSettings.LevelDuration)
             {
