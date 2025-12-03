@@ -3,13 +3,14 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Views.UI;
 using Zenject;
 
 namespace Presenters
 {
     public class PauseMenuPresenter : IInitializable, IDisposable
     {
-        [Inject] private PauseMenu _view;
+        [Inject] private PauseMenuView _view;
 
         [Inject] private IPlayerInputProvider _playerInputProvider;
 
