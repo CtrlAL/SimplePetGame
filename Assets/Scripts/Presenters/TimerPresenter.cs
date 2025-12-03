@@ -10,9 +10,7 @@ namespace Presenters
     public class TimerPresenter : IInitializable, IDisposable
     {
         [Inject] public LevelSettings LevelSettings;
-
         [Inject] public TimerModel TimerModel;
-
         [Inject] public TimerView TimerView;
 
         private IDisposable _subscription;
