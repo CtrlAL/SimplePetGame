@@ -11,6 +11,7 @@ namespace Presenters
 {
     public class EndLevelPresenter : IInitializable, IFixedTickable
     {
+        [Inject] private GameOverModel _gameOverModel;
         [Inject] private IPlayerInputProvider _playerInputProvider;
         [Inject] private StatsModel _statsModel;
         [Inject] private TimerModel _timerModel;
@@ -23,6 +24,13 @@ namespace Presenters
         {
             _resultMenuView.RestartButton.onClick.AddListener(Restart);
             _resultMenuView.ExitButton.onClick.AddListener(Exit);
+
+            _gameOverModel.GameOver
+                .Subscribe(_ =>
+                {
+                    ShowResultView();
+                })
+                .AddTo(_compositeDisposable);
         }
 
         public void FixedTick()
