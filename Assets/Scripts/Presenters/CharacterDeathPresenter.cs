@@ -1,4 +1,5 @@
-﻿using Services.Interfaces;
+﻿using Models;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using UniRx;
@@ -9,6 +10,7 @@ namespace Presenters
 {
     public class CharacterDeathPresenter : IInitializable, IDisposable
     {
+        [Inject] private StatsModel _statsModel;
         [Inject] private IEnemyFactory _enemyFactory;
         [Inject] private List<RespawnColiderView> _respawnColiderViews;
         [Inject] private IDeathEffectService _deathEffectView;
@@ -24,6 +26,7 @@ namespace Presenters
                 .Subscribe(
                     co =>
                     {
+                        _statsModel.KilledCubes.Value++;
                         _deathEffectView.ShowEffect(co.gameObject);
                         _enemyFactory.DestroyEnemy(co.gameObject);
                     }

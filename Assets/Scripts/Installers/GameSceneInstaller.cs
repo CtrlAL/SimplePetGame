@@ -1,3 +1,4 @@
+using Models;
 using Presenters;
 using Services.Interfaces;
 using Services.Sound;
@@ -70,6 +71,7 @@ namespace Services.Installers
         private void InstallModels()
         {
             Container.BindInterfacesAndSelfTo<TimerModel>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<StatsModel>().AsSingle().NonLazy();
         }
     }
 }
