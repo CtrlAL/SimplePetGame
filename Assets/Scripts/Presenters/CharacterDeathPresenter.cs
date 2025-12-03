@@ -26,11 +26,13 @@ namespace Presenters
                 .Subscribe(
                     co =>
                     {
-                        if (co.CompareTag("Enemy"))
+                        if (co.CompareTag("Player"))
                         {
-                            _statsModel.KilledCubes.Value++;
+                            _deathEffectView.ShowEffect(co.gameObject);
+                            co.gameObject.SetActive(false);
                         }
 
+                        _statsModel.KilledCubes.Value++;
                         _deathEffectView.ShowEffect(co.gameObject);
                         _enemyFactory.DestroyEnemy(co.gameObject);
                     }
