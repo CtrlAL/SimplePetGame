@@ -2,6 +2,7 @@ using Models;
 using ScriptableObjects;
 using Services.Interfaces;
 using UniRx;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Views.UI;
 using Zenject;
@@ -26,7 +27,9 @@ namespace Presenters
 
         public void FixedTick()
         {
-            if (_timerModel.GameTime.Value >= _levelSettings.LevelDuration)
+            int minutes = (int)(_timerModel.GameTime.Value / 60f);
+
+            if (minutes >= _levelSettings.LevelDuration)
             {
                 ShowResultView();
             }

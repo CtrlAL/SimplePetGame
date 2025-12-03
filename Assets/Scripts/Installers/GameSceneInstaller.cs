@@ -62,6 +62,7 @@ namespace Services.Installers
         {
             Container.Bind<FatigueBarView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PauseMenuView>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<ResultMenuView>().FromComponentInHierarchy().AsSingle();
         }
 
         private void InstallUIPresenters()
