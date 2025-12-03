@@ -18,7 +18,7 @@ namespace Presenters
         [Inject] private LevelSettings _levelSettings;
         [Inject] private ResultMenuView _resultMenuView;
 
-        private CompositeDisposable _compositeDisposable;
+        private CompositeDisposable _compositeDisposable = new();
 
         public void Initialize()
         {

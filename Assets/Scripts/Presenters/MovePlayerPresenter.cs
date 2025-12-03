@@ -21,7 +21,7 @@ namespace Presenters
 
         [Inject] private SoundManager _soundManager;
 
-        private CompositeDisposable _disposables = new();
+        private CompositeDisposable _compositeDisposable = new();
 
         public void Initialize()
         {
@@ -29,7 +29,7 @@ namespace Presenters
 
             _mover.OnJumped
                 .Subscribe(_ => _soundManager.PlaySound(1, SoundType.Jump))
-                .AddTo(_disposables);
+                .AddTo(_compositeDisposable);
         }
 
         private void Jump(InputAction.CallbackContext context)
@@ -51,7 +51,7 @@ namespace Presenters
             _playerInputProvider.InputActions.Disable();
             _playerInputProvider.Inputs.Jump.performed -= Jump;
 
-            _disposables?.Dispose();
+            _compositeDisposable?.Dispose();
         }
     }
 }

@@ -73,6 +73,7 @@ namespace Services.Installers
         {
             Container.BindInterfacesAndSelfTo<TimerModel>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<StatsModel>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<GameOverModel>().AsSingle().NonLazy();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Zenject
 {
     public class DisposableManager : IDisposable
     {
-        readonly List<DisposableInfo> _disposables = new List<DisposableInfo>();
+        readonly List<DisposableInfo> _compositeDisposable = new List<DisposableInfo>();
         readonly List<LateDisposableInfo> _lateDisposables = new List<LateDisposableInfo>();
         bool _disposed;
         bool _lateDisposed;
@@ -31,7 +31,7 @@ namespace Zenject
                 var match = priorities.Where(x => disposable.GetType().DerivesFromOrEqual(x.First)).Select(x => (int?)x.Second).SingleOrDefault();
                 int priority = match.HasValue ? match.Value : 0;
 
-                _disposables.Add(new DisposableInfo(disposable, priority));
+                _compositeDisposable.Add(new DisposableInfo(disposable, priority));
             }
 
             foreach (var lateDisposable in lateDisposables)
@@ -50,7 +50,7 @@ namespace Zenject
 
         public void Add(IDisposable disposable, int priority)
         {
-            _disposables.Add(
+            _compositeDisposable.Add(
                 new DisposableInfo(disposable, priority));
         }
 
@@ -67,8 +67,8 @@ namespace Zenject
 
         public void Remove(IDisposable disposable)
         {
-            _disposables.RemoveWithConfirm(
-                _disposables.Where(x => ReferenceEquals(x.Disposable, disposable)).Single());
+            _compositeDisposable.RemoveWithConfirm(
+                _compositeDisposable.Where(x => ReferenceEquals(x.Disposable, disposable)).Single());
         }
 
         public void LateDispose()
@@ -106,7 +106,7 @@ namespace Zenject
             _disposed = true;
 
             // Dispose in the reverse order that they are initialized in
-            var disposablesOrdered = _disposables.OrderBy(x => x.Priority).Reverse().ToList();
+            var disposablesOrdered = _compositeDisposable.OrderBy(x => x.Priority).Reverse().ToList();
 
 #if UNITY_EDITOR
             foreach (var disposable in disposablesOrdered.Select(x => x.Disposable).GetDuplicates())

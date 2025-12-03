@@ -10,26 +10,26 @@ namespace Zenject
         static readonly StaticMemoryPool<DisposeBlock> _pool =
             new StaticMemoryPool<DisposeBlock>(OnSpawned, OnDespawned);
 
-        List<IDisposable> _disposables;
+        List<IDisposable> _compositeDisposable;
         List<SpawnedObjectPoolPair> _objectPoolPairs;
 
         static void OnSpawned(DisposeBlock that)
         {
-            Assert.IsNull(that._disposables);
+            Assert.IsNull(that._compositeDisposable);
             Assert.IsNull(that._objectPoolPairs);
         }
 
         static void OnDespawned(DisposeBlock that)
         {
-            if (that._disposables != null)
+            if (that._compositeDisposable != null)
             {
                 // Dispose in reverse order since usually that makes the most sense
-                for (int i = that._disposables.Count - 1; i >= 0; i--)
+                for (int i = that._compositeDisposable.Count - 1; i >= 0; i--)
                 {
-                    that._disposables[i].Dispose();
+                    that._compositeDisposable[i].Dispose();
                 }
-                ListPool<IDisposable>.Instance.Despawn(that._disposables);
-                that._disposables = null;
+                ListPool<IDisposable>.Instance.Despawn(that._compositeDisposable);
+                that._compositeDisposable = null;
             }
 
             if (that._objectPoolPairs != null)
@@ -47,9 +47,9 @@ namespace Zenject
 
         void LazyInitializeDisposableList()
         {
-            if (_disposables == null)
+            if (_compositeDisposable == null)
             {
-                _disposables = ListPool<IDisposable>.Instance.Spawn();
+                _compositeDisposable = ListPool<IDisposable>.Instance.Spawn();
             }
         }
 
@@ -59,21 +59,21 @@ namespace Zenject
             LazyInitializeDisposableList();
             for (int i = 0; i < disposables.Count; i++)
             {
-                _disposables.Add(disposables[i]);
+                _compositeDisposable.Add(disposables[i]);
             }
         }
 
         public void Add(IDisposable disposable)
         {
             LazyInitializeDisposableList();
-            Assert.That(!_disposables.Contains(disposable));
-            _disposables.Add(disposable);
+            Assert.That(!_compositeDisposable.Contains(disposable));
+            _compositeDisposable.Add(disposable);
         }
 
         public void Remove(IDisposable disposable)
         {
-            Assert.IsNotNull(_disposables);
-            _disposables.RemoveWithConfirm(disposable);
+            Assert.IsNotNull(_compositeDisposable);
+            _compositeDisposable.RemoveWithConfirm(disposable);
         }
 
         void StoreSpawnedObject<T>(T obj, IDespawnableMemoryPool<T> pool)

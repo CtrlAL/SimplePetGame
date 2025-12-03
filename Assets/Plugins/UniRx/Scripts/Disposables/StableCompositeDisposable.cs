@@ -206,7 +206,7 @@ namespace UniRx
         class NAry : StableCompositeDisposable
         {
             int disposedCallCount = -1;
-            private volatile List<IDisposable> _disposables;
+            private volatile List<IDisposable> _compositeDisposable;
 
             public NAry(IDisposable[] disposables)
                 : this((IEnumerable<IDisposable>)disposables)
@@ -215,12 +215,12 @@ namespace UniRx
 
             public NAry(IEnumerable<IDisposable> disposables)
             {
-                _disposables = new List<IDisposable>(disposables);
+                _compositeDisposable = new List<IDisposable>(disposables);
 
                 //
                 // Doing this on the list to avoid duplicate enumeration of disposables.
                 //
-                if (_disposables.Contains(null)) throw new ArgumentException("Disposables can't contains null", "disposables");
+                if (_compositeDisposable.Contains(null)) throw new ArgumentException("Disposables can't contains null", "disposables");
             }
 
             public override bool IsDisposed
@@ -235,7 +235,7 @@ namespace UniRx
             {
                 if (Interlocked.Increment(ref disposedCallCount) == 0)
                 {
-                    foreach (var d in _disposables)
+                    foreach (var d in _compositeDisposable)
                     {
                         d.Dispose();
                     }
@@ -246,11 +246,11 @@ namespace UniRx
         class NAryUnsafe : StableCompositeDisposable
         {
             int disposedCallCount = -1;
-            private volatile IDisposable[] _disposables;
+            private volatile IDisposable[] _compositeDisposable;
 
             public NAryUnsafe(IDisposable[] disposables)
             {
-                _disposables = disposables;
+                _compositeDisposable = disposables;
             }
 
             public override bool IsDisposed
@@ -265,10 +265,10 @@ namespace UniRx
             {
                 if (Interlocked.Increment(ref disposedCallCount) == 0)
                 {
-                    var len = _disposables.Length;
+                    var len = _compositeDisposable.Length;
                     for (int i = 0; i < len; i++)
                     {
-                        _disposables[i].Dispose();
+                        _compositeDisposable[i].Dispose();
                     }
                 }
             }

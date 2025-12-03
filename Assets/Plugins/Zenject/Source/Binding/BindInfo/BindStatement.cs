@@ -8,12 +8,12 @@ namespace Zenject
     [NoReflectionBaking]
     public class BindStatement : IDisposable
     {
-        readonly List<IDisposable> _disposables;
+        readonly List<IDisposable> _compositeDisposable;
         IBindingFinalizer _bindingFinalizer;
 
         public BindStatement()
         {
-            _disposables = new List<IDisposable>();
+            _compositeDisposable = new List<IDisposable>();
             Reset();
         }
 
@@ -47,7 +47,7 @@ namespace Zenject
 
         public void AddDisposable(IDisposable disposable)
         {
-            _disposables.Add(disposable);
+            _compositeDisposable.Add(disposable);
         }
 
         public BindInfo SpawnBindInfo()
@@ -67,12 +67,12 @@ namespace Zenject
         {
             _bindingFinalizer = null;
 
-            for (int i = 0; i < _disposables.Count; i++)
+            for (int i = 0; i < _compositeDisposable.Count; i++)
             {
-                _disposables[i].Dispose();
+                _compositeDisposable[i].Dispose();
             }
 
-            _disposables.Clear();
+            _compositeDisposable.Clear();
         }
 
         public void Dispose()

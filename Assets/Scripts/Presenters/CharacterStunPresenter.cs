@@ -14,7 +14,7 @@ namespace Presenters
         private readonly IStunEffectService _view;
         private readonly int _id;
 
-        private CompositeDisposable _disposables = new();
+        private CompositeDisposable _compositeDisposable = new();
 
         public CharacterStunPresenter(CharacterFSM fsm,
             IStunEffectService view, 
@@ -30,17 +30,17 @@ namespace Presenters
         {
             _state.OnStateEnter
                 .Subscribe(state => _view.ShowStunEffect(_id, _fsm.GameObject.transform))
-                .AddTo(_disposables);
+                .AddTo(_compositeDisposable);
 
             _state.OnStateExit
                 .Subscribe(state => _view.HideStunEffect(_id))
-                .AddTo(_disposables);
+                .AddTo(_compositeDisposable);
         }
 
         public void Dispose() 
         {
             _view.HideStunEffect(_id);
-            _disposables.Dispose();
+            _compositeDisposable.Dispose();
         }
 
         public void FixedTick()

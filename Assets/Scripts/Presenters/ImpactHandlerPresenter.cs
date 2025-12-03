@@ -27,19 +27,19 @@ namespace Presenters
         [Inject] private CharacterFSM _characterFSM;
         [Inject] private IFatigueManager _fatigueService;
 
-        private readonly CompositeDisposable _disposables = new();
+        private readonly CompositeDisposable _compositeDisposable = new();
 
         public void Initialize()
         {
             _impactHandler.OnImpactDetected
                 .Where(_ => _characterFSM.GetCurrentState() is IdleState)
                 .Subscribe(HandleImpact)
-                .AddTo(_disposables);
+                .AddTo(_compositeDisposable);
 
             _model.CurrentWeakHitCount
                 .Where(count => count >= _settings.WeakHitCountNeeded)
                 .Subscribe(_ => _onThresholdReached.OnNext(Unit.Default))
-                .AddTo(_disposables);
+                .AddTo(_compositeDisposable);
         }
 
         private void HandleImpact(float impactForce)
@@ -76,7 +76,7 @@ namespace Presenters
 
         public void Dispose()
         {
-            _disposables?.Dispose();
+            _compositeDisposable?.Dispose();
             _onStrongHit?.Dispose();
             _onWeakHit?.Dispose();
             _onThresholdReached?.Dispose();

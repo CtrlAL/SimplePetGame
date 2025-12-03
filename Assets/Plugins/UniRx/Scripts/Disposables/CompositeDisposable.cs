@@ -12,7 +12,7 @@ namespace UniRx
         private readonly object _gate = new object();
 
         private bool _disposed;
-        private List<IDisposable> _disposables;
+        private List<IDisposable> _compositeDisposable;
         private int _count;
         private const int SHRINK_THRESHOLD = 64;
 
@@ -21,7 +21,7 @@ namespace UniRx
         /// </summary>
         public CompositeDisposable()
         {
-            _disposables = new List<IDisposable>();
+            _compositeDisposable = new List<IDisposable>();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace UniRx
             if (capacity < 0)
                 throw new ArgumentOutOfRangeException("capacity");
 
-            _disposables = new List<IDisposable>(capacity);
+            _compositeDisposable = new List<IDisposable>(capacity);
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace UniRx
             if (disposables == null)
                 throw new ArgumentNullException("disposables");
 
-            _disposables = new List<IDisposable>(disposables);
-            _count = _disposables.Count;
+            _compositeDisposable = new List<IDisposable>(disposables);
+            _count = _compositeDisposable.Count;
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace UniRx
             if (disposables == null)
                 throw new ArgumentNullException("disposables");
 
-            _disposables = new List<IDisposable>(disposables);
-            _count = _disposables.Count;
+            _compositeDisposable = new List<IDisposable>(disposables);
+            _count = _compositeDisposable.Count;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace UniRx
                 shouldDispose = _disposed;
                 if (!_disposed)
                 {
-                    _disposables.Add(item);
+                    _compositeDisposable.Add(item);
                     _count++;
                 }
             }
@@ -124,21 +124,21 @@ namespace UniRx
                     // cycles on the Array.Copy imposed by Remove, we use a null sentinel value. We also
                     // do manual Swiss cheese detection to shrink the list if there's a lot of holes in it.
                     //
-                    var i = _disposables.IndexOf(item);
+                    var i = _compositeDisposable.IndexOf(item);
                     if (i >= 0)
                     {
                         shouldDispose = true;
-                        _disposables[i] = null;
+                        _compositeDisposable[i] = null;
                         _count--;
 
-                        if (_disposables.Capacity > SHRINK_THRESHOLD && _count < _disposables.Capacity / 2)
+                        if (_compositeDisposable.Capacity > SHRINK_THRESHOLD && _count < _compositeDisposable.Capacity / 2)
                         {
-                            var old = _disposables;
-                            _disposables = new List<IDisposable>(_disposables.Capacity / 2);
+                            var old = _compositeDisposable;
+                            _compositeDisposable = new List<IDisposable>(_compositeDisposable.Capacity / 2);
 
                             foreach (var d in old)
                                 if (d != null)
-                                    _disposables.Add(d);
+                                    _compositeDisposable.Add(d);
                         }
                     }
                 }
@@ -161,8 +161,8 @@ namespace UniRx
                 if (!_disposed)
                 {
                     _disposed = true;
-                    currentDisposables = _disposables.ToArray();
-                    _disposables.Clear();
+                    currentDisposables = _compositeDisposable.ToArray();
+                    _compositeDisposable.Clear();
                     _count = 0;
                 }
             }
@@ -183,8 +183,8 @@ namespace UniRx
             var currentDisposables = default(IDisposable[]);
             lock (_gate)
             {
-                currentDisposables = _disposables.ToArray();
-                _disposables.Clear();
+                currentDisposables = _compositeDisposable.ToArray();
+                _compositeDisposable.Clear();
                 _count = 0;
             }
 
@@ -206,7 +206,7 @@ namespace UniRx
 
             lock (_gate)
             {
-                return _disposables.Contains(item);
+                return _compositeDisposable.Contains(item);
             }
         }
 
@@ -227,7 +227,7 @@ namespace UniRx
             lock (_gate)
             {
                 var disArray = new List<IDisposable>();
-                foreach (var item in _disposables)
+                foreach (var item in _compositeDisposable)
                 {
                     if (item != null) disArray.Add(item);
                 }
@@ -254,7 +254,7 @@ namespace UniRx
 
             lock (_gate)
             {
-                foreach (var d in _disposables)
+                foreach (var d in _compositeDisposable)
                 {
                     if (d != null) res.Add(d);
                 }

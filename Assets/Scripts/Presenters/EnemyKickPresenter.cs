@@ -20,18 +20,18 @@ namespace Presenters
 
         [Inject] private IKiker _kicker;
 
-        private CompositeDisposable _disposables = new();
+        private CompositeDisposable _compositeDisposable = new();
 
         public void Initialize()
         {
             _enemyKickView.KickPerformed
                 .Subscribe(Kick)
-                .AddTo(_disposables);
+                .AddTo(_compositeDisposable);
         }
 
         public void Dispose()
         {
-            _disposables.Dispose();
+            _compositeDisposable.Dispose();
         }
 
         private void Kick(Collider other)

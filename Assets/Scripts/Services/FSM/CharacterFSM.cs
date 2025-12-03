@@ -23,7 +23,7 @@ namespace FSM
 
         private Dictionary<CharacterState, IState> _states;
 
-        private readonly CompositeDisposable _disposables = new();
+        private readonly CompositeDisposable _compositeDisposable = new();
 
         private readonly Subject<CharacterState> _onStateChanged = new();
 
@@ -50,7 +50,7 @@ namespace FSM
             {
                 _stunTimer = Observable.Timer(TimeSpan.FromSeconds(4))
                     .Subscribe(_ => ChangeToState(CharacterState.Idle))
-                    .AddTo(_disposables);
+                    .AddTo(_compositeDisposable);
             }
         }
 
