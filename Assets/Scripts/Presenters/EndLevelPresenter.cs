@@ -24,6 +24,8 @@ namespace Presenters
         {
             _resultMenuView.RestartButton.onClick.AddListener(Restart);
             _resultMenuView.ExitButton.onClick.AddListener(Exit);
+            _resultMenuView.BackButton.onClick.AddListener(_resultMenuView.HideScore);
+            _resultMenuView.ScoreButton.onClick.AddListener(_resultMenuView.ShowScore);
 
             _gameOverModel.GameOver
                 .Subscribe(_ =>

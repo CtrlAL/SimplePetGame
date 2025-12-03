@@ -7,10 +7,12 @@ namespace Views.UI
     public class ResultMenuView : MonoBehaviour
     {
         [SerializeField] public Button RestartButton;
+        [SerializeField] public Button BackButton;
         [SerializeField] public Button ScoreButton;
         [SerializeField] public Button ExitButton;
 
         [SerializeField] private GameObject _scoreView;
+        [SerializeField] private GameObject _menuView;
 
         [SerializeField] private TMP_Text _killedCount;
         [SerializeField] private TMP_Text _timeAlived;
@@ -18,11 +20,13 @@ namespace Views.UI
         public void ShowScore()
         {
             _scoreView.gameObject.SetActive(true);
+            _menuView.gameObject.SetActive(false);
         }
 
         public void HideScore()
         {
             _scoreView.gameObject.SetActive(false);
+            _menuView.gameObject.SetActive(true);
         }
 
         public void InItScore(int killedCount, float timeAlived)
