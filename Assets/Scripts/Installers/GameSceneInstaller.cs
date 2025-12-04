@@ -47,6 +47,7 @@ namespace Services.Installers
         {
             Container.BindInterfacesAndSelfTo<CharacterDeathPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TimerPresenter>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SpawnEnemyPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EndLevelPresenter>().AsSingle().NonLazy();
         }
 
