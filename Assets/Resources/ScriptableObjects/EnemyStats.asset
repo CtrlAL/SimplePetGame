@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _delayBeforeKick: 0.5
   _moveSpeed: 20
-  _rotationSpeed: 7
+  _rotationSpeed: 12000
   _jumpForce: 3
   _kickPower: 5
   _fatigue: 100

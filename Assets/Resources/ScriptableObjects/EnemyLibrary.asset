@@ -14,26 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemies:
   - _name: Red
-    _prefab: {fileID: 6295798114919579548, guid: 8bafe7c728517424582de5e0a34fd13d,
+    _prefab: {fileID: 4158945627288465341, guid: af0249bd84c805e4e9def291ad4e0586,
       type: 3}
   - _name: Blue
-    _prefab: {fileID: 6295798114919579548, guid: c5438939bdc1c9842949e4d2a4ce0c39,
+    _prefab: {fileID: 2188407178547373789, guid: 2400b641841ee26489d5cd5cc88333ea,
       type: 3}
   - _name: Green
-    _prefab: {fileID: 6295798114919579548, guid: 1c64003a0b49fc843a5d128dcfe5171f,
+    _prefab: {fileID: 1766413074148633759, guid: dface1f3c6e5797478d6dd4e5687bd64,
       type: 3}
   - _name: Violet
-    _prefab: {fileID: 6295798114919579548, guid: 10d3632f73f9cc14c93da030e54a8a7e,
+    _prefab: {fileID: 7798539641985935633, guid: 19be48ab2fee7e0408beea028a139cce,
       type: 3}
   - _name: Purple
-    _prefab: {fileID: 6295798114919579548, guid: 3de5cdc00c939fe4383efc5ba490d690,
+    _prefab: {fileID: 187857502822748608, guid: 0f3606918b5887a499b4a00ab66f671e,
       type: 3}
   - _name: Cyan
-    _prefab: {fileID: 6295798114919579548, guid: 6fc4859f11c30f64a96d1a2c6b1154de,
+    _prefab: {fileID: 7798539641985935633, guid: 19be48ab2fee7e0408beea028a139cce,
       type: 3}
   - _name: Orange
-    _prefab: {fileID: 6295798114919579548, guid: 1d73281e4512b75449136e6e22baabf9,
+    _prefab: {fileID: 913691985218808206, guid: 6a375e3dc37ed1d449db5d68ee0c9b1e,
       type: 3}
   - _name: Yallow
-    _prefab: {fileID: 6295798114919579548, guid: 5d04c20fc8cb62346a5ebf3c31003645,
+    _prefab: {fileID: 5752287232751153000, guid: 91070011e4a94f443a5b5a725f1c8e5c,
       type: 3}
