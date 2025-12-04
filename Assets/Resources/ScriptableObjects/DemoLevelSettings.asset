@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemySpawnRate: 2
   EnemyMaximumCount: 10
-  LevelDuration: 0.5
+  LevelDuration: 15

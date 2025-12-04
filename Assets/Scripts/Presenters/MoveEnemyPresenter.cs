@@ -32,7 +32,7 @@ namespace Presenters
                 return;
             }
 
-            var target = PlayerInstanseHandler.Instance.transform.position;            
+            var target = PlayerInstanseHandler.Instance.transform.position;
 
             _navMeshAgent.SetDestination(target);
 
