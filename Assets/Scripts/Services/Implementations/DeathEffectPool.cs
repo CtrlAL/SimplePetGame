@@ -18,7 +18,7 @@ namespace Services
 
         public ParticleSystem SpawnObject() 
         {
-            if (_particleSystems.TryDequeue(out var effect))
+            if (_particleSystems.TryDequeue(out var effect) && effect != null)
             {
                 return effect;
             }
@@ -30,6 +30,11 @@ namespace Services
 
         public void ReturnToPool(ParticleSystem particleSystem)
         {
+            if (particleSystem == null)
+            {
+                return;
+            }
+
             if (_poolingSettings.DeathEffectPoolSizeLimit >= _particleSystems.Count)
             {
                 particleSystem.Stop();
