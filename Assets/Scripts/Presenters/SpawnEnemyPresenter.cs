@@ -20,9 +20,9 @@ namespace Presenters
 
             if (_timer >= _levelSettings.EnemySpawnRate && _currentCount < _levelSettings.EnemyMaximumCount)
             {
-                _enemyFactory.CreateEnemy();
-                _currentCount++;
-                _timer = 0f;
+                //_enemyFactory.CreateEnemy();
+                //_currentCount++;
+                //_timer = 0f;
             }
         }
     }

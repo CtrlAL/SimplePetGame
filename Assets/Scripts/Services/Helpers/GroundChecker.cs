@@ -57,10 +57,14 @@ namespace Services.Helpers
         public static bool TryGetForwardNormal(Vector3 moveDirection, Transform characterTransform, float castDistance, float castHeightOffset, float castRadius, float maxSlopeAngle, out Vector3 normal)
         {
             normal = Vector3.up;
-            Vector3 origin = characterTransform.position + Vector3.up * castHeightOffset;
+            var baseOffset = 1f;
 
-            if (Physics.SphereCast(origin, castRadius, moveDirection, out RaycastHit hit, castDistance))
+            if (Physics.SphereCast(characterTransform.position, castRadius, Vector3.down, out RaycastHit groudhit, castDistance, DefaultGroundLayer) && 
+                Physics.SphereCast(groudhit.point + Vector3.up * baseOffset, castRadius, moveDirection, out RaycastHit hit, castDistance, DefaultGroundLayer))
             {
+                Debug.DrawRay(characterTransform.position, Vector3.down * 10, Color.red);
+                Debug.DrawRay(groudhit.point, moveDirection * 10, Color.blue);
+
                 if (Vector3.Angle(hit.normal, Vector3.up) <= maxSlopeAngle)
                 {
                     normal = hit.normal;
