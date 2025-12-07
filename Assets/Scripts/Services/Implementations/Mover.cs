@@ -2,6 +2,7 @@ using Extensions;
 using FSM;
 using Helpers;
 using Models;
+using Services.Helpers;
 using Services.Interfaces;
 using System;
 using UniRx;
@@ -28,9 +29,20 @@ namespace Services
         {
             if (_moveCharacterModel.Rigidbody != null && _characterFSM.IsIdleState())
             {
-                Vector3 movement = new Vector3(input.x, 0f, input.y);
+                var movement = new Vector3(input.x, 0f, input.y);
+                var groudNormalResult = GroundChecker.TryGetSurfaceNormal(_characterFSM.GameObject.transform.position, 1f, out var normal, true);
+                var forwardNormalResult = GroundChecker.TryGetForwardNormal(movement, _characterFSM.GameObject.transform, 500f, 1f, 0.3f, 60f, out var forwardNormal);
 
-                _moveCharacterModel.Rigidbody.AddForce(movement * speed, ForceMode.Force);
+                Debug.Log(forwardNormal);
+
+                if (forwardNormalResult)
+                {
+                    
+                    normal = forwardNormal;
+                }
+
+                var movementOnSlope = Vector3.ProjectOnPlane(movement, normal);
+                _moveCharacterModel.Rigidbody.AddForce(movementOnSlope * speed, ForceMode.Force);
                 Rotation(movement, rotationSpeed);
                 _onMoved.OnNext(_moveCharacterModel);
             }
