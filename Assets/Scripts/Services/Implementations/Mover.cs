@@ -29,15 +29,16 @@ namespace Services
         {
             if (_moveCharacterModel.Rigidbody != null && _characterFSM.IsIdleState())
             {
-                var movement = new Vector3(input.x, 0f, input.y);
-                var groudNormalResult = GroundChecker.TryGetSurfaceNormal(_characterFSM.GameObject.transform.position, 1f, out var normal, true);
-                var forwardNormalResult = GroundChecker.TryGetForwardNormal(movement, _characterFSM.GameObject.transform, 500f, 1f, 0.3f, 60f, out var forwardNormal);
+                var distanseToGround = 1f;
+                var distanseToForwardRamp = 1.5f;
+                var sphereCastRadius = 1f;
 
-                Debug.Log(forwardNormal);
+                var movement = new Vector3(input.x, 0f, input.y);
+                var groudNormalResult = GroundChecker.TryGetSurfaceNormal(_characterFSM.GameObject.transform.position, distanseToGround, out var normal, true);
+                var forwardNormalResult = GroundChecker.TryGetForwardNormal(movement, _characterFSM.GameObject.transform, distanseToForwardRamp, sphereCastRadius, 60f, out var forwardNormal);
 
                 if (forwardNormalResult)
                 {
-                    
                     normal = forwardNormal;
                 }
 

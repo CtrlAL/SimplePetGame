@@ -54,7 +54,7 @@ namespace Services.Helpers
             );
         }
 
-        public static bool TryGetForwardNormal(Vector3 moveDirection, Transform characterTransform, float castDistance, float castHeightOffset, float castRadius, float maxSlopeAngle, out Vector3 normal)
+        public static bool TryGetForwardNormal(Vector3 moveDirection, Transform characterTransform, float castDistance, float castRadius, float maxSlopeAngle, out Vector3 normal)
         {
             normal = Vector3.up;
             var baseOffset = 1f;
