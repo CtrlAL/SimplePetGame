@@ -18,4 +18,4 @@ MonoBehaviour:
   _kickPower: 5
   _kickRadius: 1.5
   _fatigue: 100
-  _fatigueRestoration: 1
+  _fatigueRestoration: 0.5

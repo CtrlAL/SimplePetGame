@@ -1,9 +1,11 @@
 ﻿using Models;
 using ScriptableObjects;
 using Services;
+using Services.Helpers;
 using Services.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 using Zenject;
 
 namespace Presenters
@@ -36,11 +38,12 @@ namespace Presenters
 
             var input = new Vector2(desiredVelocity.x, desiredVelocity.z);
 
-            var nextPositionHegiht = _navMeshAgent.nextPosition.y - _moveCharacterModel.Transform.position.y;
+            var nextPositionHeight = _navMeshAgent.nextPosition.y - _moveCharacterModel.Transform.position.y;
+            var jumpHeight = PositionHelper.CalculateJumpHeight(_stats.JumpForce, _moveCharacterModel.Rigidbody.mass);
 
-            if (nextPositionHegiht > 5f)
+            if (0 < nextPositionHeight && nextPositionHeight <= jumpHeight)
             {
-                _mover.Jump(nextPositionHegiht);
+                _mover.Jump(_stats.JumpForce);
             }
 
             _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: EnemyStats
   m_EditorClassIdentifier: 
   _delayBeforeKick: 0.5
-  _moveSpeed: 20
-  _rotationSpeed: 12000
-  _jumpForce: 3
+  _moveSpeed: 8
+  _rotationSpeed: 120
+  _jumpForce: 2
   _kickPower: 5
-  _fatigue: 100
+  _fatigue: 50
   _fatigueRestoration: 3
