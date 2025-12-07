@@ -1,7 +1,8 @@
-﻿using Extensions;
-using FSM;
+﻿using Models;
 using ScriptableObjects;
 using Services;
+using Services.Interfaces;
+using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
@@ -9,7 +10,9 @@ namespace Presenters
 {
     public class MoveEnemyPresenter : IFixedTickable, IInitializable
     {
-        [Inject] private CharacterFSM _fsm;
+        [Inject] private MoveCharacterModel _moveCharacterModel;
+
+        [Inject] private IMover _mover;
 
         [Inject] private NavMeshAgent _navMeshAgent;
 
@@ -17,26 +20,30 @@ namespace Presenters
 
         public void Initialize()
         {
-            _navMeshAgent.updatePosition = true;
+            _navMeshAgent.updatePosition = false;
             _navMeshAgent.updateRotation = true;
-            _navMeshAgent.speed = _stats.MoveSpeed;
-            _navMeshAgent.angularSpeed = _stats.RotationSpeed;
         }
 
         public void FixedTick()
         {
-            if (PlayerInstanseHandler.Instance == null)
+            var target = PlayerInstanseHandler.Instance.transform.position;
+
+            _navMeshAgent.SetDestination(target);
+
+            var desiredVelocity = _navMeshAgent.desiredVelocity;
+
+            _navMeshAgent.nextPosition = _moveCharacterModel.Transform.position;
+
+            var input = new Vector2(desiredVelocity.x, desiredVelocity.z);
+
+            var nextPositionHegiht = _navMeshAgent.nextPosition.y - _moveCharacterModel.Transform.position.y;
+
+            if (nextPositionHegiht > 5f)
             {
-                return;
+                _mover.Jump(nextPositionHegiht);
             }
 
-            var newPosition = PlayerInstanseHandler.Instance.transform.position;
-
-            if (_fsm.IsIdleState() && _navMeshAgent.destination != newPosition)
-            {
-                var target = PlayerInstanseHandler.Instance.transform.position;
-                _navMeshAgent.destination = target;
-            }
+            _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
         }
     }
 }

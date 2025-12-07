@@ -30,11 +30,16 @@ namespace Services
 
         public void HideStunEffect(int id)
         {
-            if (_effects.TryGetValue(id, out var effect))
+            if (_effects.TryGetValue(id, out var effect) && effect != null)
             {
                 _effectPool.ReturnToPool(effect);
                 _effects.Remove(id);
                 _targets.Remove(id);
+            }
+
+            if (effect == null)
+            {
+                _effects.Remove(id);
             }
         }
 
