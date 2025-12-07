@@ -34,8 +34,8 @@ namespace Services
                 var sphereCastRadius = 1f;
 
                 var movement = new Vector3(input.x, 0f, input.y);
-                var groudNormalResult = GroundChecker.TryGetSurfaceNormal(_characterFSM.GameObject.transform.position, distanseToGround, out var normal, true);
-                var forwardNormalResult = GroundChecker.TryGetForwardNormal(movement, _characterFSM.GameObject.transform, distanseToForwardRamp, sphereCastRadius, 60f, out var forwardNormal);
+                var groudNormalResult = GroundChecker.TryGetSurfaceNormal(_moveCharacterModel.Transform.position, distanseToGround, out var normal, true);
+                var forwardNormalResult = GroundChecker.TryGetForwardNormal(movement, _moveCharacterModel.Transform, distanseToForwardRamp, sphereCastRadius, 60f, out var forwardNormal);
 
                 if (forwardNormalResult)
                 {

@@ -12,10 +12,6 @@ namespace FSM
     public class CharacterFSM : IFixedTickable, IInitializable, IDisposable
     {
         public IObservable<CharacterState> OnStateChanged => _onStateChanged;
-        public GameObject GameObject => _rigidbody.gameObject;
-        public Rigidbody Rigidbody => _rigidbody;
-
-        [Inject] private Rigidbody _rigidbody;
 
         [Inject] private StateMachine _stateMachine;
 

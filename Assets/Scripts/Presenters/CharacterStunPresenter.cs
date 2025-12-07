@@ -4,11 +4,13 @@ using UniRx;
 using System;
 using FSM.States;
 using Services.Interfaces;
+using UnityEngine;
 
 namespace Presenters
 {
     public class CharacterStunPresenter : IInitializable, IDisposable, IFixedTickable
     {
+        private readonly Transform _transform;
         private readonly CharacterFSM _fsm;
         private readonly StunnedState _state;
         private readonly IStunEffectService _view;
@@ -18,18 +20,20 @@ namespace Presenters
 
         public CharacterStunPresenter(CharacterFSM fsm,
             IStunEffectService view, 
-            StunnedState stunnedState)
+            StunnedState stunnedState,
+            Transform transform)
         {
             _fsm = fsm;
             _state = stunnedState;
             _view = view;
-            _id = fsm.GameObject.GetInstanceID();
+            _transform = transform;
+            _id = _transform.gameObject.GetInstanceID();
         }
 
         public void Initialize()
         {
             _state.OnStateEnter
-                .Subscribe(state => _view.ShowStunEffect(_id, _fsm.GameObject.transform))
+                .Subscribe(state => _view.ShowStunEffect(_id, _transform))
                 .AddTo(_compositeDisposable);
 
             _state.OnStateExit

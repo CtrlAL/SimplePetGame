@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace Models
 {
     public class MoveCharacterModel
     {
-        public Transform Transform { get; private set; }
-        public Rigidbody Rigidbody { get; private set; }
+        [Inject] public BoxCollider BoxCollider { get; set; }
 
-        public MoveCharacterModel(Transform transform, Rigidbody rigidbody)
-        {
-            Transform = transform;
-            Rigidbody = rigidbody;
-        }
+        [Inject] public Transform Transform { get; private set; }
+
+        [Inject] public Rigidbody Rigidbody { get; private set; }
     }
 }
