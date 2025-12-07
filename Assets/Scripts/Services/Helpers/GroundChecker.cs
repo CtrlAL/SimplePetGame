@@ -1,3 +1,5 @@
+﻿using FMODUnity;
+using System.Linq;
 using UnityEngine;
 
 namespace Services.Helpers
@@ -54,18 +56,19 @@ namespace Services.Helpers
             );
         }
 
-        public static bool TryGetForwardNormal(Vector3 moveDirection, Transform characterTransform, float castDistance, float castRadius, float maxSlopeAngle, out Vector3 normal)
+        public static bool TryGetForwardNormal(Vector3 moveDirection, Transform characterTransform, float castDistance, float maxSlopeAngle, out Vector3 normal)
         {
             normal = Vector3.up;
-            var baseOffset = 1f;
+            var baseOffset = 0.1f;
 
-            if (Physics.SphereCast(characterTransform.position, castRadius, Vector3.down, out RaycastHit groudhit, castDistance, DefaultGroundLayer) && 
-                Physics.SphereCast(groudhit.point + Vector3.up * baseOffset, castRadius, moveDirection, out RaycastHit hit, castDistance, DefaultGroundLayer))
+            if (Physics.Raycast(characterTransform.position, Vector3.down, out RaycastHit groudhit, castDistance, DefaultGroundLayer) && 
+                Physics.Raycast(groudhit.point + Vector3.up * baseOffset, moveDirection, out RaycastHit hit, castDistance, DefaultGroundLayer))
             {
-                Debug.DrawRay(characterTransform.position, Vector3.down * 10, Color.red);
-                Debug.DrawRay(groudhit.point, moveDirection * 10, Color.blue);
+                Debug.DrawRay(groudhit.point + Vector3.up * baseOffset, moveDirection, Color.blue, 10f, false);
 
-                if (Vector3.Angle(hit.normal, Vector3.up) <= maxSlopeAngle)
+                var angle = Vector3.Angle(hit.normal, Vector3.up);
+
+                if (angle <= maxSlopeAngle)
                 {
                     normal = hit.normal;
                     return true;
@@ -73,6 +76,42 @@ namespace Services.Helpers
             }
 
             return false;
+        }
+
+        public static bool IsCompletelyOffPlatform(BoxCollider colider, Transform transform, LayerMask platformLayer)
+        {
+            if (colider == null) return true;
+
+            Vector3 center = colider.center;
+            Vector3 size = colider.size;
+
+            Vector3[] localCorners = {
+                center + new Vector3(-size.x, -size.y, -size.z) * 0.5f,
+                center + new Vector3( size.x, -size.y, -size.z) * 0.5f,
+                center + new Vector3(-size.x, -size.y,  size.z) * 0.5f,
+                center + new Vector3( size.x, -size.y,  size.z) * 0.5f
+            };
+
+            Vector3[] worldCorners = localCorners.Select(local => transform.TransformPoint(local)).ToArray();
+
+            var transformsUnderObject = worldCorners
+                .Select(corner =>
+                {
+                    var result = Physics.Raycast(corner, Vector3.down, out RaycastHit hit, 0.1f, platformLayer);
+                    return new { Result = result, Hit = hit };
+                })
+                .Where(raycast => raycast.Result)
+                .Select(raycast => raycast.Hit.transform)
+                .Distinct()
+                .ToList();
+
+            return transformsUnderObject.Count != 1;
+        }
+
+
+        public static bool IsCompletelyOffPlatform(BoxCollider colider, Transform transform)
+        {
+            return IsCompletelyOffPlatform(colider, transform, DefaultGroundLayer);
         }
     }
 }

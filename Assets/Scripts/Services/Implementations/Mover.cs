@@ -25,24 +25,28 @@ namespace Services
 
         IObservable<MoveCharacterModel> IMover.OnMoved => _onMoved;
 
+        private const float _distanseToGround = 1f;
+        private const float _distanseToForwardRamp = 1f;
+
         public void Move(Vector2 input, float speed, float rotationSpeed)
         {
             if (_moveCharacterModel.Rigidbody != null && _characterFSM.IsIdleState())
             {
-                var distanseToGround = 1f;
-                var distanseToForwardRamp = 1.5f;
-                var sphereCastRadius = 1f;
-
                 var movement = new Vector3(input.x, 0f, input.y);
-                var groudNormalResult = GroundChecker.TryGetSurfaceNormal(_moveCharacterModel.Transform.position, distanseToGround, out var normal, true);
-                var forwardNormalResult = GroundChecker.TryGetForwardNormal(movement, _moveCharacterModel.Transform, distanseToForwardRamp, sphereCastRadius, 60f, out var forwardNormal);
+                var groudNormalResult = GroundChecker.TryGetSurfaceNormal(_moveCharacterModel.Transform.position, _distanseToGround, out var normal, true);
+                var forwardNormalResult = GroundChecker.TryGetForwardNormal(movement, _moveCharacterModel.Transform, _distanseToForwardRamp, 60f, out var forwardNormal);
+
+                var bounds = _moveCharacterModel.BoxCollider.bounds;
 
                 if (forwardNormalResult)
                 {
                     normal = forwardNormal;
                 }
 
-                var movementOnSlope = Vector3.ProjectOnPlane(movement, normal);
+                var movementOnSlope = GroundChecker.IsCompletelyOffPlatform(_moveCharacterModel.BoxCollider, _moveCharacterModel.Transform) 
+                    ? Vector3.ProjectOnPlane(movement, normal)
+                    : movement;
+
                 _moveCharacterModel.Rigidbody.AddForce(movementOnSlope * speed, ForceMode.Force);
                 Rotation(movement, rotationSpeed);
                 _onMoved.OnNext(_moveCharacterModel);
