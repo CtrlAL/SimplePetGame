@@ -1,5 +1,4 @@
-﻿using FMODUnity;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Services.Helpers
@@ -64,8 +63,6 @@ namespace Services.Helpers
             if (Physics.Raycast(characterTransform.position, Vector3.down, out RaycastHit groudhit, castDistance, DefaultGroundLayer) && 
                 Physics.Raycast(groudhit.point + Vector3.up * baseOffset, moveDirection, out RaycastHit hit, castDistance, DefaultGroundLayer))
             {
-                Debug.DrawRay(groudhit.point + Vector3.up * baseOffset, moveDirection, Color.blue, 10f, false);
-
                 var angle = Vector3.Angle(hit.normal, Vector3.up);
 
                 if (angle <= maxSlopeAngle)
@@ -98,7 +95,6 @@ namespace Services.Helpers
                 .Select(corner =>
                 {
                     var result = Physics.Raycast(corner, Vector3.down, out RaycastHit hit, 0.1f, platformLayer);
-                    Debug.DrawRay(corner, Vector3.down, Color.yellow, 10f);
                     return new { Result = result, Hit = hit };
                 }).ToList();
 
