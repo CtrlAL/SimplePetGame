@@ -1,4 +1,3 @@
-using Services;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -6,21 +5,24 @@ using UnityEngine.InputSystem;
 public class SimpleMouseNavMeshController : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent _navMeshAgent;
-    [SerializeField] private PlayerInputActions _inputSystem;
 
-    public void FixedUpdate()
+    public void Start()
     {
-        _navMeshAgent.destination = PlayerInstanseHandler.Instance.transform.position;
+        _navMeshAgent.updatePosition = true;
+        _navMeshAgent.updateRotation = true;
     }
+
 
     public void OnClick(InputAction.CallbackContext context)
     {
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        if (!context.performed) return;
 
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-        if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit))
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            _navMeshAgent.destination = hit.point;
+            _navMeshAgent.SetDestination(hit.point);
         }
     }
 }

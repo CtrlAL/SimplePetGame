@@ -7,7 +7,6 @@ using Zenject;
 
 namespace Presenters
 {
-    
     public class MoveEnemyPresenter : IFixedTickable, IInitializable
     {
         [Inject] private CharacterFSM _fsm;
@@ -18,6 +17,7 @@ namespace Presenters
 
         public void Initialize()
         {
+            _navMeshAgent.updatePosition = true;
             _navMeshAgent.updateRotation = true;
             _navMeshAgent.speed = _stats.MoveSpeed;
             _navMeshAgent.angularSpeed = _stats.RotationSpeed;
@@ -30,7 +30,9 @@ namespace Presenters
                 return;
             }
 
-            if (_fsm.IsIdleState())
+            var newPosition = PlayerInstanseHandler.Instance.transform.position;
+
+            if (_fsm.IsIdleState() && _navMeshAgent.destination != newPosition)
             {
                 var target = PlayerInstanseHandler.Instance.transform.position;
                 _navMeshAgent.destination = target;
