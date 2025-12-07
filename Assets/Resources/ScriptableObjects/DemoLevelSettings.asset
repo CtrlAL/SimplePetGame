@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15394039d3d064f47aed2b1d13a96c47, type: 3}
   m_Name: DemoLevelSettings
   m_EditorClassIdentifier: 
-  EnemySpawnRate: 0.5
+  EnemySpawnRate: 1.5
   EnemyMaximumCount: 10
   LevelDuration: 15
