@@ -16,6 +16,14 @@ namespace Services
 
         private ConcurrentQueue<GameObject> _enemies = new();
 
+        public EnemyPool()
+        {
+            foreach (var enemy in _enemyLibrary.GetAllEnemies())
+            {
+                _enemies.Enqueue(enemy.Prefab);
+            }
+        }
+
         public GameObject SpawnObject()
         {
             GameObject enemy = null;
