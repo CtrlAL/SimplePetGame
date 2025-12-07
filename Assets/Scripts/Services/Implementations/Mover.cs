@@ -43,7 +43,7 @@ namespace Services
                     normal = forwardNormal;
                 }
 
-                var movementOnSlope = GroundChecker.IsCompletelyOffPlatform(_moveCharacterModel.BoxCollider, _moveCharacterModel.Transform) 
+                var movementOnSlope = GroundChecker.IsCompletelyOffPlatform(_moveCharacterModel.BoxCollider, _moveCharacterModel.Transform) || forwardNormalResult
                     ? Vector3.ProjectOnPlane(movement, normal)
                     : movement;
 

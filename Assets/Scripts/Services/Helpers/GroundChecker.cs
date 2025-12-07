@@ -94,18 +94,18 @@ namespace Services.Helpers
 
             Vector3[] worldCorners = localCorners.Select(local => transform.TransformPoint(local)).ToArray();
 
-            var transformsUnderObject = worldCorners
+            var hits = worldCorners
                 .Select(corner =>
                 {
                     var result = Physics.Raycast(corner, Vector3.down, out RaycastHit hit, 0.1f, platformLayer);
+                    Debug.DrawRay(corner, Vector3.down, Color.yellow, 10f);
                     return new { Result = result, Hit = hit };
-                })
-                .Where(raycast => raycast.Result)
-                .Select(raycast => raycast.Hit.transform)
-                .Distinct()
-                .ToList();
+                }).ToList();
 
-            return transformsUnderObject.Count != 1;
+            var transforms = hits.Where(x => x.Result == true).Select(y => y.Hit.transform).ToList();
+            var differentTransforms = transforms.Distinct().ToList();
+
+            return differentTransforms.Count != 1;
         }
 
 
