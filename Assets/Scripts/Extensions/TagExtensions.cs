@@ -7,12 +7,12 @@ namespace Extensions
     {
         public static bool IsPlayer(this GameObject gameObject)
         {
-            return gameObject.CompareTag(CharacterTags.Enemy) || gameObject.CompareTag(CharacterTags.BigEnemy);
+            return gameObject.CompareTag(CharacterTags.Player);
         }
 
         public static bool IsPlayer(this Collider collider)
         {
-            return collider.CompareTag(CharacterTags.Enemy) || collider.CompareTag(CharacterTags.BigEnemy);
+            return collider.CompareTag(CharacterTags.Player);
         }
 
         public static bool IsEnemy(this GameObject gameObject)
