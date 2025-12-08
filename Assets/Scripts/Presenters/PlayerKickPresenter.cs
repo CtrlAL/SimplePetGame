@@ -36,7 +36,7 @@ namespace Presenters
 
             foreach (var collider in nearbyColliders)
             {
-                if (collider.CompareTag("Enemy"))
+                if (collider.IsEnemy())
                 {
                     _kiker.Kick(collider.gameObject, _playerStats.KickPower);
                     OnEnemyKicked();

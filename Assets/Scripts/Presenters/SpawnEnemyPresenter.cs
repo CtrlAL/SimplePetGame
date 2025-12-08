@@ -1,3 +1,4 @@
+using Extensions;
 using ScriptableObjects;
 using Services.Interfaces;
 using System;
@@ -28,7 +29,7 @@ namespace Presenters
                 .Subscribe(
                     co =>
                     {
-                        if (co.CompareTag("Enemy"))
+                        if (co.IsEnemy())
                         {
                             _currentCount--;
                         }

@@ -12,6 +12,7 @@ using System.Linq;
 using Enums;
 using Services.Sound;
 using Views;
+using Extensions;
 
 namespace Presenters
 {
@@ -109,7 +110,7 @@ namespace Presenters
 
         private void AddIfValid(GameObject obj)
         {
-            if (GameHelpers.IsThrowable(obj) && GameHelpers.IsGrounded(obj))
+            if (obj.IsThrowable() && GameHelpers.IsGrounded(obj))
                 _model.AllowedThrowables.Add(obj);
         }
 

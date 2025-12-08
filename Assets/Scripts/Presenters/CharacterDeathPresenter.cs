@@ -1,7 +1,9 @@
-﻿using Models;
+﻿using Extensions;
+using Models;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using Views;
 using Zenject;
@@ -22,28 +24,27 @@ namespace Presenters
         {
             _compositeDisposable = new CompositeDisposable();
 
-            _respawnColiderViews.ForEach(x =>
+            _respawnColiderViews.ForEach(view =>
             {
-                x.OnCharacterFell
-                .Subscribe(
-                    co =>
+                view.OnCharacterFell
+                    .Where(co => co.IsPlayer())
+                    .Subscribe(co =>
                     {
-                        if (co.CompareTag("Player"))
-                        {
-                            _gameOverModel.GameOver.OnNext(default);
-                            _deathEffectView.ShowEffect(co.gameObject);
-                            co.gameObject.SetActive(false);
-                        }
+                        _gameOverModel.GameOver.OnNext(default);
+                        _deathEffectView.ShowEffect(co.gameObject);
+                        co.gameObject.SetActive(false);
+                    })
+                    .AddTo(_compositeDisposable);
 
-                        if (co.CompareTag("Enemy"))
-                        {
-                            _statsModel.KilledCubes.Value++;
-                            _deathEffectView.ShowEffect(co.gameObject);
-                            _enemyFactory.DestroyEnemy(co.gameObject);
-                        }
-                    }
-                )
-                .AddTo(_compositeDisposable);
+                view.OnCharacterFell
+                    .Where(co => co.IsEnemy())
+                    .Subscribe(co =>
+                    {
+                        _statsModel.KilledCubes.Value++;
+                        _deathEffectView.ShowEffect(co.gameObject);
+                        _enemyFactory.DestroyEnemy(co.gameObject);
+                    })
+                    .AddTo(_compositeDisposable);
             });
         }
 

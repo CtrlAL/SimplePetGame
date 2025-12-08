@@ -14,16 +14,6 @@ namespace Helpers
             new Vector3(-0.3f, 0, -0.3f),
         };
 
-        public static bool IsPlayer(GameObject other)
-        {
-            return other.CompareTag(CharacterTags.Player);
-        }
-
-        public static bool IsEnemy(GameObject other)
-        {
-            return other.CompareTag(CharacterTags.Enemy);
-        }
-
         public static bool IsThrowable(GameObject other)
         {
             return other.CompareTag(EnvironmentTags.Throwable);
