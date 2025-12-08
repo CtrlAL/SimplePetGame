@@ -46,26 +46,26 @@ MonoBehaviour:
       type: 3}
     _spawnRate: 1
   - _name: BigEnemy 1
-    _prefab: {fileID: 8984126507760169518, guid: 45dc6ed5bdfe3c84e862696120af140f,
+    _prefab: {fileID: 4253891739368793122, guid: 1582c4fd15997554994ca158e26df1dc,
       type: 3}
     _spawnRate: 2
   - _name: BigEnemy 2
-    _prefab: {fileID: 8984126507760169518, guid: d3cac53f38ad8f649925fa63d743e80c,
+    _prefab: {fileID: 4253891739368793122, guid: ca5e9af70ab1f1844814ffeae9adb01c,
       type: 3}
     _spawnRate: 2
   - _name: BigEnemy 3
-    _prefab: {fileID: 8984126507760169518, guid: ad61ecea0f91c424ebc78f5b1b66d4b1,
+    _prefab: {fileID: 4253891739368793122, guid: f0ce14b1079521a428f164ebb8e0da43,
       type: 3}
     _spawnRate: 2
   - _name: BigEnemy 4
-    _prefab: {fileID: 8984126507760169518, guid: 6633fc0f59284dc43bb85e615ce955cf,
+    _prefab: {fileID: 4253891739368793122, guid: 936a5c92a79f07948aa353091e076721,
       type: 3}
     _spawnRate: 2
   - _name: BigEnemy 5
-    _prefab: {fileID: 8984126507760169518, guid: ffa19e34a6662284383eac11e7caaef3,
+    _prefab: {fileID: 4253891739368793122, guid: 8951ee79c3091b343a3ac06088f464bb,
       type: 3}
     _spawnRate: 2
   - _name: BigEnemy 6
-    _prefab: {fileID: 8984126507760169518, guid: 2fba17da93deb094badcb4f42eb3a066,
+    _prefab: {fileID: 4253891739368793122, guid: ad2c546a51050c14e89118d1982110e1,
       type: 3}
     _spawnRate: 2

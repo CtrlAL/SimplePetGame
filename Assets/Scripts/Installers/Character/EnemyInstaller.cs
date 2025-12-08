@@ -10,6 +10,7 @@ namespace Services.Installers
 {
     public class EnemyInstaller : CharacterInstaller
     {
+        [SerializeField] private Animator _animator;
         [SerializeField] private EnemyType _enemyType;
 
         private readonly Dictionary<EnemyType, Type> _statsMapping = new()
@@ -21,10 +22,10 @@ namespace Services.Installers
         public override void InstallBindings()
         {
             BindStats();
-            BindAnimator();
+            Container.Bind<Animator>().FromInstance(_animator).AsSingle();
             Container.Bind<NavMeshAgent>().FromComponentOnRoot().AsSingle();
             Container.Bind<EnemyKickZoneView>().FromComponentOnRoot().AsSingle();
-            Container.BindInterfacesAndSelfTo<CharacterAnimantionPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyAnimationPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<EnemyKickPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<MoveEnemyPresenter>().AsSingle().NonLazy();
 
@@ -41,11 +42,6 @@ namespace Services.Installers
             {
                 throw new InvalidOperationException($"Unsupported enemy type: {_enemyType}");
             }
-        }
-
-        private void BindAnimator()
-        {
-            Container.Bind<Animator>().FromInstance(gameObject.GetComponentInChildren<Animator>()).AsSingle();
         }
 
         private enum EnemyType
