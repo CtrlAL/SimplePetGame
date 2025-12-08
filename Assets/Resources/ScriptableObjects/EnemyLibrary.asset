@@ -37,3 +37,6 @@ MonoBehaviour:
   - _name: Yallow
     _prefab: {fileID: 5752287232751153000, guid: 91070011e4a94f443a5b5a725f1c8e5c,
       type: 3}
+  - _name: BigEnemy
+    _prefab: {fileID: 8984126507760169518, guid: 18433a0f077685a409a212a258154a10,
+      type: 3}
