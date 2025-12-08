@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Services
 {
-    public class EnemyPool : IEnemyPool
+    public class EnemyPool : IEnemyPool, IInitializable
     {
         [Inject] private DiContainer _diContainer;
 
@@ -16,7 +16,7 @@ namespace Services
 
         private ConcurrentQueue<GameObject> _enemies = new();
 
-        public EnemyPool()
+        public void Initialize()
         {
             for (int i = 0; i < _poolingSettings.EnemyPoolSizeLimit + _poolingSettings.BigEnemyPoolSizeLimit; i++)
             {

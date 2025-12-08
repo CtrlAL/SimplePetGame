@@ -25,7 +25,7 @@ namespace Services.Installers
         private void InstallServices()
         {
             Container.Bind<IDeathEffectService>().To<DeathEffectService>().AsSingle();
-            Container.Bind<IEnemyPool>().To<EnemyPool>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyPool>().AsSingle();
             Container.Bind<IDeathEffectPool>().To<DeathEffectPool>().AsSingle();
             Container.Bind<IStunEffectPool>().To<StunEffectPool>().AsSingle();
             Container.BindInterfacesTo<EnemyFactory>().AsSingle().NonLazy();
