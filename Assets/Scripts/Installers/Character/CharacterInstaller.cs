@@ -13,7 +13,6 @@ namespace Services.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<Material>().FromComponentOnRoot().AsCached();
             Container.Bind<Transform>().FromComponentOnRoot().AsCached();
             Container.Bind<BoxCollider>().FromComponentOnRoot().AsCached();
             Container.Bind<Rigidbody>().FromComponentOnRoot().AsSingle();
