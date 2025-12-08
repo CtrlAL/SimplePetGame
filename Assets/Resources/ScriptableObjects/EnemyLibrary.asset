@@ -37,6 +37,21 @@ MonoBehaviour:
   - _name: Yallow
     _prefab: {fileID: 5752287232751153000, guid: 91070011e4a94f443a5b5a725f1c8e5c,
       type: 3}
-  - _name: BigEnemy
-    _prefab: {fileID: 8984126507760169518, guid: 18433a0f077685a409a212a258154a10,
+  - _name: BigEnemy 1
+    _prefab: {fileID: 8984126507760169518, guid: 45dc6ed5bdfe3c84e862696120af140f,
+      type: 3}
+  - _name: BigEnemy 2
+    _prefab: {fileID: 8984126507760169518, guid: d3cac53f38ad8f649925fa63d743e80c,
+      type: 3}
+  - _name: BigEnemy 3
+    _prefab: {fileID: 8984126507760169518, guid: ad61ecea0f91c424ebc78f5b1b66d4b1,
+      type: 3}
+  - _name: BigEnemy 4
+    _prefab: {fileID: 8984126507760169518, guid: 6633fc0f59284dc43bb85e615ce955cf,
+      type: 3}
+  - _name: BigEnemy 5
+    _prefab: {fileID: 8984126507760169518, guid: ffa19e34a6662284383eac11e7caaef3,
+      type: 3}
+  - _name: BigEnemy 6
+    _prefab: {fileID: 8984126507760169518, guid: 2fba17da93deb094badcb4f42eb3a066,
       type: 3}
