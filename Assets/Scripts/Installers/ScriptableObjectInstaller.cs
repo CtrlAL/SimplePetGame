@@ -17,6 +17,8 @@ public class ScriptableObjectInstaller : ScriptableObjectInstaller<ScriptableObj
 
     [SerializeField] private EnemyStats _enemyStatsSO;
 
+    [SerializeField] private BigEnemyStats _bigEnemyStatsSO;
+
     [SerializeField] private InteractionSettings _throwableInteractionSettingsSO;
 
     [SerializeField] private KickImpactSettigns _kickImpactSettigns;
@@ -27,6 +29,7 @@ public class ScriptableObjectInstaller : ScriptableObjectInstaller<ScriptableObj
 
     public override void InstallBindings()
     {
+        Container.BindInstance(_bigEnemyStatsSO);
         Container.BindInstance(_backgroundSounds);
         Container.BindInstance(_characterSounds);
         Container.BindInstance(_levelSettings);
