@@ -1,5 +1,7 @@
 using Presenters;
 using ScriptableObjects;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Views;
@@ -16,6 +18,12 @@ namespace Services.Installers
 
         [SerializeField] private EnemyType _enemyType;
 
+        private readonly Dictionary<EnemyType, Type> _statsMapping = new()
+        {
+            { EnemyType.Default, typeof(EnemyStats) },
+            { EnemyType.Big, typeof(BigEnemyStats) }
+        };
+
         public override void InstallBindings()
         {
             BindStats();
@@ -30,15 +38,13 @@ namespace Services.Installers
 
         private void BindStats()
         {
-            switch (_enemyType)
+            if (_statsMapping.TryGetValue(_enemyType, out var statsType))
             {
-                case EnemyType.Default:
-                    Container.Bind<AbstractStats>().To<EnemyStats>().AsSingle();
-                    break;
-
-                case EnemyType.Big:
-                    Container.Bind<AbstractStats>().To<BigEnemyStats>().AsSingle();
-                    break;
+                Container.Bind<AbstractStats>().To(statsType).AsSingle();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Unsupported enemy type: {_enemyType}");
             }
         }
     }
