@@ -57,6 +57,16 @@ namespace Presenters
                     _currentCount++;
                 }
 
+                if (_bigCurrentCount < 0)
+                {
+                    _bigCurrentCount = 0;
+                }
+
+                if (_currentCount < 0)
+                {
+                    _currentCount = 0;
+                }
+
                 _timer = 0f;
             }
         }
