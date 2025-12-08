@@ -43,7 +43,7 @@ namespace Presenters
         {
             _timer += Time.deltaTime;
 
-            if (_timer >= _levelSettings.EnemySpawnRate && _currentCount < _levelSettings.EnemyMaximumCount + _levelSettings.BigEnemyMaximumCount)
+            if (_timer >= _levelSettings.EnemySpawnRate && _currentCount + _bigCurrentCount < _levelSettings.EnemyMaximumCount + _levelSettings.BigEnemyMaximumCount)
             {
                 var enemy = _enemyFactory.CreateEnemy();
 
@@ -57,7 +57,6 @@ namespace Presenters
                     _currentCount++;
                 }
 
-                _currentCount++;
                 _timer = 0f;
             }
         }
