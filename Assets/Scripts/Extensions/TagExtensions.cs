@@ -25,6 +25,26 @@ namespace Extensions
             return collider.CompareTag(CharacterTags.Enemy) || collider.CompareTag(CharacterTags.BigEnemy);
         }
 
+        public static bool IsBigEnemy(this Collider collider)
+        {
+            return collider.CompareTag(CharacterTags.BigEnemy);
+        }
+
+        public static bool IsBigEnemy(this GameObject collider)
+        {
+            return collider.CompareTag(CharacterTags.BigEnemy);
+        }
+
+        public static bool IsDefaultEnemy(this Collider collider)
+        {
+            return collider.CompareTag(CharacterTags.Enemy);
+        }
+
+        public static bool IsDefaultEnemy(this GameObject collider)
+        {
+            return collider.CompareTag(CharacterTags.Enemy);
+        }
+
         public static bool IsThrowable(this GameObject other)
         {
             return other.CompareTag(EnvironmentTags.Throwable);

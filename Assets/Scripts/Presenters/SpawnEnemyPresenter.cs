@@ -19,6 +19,8 @@ namespace Presenters
 
         private float _timer = 0f;
         private float _currentCount = 0f;
+        private float _bigCurrentCount = 0f;
+
         private CompositeDisposable _compositeDisposable = new();
 
         public void Initialize()
@@ -26,15 +28,13 @@ namespace Presenters
             _respawnColiderViews.ForEach(x =>
             {
                 x.OnCharacterFell
-                .Subscribe(
-                    co =>
-                    {
-                        if (co.IsEnemy())
-                        {
-                            _currentCount--;
-                        }
-                    }
-                )
+                .Where(co => co.IsBigEnemy())
+                .Subscribe(co => _bigCurrentCount--)
+                .AddTo(_compositeDisposable);
+
+                x.OnCharacterFell
+                .Where(co => co.IsDefaultEnemy())
+                .Subscribe(co => _currentCount--)
                 .AddTo(_compositeDisposable);
             });
         }
@@ -43,9 +43,20 @@ namespace Presenters
         {
             _timer += Time.deltaTime;
 
-            if (_timer >= _levelSettings.EnemySpawnRate && _currentCount < _levelSettings.EnemyMaximumCount)
+            if (_timer >= _levelSettings.EnemySpawnRate && _currentCount < _levelSettings.EnemyMaximumCount + _levelSettings.BigEnemyMaximumCount)
             {
-                _enemyFactory.CreateEnemy();
+                var enemy = _enemyFactory.CreateEnemy();
+
+                if (enemy.gameObject.IsBigEnemy())
+                {
+                    _bigCurrentCount++;
+                }
+
+                if (enemy.gameObject.IsDefaultEnemy())
+                {
+                    _currentCount++;
+                }
+
                 _currentCount++;
                 _timer = 0f;
             }

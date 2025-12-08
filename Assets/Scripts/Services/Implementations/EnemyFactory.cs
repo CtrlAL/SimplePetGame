@@ -25,7 +25,7 @@ namespace Services
             _pool.ReturnToPool(args);
         }
 
-        public void CreateEnemy()
+        public GameObject CreateEnemy()
         {
             var spawnPoint = _spawnPoints[UnityRandom.Range(0, _spawnPoints.Length - 1)];
             var enemy = _pool.SpawnObject();
@@ -40,6 +40,8 @@ namespace Services
             rb.angularVelocity = Vector3.zero;
 
             enemy.SetActive(true);
+
+            return enemy;
         }
     }
 }

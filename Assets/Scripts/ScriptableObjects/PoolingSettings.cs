@@ -10,5 +10,7 @@ namespace ScriptableObjects
         public int StunEffectPoolSizeLimit = 10;
 
         public int EnemyPoolSizeLimit = 10;
+
+        public int BigEnemyPoolSizeLimit = 3;
     }
 }

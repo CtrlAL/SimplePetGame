@@ -18,7 +18,7 @@ namespace Services
 
         public EnemyPool()
         {
-            for (int i = 0; i < _poolingSettings.EnemyPoolSizeLimit; i++)
+            for (int i = 0; i < _poolingSettings.EnemyPoolSizeLimit + _poolingSettings.BigEnemyPoolSizeLimit; i++)
             {
                 _enemies.Enqueue(_enemyLibrary.GetRandomEnemyPrefab());
             }
