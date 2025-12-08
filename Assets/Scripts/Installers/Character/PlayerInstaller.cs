@@ -9,8 +9,7 @@ namespace Services.Installers
 {
     public class PlayerInstaller : CharacterInstaller
     {
-        [SerializeField]
-        private Animator _animator;
+        [SerializeField] private Animator _animator;
 
         public override void InstallBindings()
         {
