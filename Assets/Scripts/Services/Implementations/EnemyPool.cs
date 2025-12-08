@@ -18,9 +18,9 @@ namespace Services
 
         public EnemyPool()
         {
-            foreach (var enemy in _enemyLibrary.GetAllEnemies())
+            for (int i = 0; i < _poolingSettings.EnemyPoolSizeLimit; i++)
             {
-                _enemies.Enqueue(enemy.Prefab);
+                _enemies.Enqueue(_enemyLibrary.GetRandomEnemyPrefab());
             }
         }
 
@@ -47,8 +47,7 @@ namespace Services
                     _enemies.Clear();
                 }
 
-                var index = Random.Range(0, _enemyLibrary.GetLength());
-                var prefub = _enemyLibrary.GetEnemyPrefab(index);
+                var prefub = _enemyLibrary.GetRandomEnemyPrefab();
                 enemy = _diContainer.InstantiatePrefab(prefub);
 
                 return enemy;

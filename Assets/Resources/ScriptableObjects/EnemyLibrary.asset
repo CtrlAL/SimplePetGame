@@ -16,42 +16,56 @@ MonoBehaviour:
   - _name: Red
     _prefab: {fileID: 4158945627288465341, guid: af0249bd84c805e4e9def291ad4e0586,
       type: 3}
+    _spawnRate: 1
   - _name: Blue
     _prefab: {fileID: 2188407178547373789, guid: 2400b641841ee26489d5cd5cc88333ea,
       type: 3}
+    _spawnRate: 1
   - _name: Green
     _prefab: {fileID: 1766413074148633759, guid: dface1f3c6e5797478d6dd4e5687bd64,
       type: 3}
+    _spawnRate: 1
   - _name: Violet
     _prefab: {fileID: 7798539641985935633, guid: 19be48ab2fee7e0408beea028a139cce,
       type: 3}
+    _spawnRate: 1
   - _name: Purple
     _prefab: {fileID: 187857502822748608, guid: 0f3606918b5887a499b4a00ab66f671e,
       type: 3}
+    _spawnRate: 0
   - _name: Cyan
     _prefab: {fileID: 7798539641985935633, guid: 19be48ab2fee7e0408beea028a139cce,
       type: 3}
+    _spawnRate: 1
   - _name: Orange
     _prefab: {fileID: 913691985218808206, guid: 6a375e3dc37ed1d449db5d68ee0c9b1e,
       type: 3}
+    _spawnRate: 1
   - _name: Yallow
     _prefab: {fileID: 5752287232751153000, guid: 91070011e4a94f443a5b5a725f1c8e5c,
       type: 3}
+    _spawnRate: 1
   - _name: BigEnemy 1
     _prefab: {fileID: 8984126507760169518, guid: 45dc6ed5bdfe3c84e862696120af140f,
       type: 3}
+    _spawnRate: 5
   - _name: BigEnemy 2
     _prefab: {fileID: 8984126507760169518, guid: d3cac53f38ad8f649925fa63d743e80c,
       type: 3}
+    _spawnRate: 5
   - _name: BigEnemy 3
     _prefab: {fileID: 8984126507760169518, guid: ad61ecea0f91c424ebc78f5b1b66d4b1,
       type: 3}
+    _spawnRate: 5
   - _name: BigEnemy 4
     _prefab: {fileID: 8984126507760169518, guid: 6633fc0f59284dc43bb85e615ce955cf,
       type: 3}
+    _spawnRate: 5
   - _name: BigEnemy 5
     _prefab: {fileID: 8984126507760169518, guid: ffa19e34a6662284383eac11e7caaef3,
       type: 3}
+    _spawnRate: 5
   - _name: BigEnemy 6
     _prefab: {fileID: 8984126507760169518, guid: 2fba17da93deb094badcb4f42eb3a066,
       type: 3}
+    _spawnRate: 5
