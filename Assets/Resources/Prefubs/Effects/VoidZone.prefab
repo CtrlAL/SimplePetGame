@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1062813450489157462}
   - component: {fileID: 1268355308004496664}
   - component: {fileID: 5794398136476158681}
+  - component: {fileID: -4903792906253276118}
   - component: {fileID: 6546419998220691800}
   m_Layer: 0
   m_Name: VoidZone
@@ -68,6 +69,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cfa945aa0e89743a2addfc0f8ac550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4903792906253276118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3498300274548025019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e62874c07c859458d3b60c17dc4f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6546419998220691800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +94,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: -4903792906253276118}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
