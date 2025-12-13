@@ -48,7 +48,12 @@ namespace Presenters
 
         private void SetOutlineEnabled(GameObject gameObject, bool enabled)
         {
-            if (gameObject.TryGetComponent<Outline>(out var outline))
+            if (gameObject == null)
+            {
+                return;
+            }
+
+            if (gameObject.TryGetComponent<Outline>(out var outline) && outline != null)
             {
                 outline.enabled = enabled;
             }
