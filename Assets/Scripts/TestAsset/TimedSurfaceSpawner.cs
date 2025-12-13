@@ -72,7 +72,7 @@ public class TimedSurfaceSpawner : MonoBehaviour
             }
             
 
-            GameObject instance = Instantiate(prefabToSpawn, spawnPos, Quaternion.LookRotation(Vector3.forward, hit.normal));
+            GameObject instance = Instantiate(prefabToSpawn, spawnPos, gameObject.transform.rotation);
             activePositions.Add(spawnPos);
 
             StartCoroutine(DestroyAfterDelay(instance, spawnPos));
