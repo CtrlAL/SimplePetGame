@@ -13,14 +13,20 @@ namespace FSM.States
 
         public void Enter()
         {
-            _stunService.ApplyStun(_rigidbody.gameObject, _rigidbody);
-            _onStateEnter.OnNext(Unit.Default);
+            if (_rigidbody != null && _rigidbody.gameObject != null)
+            {
+                _stunService.ApplyStun(_rigidbody.gameObject, _rigidbody);
+                _onStateEnter.OnNext(Unit.Default);
+            }
         }
 
         public void Exit()
         {
-            _stunService.RemoveStun(_rigidbody.gameObject, _rigidbody);
-            _onStateExit.OnNext(Unit.Default);
+            if (_rigidbody != null && _rigidbody.gameObject != null)
+            {
+                _stunService.RemoveStun(_rigidbody.gameObject, _rigidbody);
+                _onStateExit.OnNext(Unit.Default);
+            }
         }
     }
 }
