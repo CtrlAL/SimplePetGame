@@ -42,22 +42,6 @@ namespace Presenters
                     })
                     .AddTo(_compositeDisposable);
             });
-
-            _voidZoneView.KillPerformed
-                .Where(co => co.IsPlayer())
-                .Subscribe(co =>
-                {
-                    KillPlayer(co);
-                })
-                .AddTo(_compositeDisposable); ;
-
-            _voidZoneView.KillPerformed
-                .Where(co => co.IsEnemy())
-                .Subscribe(co =>
-                {
-                    KillEnemy(co);
-                })
-                .AddTo(_compositeDisposable);
         }
 
         private void KillEnemy(UnityEngine.Collider co)
