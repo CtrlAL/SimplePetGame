@@ -57,6 +57,11 @@ namespace Presenters
             _inputProvider.Inputs.Throw.performed += OnThrow;
         }
 
+        public void FixedTick()
+        {
+            CleanupNulls();
+        }
+
         public void Dispose()
         {
             _inputProvider.Inputs.Pickup.performed -= OnPickup;
@@ -103,20 +108,15 @@ namespace Presenters
             }
         }
 
-        public void OnEnterRange(GameObject obj) => AddIfValid(obj);
-        public void OnStayInRange(GameObject obj) => AddIfValid(obj);
-        public void OnExitRange(GameObject obj) => _model.AllowedThrowables.Remove(obj);
-        public void CleanupNulls() => _model.AllowedThrowables.RemoveWhere(item => item == null);
+        private void OnEnterRange(GameObject obj) => AddIfValid(obj);
+        private void OnStayInRange(GameObject obj) => AddIfValid(obj);
+        private void OnExitRange(GameObject obj) => _model.AllowedThrowables.Remove(obj);
+        private void CleanupNulls() => _model.AllowedThrowables.RemoveWhere(item => item == null);
 
         private void AddIfValid(GameObject obj)
         {
             if (obj.IsThrowable() && GameHelpers.IsGrounded(obj))
                 _model.AllowedThrowables.Add(obj);
-        }
-
-        public void FixedTick()
-        {
-            CleanupNulls();
         }
     }
 }
