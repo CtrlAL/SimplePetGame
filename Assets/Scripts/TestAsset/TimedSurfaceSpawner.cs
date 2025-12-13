@@ -13,70 +13,73 @@ public class TimedSurfaceSpawner : MonoBehaviour
     public float heightOffset = 0.1f;
 
     private List<Vector3> activePositions = new();
-    private int spawnedSoFar = 0;
-    private Coroutine spawnRoutine;
+    private Mesh mesh;
+    private Vector3 meshCenterLocal;
+    private Vector3 meshExtentsLocal;
 
     private void Start()
     {
-        if (spawnRoutine == null)
-            spawnRoutine = StartCoroutine(SpawnOverTime());
+        var meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter == null || meshFilter.sharedMesh == null)
+        {
+            Debug.LogError("Нет MeshFilter или меша!");
+            return;
+        }
+
+        mesh = meshFilter.sharedMesh;
+        meshCenterLocal = mesh.bounds.center;
+        meshExtentsLocal = mesh.bounds.extents;
+
+        StartCoroutine(SpawnLoop());
     }
 
-    private IEnumerator SpawnOverTime()
+    private IEnumerator SpawnLoop()
     {
-        while (spawnedSoFar < spawnCount)
+        int spawned = 0;
+        while (spawned < spawnCount)
         {
-            if (TrySpawnOne())
-            {
-                spawnedSoFar++;
-            }
-
+            if (TrySpawnOne()) spawned++;
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
     private bool TrySpawnOne()
     {
-        Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
-        if (mesh == null) return false;
+        // Верхняя грань в локальных координатах меша:
+        // Y = центр.Y + экстент.Y
+        float topY = meshCenterLocal.y + meshExtentsLocal.y;
 
-        Vector3[] vertices = mesh.vertices;
-        Matrix4x4 localToWorld = transform.localToWorldMatrix;
-
-        for (int attempt = 0; attempt < 50; attempt++)
+        for (int attempt = 0; attempt < 100; attempt++)
         {
-            Vector3 localPoint = vertices[Random.Range(0, vertices.Length)];
-            Vector3 worldPoint = localToWorld.MultiplyPoint3x4(localPoint);
+            // Случайная точка на верхней грани (в локальных координатах меша)
+            Vector3 localPoint = new Vector3(
+                Random.Range(meshCenterLocal.x - meshExtentsLocal.x, meshCenterLocal.x + meshExtentsLocal.x),
+                topY,
+                Random.Range(meshCenterLocal.z - meshExtentsLocal.z, meshCenterLocal.z + meshExtentsLocal.z)
+            );
 
-            if (!Physics.Raycast(worldPoint + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 10f))
-                continue;
+            // Переводим в мировые координаты
+            Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * heightOffset;
 
-            if (hit.collider == null || hit.collider.gameObject != gameObject)
-                continue;
-
-            Vector3 spawnPos = hit.point + hit.normal * heightOffset;
-
+            // Проверка на перекрытие
             bool tooClose = false;
             foreach (var pos in activePositions)
             {
-                if (Vector3.Distance(spawnPos, pos) < minDistance)
+                if (Vector3.Distance(worldPoint, pos) < minDistance)
                 {
                     tooClose = true;
                     break;
                 }
             }
+            if (tooClose) continue;
 
-            if (tooClose)
-            {
-                continue;
-            }
-            
+            // Поворот: чтобы объект "лежал" — его Y должен совпадать с up поверхности.
+            // Так как мы на плоскости, нормаль = transform.up
+            Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
 
-            GameObject instance = Instantiate(prefabToSpawn, spawnPos, gameObject.transform.rotation);
-            activePositions.Add(spawnPos);
-
-            StartCoroutine(DestroyAfterDelay(instance, spawnPos));
-
+            GameObject obj = Instantiate(prefabToSpawn, worldPoint, rot);
+            activePositions.Add(worldPoint);
+            StartCoroutine(DestroyAfterDelay(obj, worldPoint));
             return true;
         }
 
@@ -86,33 +89,7 @@ public class TimedSurfaceSpawner : MonoBehaviour
     private IEnumerator DestroyAfterDelay(GameObject obj, Vector3 pos)
     {
         yield return new WaitForSeconds(lifetime);
-
-        if (obj != null)
-            Destroy(obj);
-
-        if (activePositions.Contains(pos))
-        {
-            activePositions.Remove(pos);
-        }
-            
-    }
-
-    private void OnDisable()
-    {
-        if (spawnRoutine != null)
-        {
-            StopCoroutine(spawnRoutine);
-            spawnRoutine = null;
-        }
-        activePositions.Clear();
-    }
-
-    private void OnDrawGizmos()
-    {
-        foreach (var pos in activePositions)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(pos, minDistance * 0.5f);
-        }
+        if (obj != null) Destroy(obj);
+        activePositions.Remove(pos);
     }
 }
