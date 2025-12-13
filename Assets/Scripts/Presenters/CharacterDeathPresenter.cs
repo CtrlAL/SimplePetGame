@@ -12,6 +12,7 @@ namespace Presenters
 {
     public class CharacterDeathPresenter : IInitializable, IDisposable
     {
+        [Inject] private VoidZoneView _voidZoneView;
         [Inject] private GameOverModel _gameOverModel;
         [Inject] private StatsModel _statsModel;
         [Inject] private IEnemyFactory _enemyFactory;
@@ -30,9 +31,7 @@ namespace Presenters
                     .Where(co => co.IsPlayer())
                     .Subscribe(co =>
                     {
-                        _gameOverModel.GameOver.OnNext(default);
-                        _deathEffectView.ShowEffect(co.gameObject);
-                        co.gameObject.SetActive(false);
+                        KillPlayer(co);
                     })
                     .AddTo(_compositeDisposable);
 
@@ -40,12 +39,40 @@ namespace Presenters
                     .Where(co => co.IsEnemy())
                     .Subscribe(co =>
                     {
-                        _statsModel.KilledCubes.Value++;
-                        _deathEffectView.ShowEffect(co.gameObject);
-                        _enemyFactory.DestroyEnemy(co.gameObject);
+                        KillEnemy(co);
                     })
                     .AddTo(_compositeDisposable);
             });
+
+            _voidZoneView.KillPerformed
+                .Where(co => co.IsPlayer())
+                .Subscribe(co =>
+                {
+                    KillPlayer(co);
+                })
+                .AddTo(_compositeDisposable); ;
+
+            _voidZoneView.KillPerformed
+                .Where(co => co.IsEnemy())
+                .Subscribe(co =>
+                {
+                    KillEnemy(co);
+                })
+                .AddTo(_compositeDisposable);
+        }
+
+        private void KillEnemy(UnityEngine.Collider co)
+        {
+            _statsModel.KilledCubes.Value++;
+            _deathEffectView.ShowEffect(co.gameObject);
+            _enemyFactory.DestroyEnemy(co.gameObject);
+        }
+
+        private void KillPlayer(UnityEngine.Collider co)
+        {
+            _gameOverModel.GameOver.OnNext(default);
+            _deathEffectView.ShowEffect(co.gameObject);
+            co.gameObject.SetActive(false);
         }
 
         public void Dispose()
