@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using Zenject;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshCollider))]
 public class TimedSurfaceSpawner : MonoBehaviour
 {
+    [Inject] DiContainer _container;
+
     public GameObject prefabToSpawn;
     public int spawnCount = 10;
     public float spawnInterval = 2f;
@@ -45,23 +48,18 @@ public class TimedSurfaceSpawner : MonoBehaviour
 
     private bool TrySpawnOne()
     {
-        // Верхняя грань в локальных координатах меша:
-        // Y = центр.Y + экстент.Y
         float topY = meshCenterLocal.y + meshExtentsLocal.y;
 
         for (int attempt = 0; attempt < 100; attempt++)
         {
-            // Случайная точка на верхней грани (в локальных координатах меша)
             Vector3 localPoint = new Vector3(
                 Random.Range(meshCenterLocal.x - meshExtentsLocal.x, meshCenterLocal.x + meshExtentsLocal.x),
                 topY,
                 Random.Range(meshCenterLocal.z - meshExtentsLocal.z, meshCenterLocal.z + meshExtentsLocal.z)
             );
 
-            // Переводим в мировые координаты
             Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * heightOffset;
 
-            // Проверка на перекрытие
             bool tooClose = false;
             foreach (var pos in activePositions)
             {
@@ -71,13 +69,14 @@ public class TimedSurfaceSpawner : MonoBehaviour
                     break;
                 }
             }
-            if (tooClose) continue;
 
-            // Поворот: чтобы объект "лежал" — его Y должен совпадать с up поверхности.
-            // Так как мы на плоскости, нормаль = transform.up
+            if (tooClose)
+            {
+                continue;
+            }
+
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
-
-            GameObject obj = Instantiate(prefabToSpawn, worldPoint, rot);
+            GameObject obj = _container.InstantiatePrefab(prefabToSpawn, worldPoint, rot, transform);
             activePositions.Add(worldPoint);
             StartCoroutine(DestroyAfterDelay(obj, worldPoint));
             return true;
