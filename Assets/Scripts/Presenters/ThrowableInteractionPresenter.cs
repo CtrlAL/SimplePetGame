@@ -25,7 +25,7 @@ namespace Presenters
         private readonly CharacterFSM _fsm;
         private readonly SoundManager _soundManager;
 
-        private CompositeDisposable _disposebles;
+        private CompositeDisposable _compositeDisposable;
 
         public ThrowableInteractionPresenter(
             ThrowableInteractionModel model,
@@ -41,17 +41,17 @@ namespace Presenters
             _view = view;
             _model = model;
             _soundManager = soundManager;
-            _disposebles = new CompositeDisposable();
+            _compositeDisposable = new CompositeDisposable();
         }
 
         public void Initialize()
         {
             _view.OnObjectEnteredRange.Subscribe(go => OnEnterRange(go))
-                .AddTo(_disposebles);
+                .AddTo(_compositeDisposable);
             _view.OnObjectExitedRange.Subscribe(go => OnExitRange(go)).
-                AddTo(_disposebles);
+                AddTo(_compositeDisposable);
             _view.OnObjectStayedInRange.Subscribe(go => OnStayInRange(go))
-                .AddTo(_disposebles);
+                .AddTo(_compositeDisposable);
 
             _inputProvider.Inputs.Pickup.performed += OnPickup;
             _inputProvider.Inputs.Throw.performed += OnThrow;
@@ -62,7 +62,7 @@ namespace Presenters
             _inputProvider.Inputs.Pickup.performed -= OnPickup;
             _inputProvider.Inputs.Throw.performed -= OnThrow;
 
-            _disposebles.Dispose();
+            _compositeDisposable.Dispose();
         }
 
         private void OnPickup(InputAction.CallbackContext context)
