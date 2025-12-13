@@ -48,14 +48,38 @@ public class TimedSurfaceSpawner : MonoBehaviour
 
     private bool TrySpawnOne()
     {
-        float topY = meshCenterLocal.y + meshExtentsLocal.y;
+        float platformTopY = meshCenterLocal.y + meshExtentsLocal.y;
+
+        if (!TryGetPrefabBounds(out Bounds prefabBounds))
+        {
+            Debug.LogError("Не удалось получить габариты префаба!");
+            return false;
+        }
+
+        Vector3 prefabSize = prefabBounds.size;
+        float prefabHalfX = prefabSize.x * 0.5f;
+        float prefabHalfZ = prefabSize.z * 0.5f;
+
+        float platformHalfX = meshExtentsLocal.x;
+        float platformHalfZ = meshExtentsLocal.z;
+
+        if (prefabHalfX >= platformHalfX || prefabHalfZ >= platformHalfZ)
+        {
+            Debug.LogWarning("Префаб слишком большой для платформы! Спавн может выходить за край.");
+        }
+
+        float spawnRangeX = platformHalfX - prefabHalfX;
+        float spawnRangeZ = platformHalfZ - prefabHalfZ;
+
+        spawnRangeX = Mathf.Max(spawnRangeX, 0f);
+        spawnRangeZ = Mathf.Max(spawnRangeZ, 0f);
 
         for (int attempt = 0; attempt < 100; attempt++)
         {
             Vector3 localPoint = new Vector3(
-                Random.Range(meshCenterLocal.x - meshExtentsLocal.x, meshCenterLocal.x + meshExtentsLocal.x),
-                topY,
-                Random.Range(meshCenterLocal.z - meshExtentsLocal.z, meshCenterLocal.z + meshExtentsLocal.z)
+                meshCenterLocal.x + Random.Range(-spawnRangeX, spawnRangeX),
+                platformTopY,
+                meshCenterLocal.z + Random.Range(-spawnRangeZ, spawnRangeZ)
             );
 
             Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * heightOffset;
@@ -69,16 +93,31 @@ public class TimedSurfaceSpawner : MonoBehaviour
                     break;
                 }
             }
-
-            if (tooClose)
-            {
-                continue;
-            }
+            if (tooClose) continue;
 
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
             GameObject obj = _container.InstantiatePrefab(prefabToSpawn, worldPoint, rot, transform);
+
             activePositions.Add(worldPoint);
             StartCoroutine(DestroyAfterDelay(obj, worldPoint));
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool TryGetPrefabBounds(out Bounds bounds)
+    {
+        bounds = default;
+
+        var meshFilter = prefabToSpawn.GetComponent<MeshFilter>();
+        if (meshFilter != null && meshFilter.sharedMesh != null)
+        {
+            bounds = meshFilter.sharedMesh.bounds;
+            Vector3 lossyScale = prefabToSpawn.transform.lossyScale;
+            Vector3 center = Vector3.Scale(bounds.center, lossyScale);
+            Vector3 size = Vector3.Scale(bounds.size, lossyScale);
+            bounds = new Bounds(center, size);
             return true;
         }
 
