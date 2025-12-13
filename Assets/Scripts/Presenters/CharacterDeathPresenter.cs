@@ -12,7 +12,6 @@ namespace Presenters
 {
     public class CharacterDeathPresenter : IInitializable, IDisposable
     {
-        [Inject] private VoidZoneView _voidZoneView;
         [Inject] private GameOverModel _gameOverModel;
         [Inject] private StatsModel _statsModel;
         [Inject] private IEnemyFactory _enemyFactory;
