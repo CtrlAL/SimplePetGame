@@ -4,8 +4,7 @@ using System.Collections;
 using Zenject;
 using ScriptableObjects;
 
-[RequireComponent(typeof(MeshFilter), typeof(MeshCollider))]
-public class TimedSurfaceSpawner : MonoBehaviour
+public class VoidZoneObjectSpawnerView : MonoBehaviour
 {
     [Inject] DiContainer _container;
     [Inject] VoidZoneSpawnSettings _settings;
