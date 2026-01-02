@@ -9,7 +9,6 @@ namespace ScriptableObjects
         public int SpawnCount = 10;
         public float SpawnInterval = 2f;
         public float Lifetime = 10f;
-        public float MinDistance = 2f;
         public float HeightOffset = 0.1f;
     }
 }

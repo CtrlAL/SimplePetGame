@@ -82,8 +82,9 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
             );
 
             Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * _settings.HeightOffset;
+            IsPrefabInsidePlatform(worldPoint, prefabBounds);
 
-            var objects = Physics.OverlapSphere(worldPoint, _settings.MinDistance);
+            var objects = Physics.OverlapSphere(worldPoint, prefabBounds.extents.x);
 
             if (objects.Length >= 1)
             {
@@ -91,14 +92,16 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
             }
 
             bool tooClose = false;
+
             foreach (var pos in activePositions)
             {
-                if (Vector3.Distance(worldPoint, pos) < _settings.MinDistance)
+                if (Vector3.Distance(worldPoint, pos) < prefabBounds.extents.x)
                 {
                     tooClose = true;
                     break;
                 }
             }
+
             if (tooClose) continue;
 
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
@@ -135,5 +138,44 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         yield return new WaitForSeconds(_settings.Lifetime);
         if (obj != null) Destroy(obj);
         activePositions.Remove(pos);
+    }
+
+    private bool IsPrefabInsidePlatform(Vector3 worldPoint, Bounds prefabBounds)
+    {
+        Bounds platformWorldBounds = GetPlatformWorldBounds();
+
+        float prefabHalfX = prefabBounds.extents.x;
+        float prefabHalfZ = prefabBounds.extents.z;
+
+        float leftEdge = worldPoint.x - prefabHalfX;
+        float rightEdge = worldPoint.x + prefabHalfX;
+
+        if (leftEdge < platformWorldBounds.min.x || rightEdge > platformWorldBounds.max.x)
+        {
+            return false;
+        }
+
+        float frontEdge = worldPoint.z - prefabHalfZ;
+        float backEdge = worldPoint.z + prefabHalfZ;
+
+        if (frontEdge < platformWorldBounds.min.z || backEdge > platformWorldBounds.max.z)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private Bounds GetPlatformWorldBounds()
+    {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter == null || meshFilter.sharedMesh == null)
+            return new Bounds();
+
+        Bounds localBounds = meshFilter.sharedMesh.bounds;
+        Vector3 worldCenter = transform.TransformPoint(localBounds.center);
+        Vector3 worldSize = Vector3.Scale(localBounds.size, transform.lossyScale);
+
+        return new Bounds(worldCenter, worldSize);
     }
 }
