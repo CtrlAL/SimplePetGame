@@ -32,6 +32,11 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private IEnumerator SpawnLoop()
     {
+        if (Time.timeScale == 0)
+        {
+            yield return new WaitForSeconds(_settings.SpawnInterval);
+        }
+
         int spawned = 0;
         while (spawned < _settings.SpawnCount)
         {
