@@ -36242,13 +36242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec5bd526509b37440ad6de95464a72cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToSpawn: {fileID: 3498300274548025019, guid: be99f938eede8a944b4846a5909e6ce7,
-    type: 3}
-  spawnCount: 10
-  spawnInterval: 2
-  lifetime: 10
-  minDistance: 2
-  heightOffset: 0.1
 --- !u!64 &1619203131
 MeshCollider:
   m_ObjectHideFlags: 0

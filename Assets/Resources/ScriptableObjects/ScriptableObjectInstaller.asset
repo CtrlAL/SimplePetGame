@@ -25,3 +25,5 @@ MonoBehaviour:
     type: 2}
   _characterVFX: {fileID: 11400000, guid: 23379c72f5b7d0140ba6d20dd534c624, type: 2}
   _enemyLibrary: {fileID: 11400000, guid: 43c239864b73ebd45b034c2ce923d4ce, type: 2}
+  _voidZoneSpawnSettings: {fileID: 11400000, guid: 8d1a3fc5c8e6bee438953868ff4e1797,
+    type: 2}

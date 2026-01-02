@@ -27,6 +27,8 @@ public class ScriptableObjectInstaller : ScriptableObjectInstaller<ScriptableObj
 
     [SerializeField] private EnemyVariants _enemyLibrary;
 
+    [SerializeField] private VoidZoneSpawnSettings _voidZoneSpawnSettings;
+
     public override void InstallBindings()
     {
         Container.BindInstance(_bigEnemyStatsSO);

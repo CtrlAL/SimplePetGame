@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using System.Collections;
 using Zenject;
+using ScriptableObjects;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshCollider))]
 public class TimedSurfaceSpawner : MonoBehaviour
 {
     [Inject] DiContainer _container;
-
-    public GameObject prefabToSpawn;
-    public int spawnCount = 10;
-    public float spawnInterval = 2f;
-    public float lifetime = 10f;
-    public float minDistance = 2f;
-    public float heightOffset = 0.1f;
+    [Inject] VoidZoneSpawnSettings _settings;
 
     private List<Vector3> activePositions = new();
     private Mesh mesh;
@@ -39,10 +34,10 @@ public class TimedSurfaceSpawner : MonoBehaviour
     private IEnumerator SpawnLoop()
     {
         int spawned = 0;
-        while (spawned < spawnCount)
+        while (spawned < _settings.SpawnCount)
         {
             if (TrySpawnOne()) spawned++;
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(_settings.SpawnInterval);
         }
     }
 
@@ -82,12 +77,12 @@ public class TimedSurfaceSpawner : MonoBehaviour
                 meshCenterLocal.z + Random.Range(-spawnRangeZ, spawnRangeZ)
             );
 
-            Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * heightOffset;
+            Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * _settings.HeightOffset;
 
             bool tooClose = false;
             foreach (var pos in activePositions)
             {
-                if (Vector3.Distance(worldPoint, pos) < minDistance)
+                if (Vector3.Distance(worldPoint, pos) < _settings.MinDistance)
                 {
                     tooClose = true;
                     break;
@@ -96,7 +91,7 @@ public class TimedSurfaceSpawner : MonoBehaviour
             if (tooClose) continue;
 
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
-            GameObject obj = _container.InstantiatePrefab(prefabToSpawn, worldPoint, rot, transform);
+            GameObject obj = _container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, transform);
 
             activePositions.Add(worldPoint);
             StartCoroutine(DestroyAfterDelay(obj, worldPoint));
@@ -110,11 +105,11 @@ public class TimedSurfaceSpawner : MonoBehaviour
     {
         bounds = default;
 
-        var meshFilter = prefabToSpawn.GetComponent<MeshFilter>();
-        if (meshFilter != null && meshFilter.sharedMesh != null)
+        var collider = _settings.Prefub.GetComponent<BoxCollider>();
+        if (collider != null)
         {
-            bounds = meshFilter.sharedMesh.bounds;
-            Vector3 lossyScale = prefabToSpawn.transform.lossyScale;
+            bounds = collider.bounds;
+            Vector3 lossyScale = _settings.Prefub.transform.lossyScale;
             Vector3 center = Vector3.Scale(bounds.center, lossyScale);
             Vector3 size = Vector3.Scale(bounds.size, lossyScale);
             bounds = new Bounds(center, size);
@@ -126,7 +121,7 @@ public class TimedSurfaceSpawner : MonoBehaviour
 
     private IEnumerator DestroyAfterDelay(GameObject obj, Vector3 pos)
     {
-        yield return new WaitForSeconds(lifetime);
+        yield return new WaitForSeconds(_settings.Lifetime);
         if (obj != null) Destroy(obj);
         activePositions.Remove(pos);
     }
