@@ -83,6 +83,13 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
             Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * _settings.HeightOffset;
 
+            var objects = Physics.OverlapSphere(worldPoint, _settings.MinDistance);
+
+            if (objects.Length >= 1)
+            {
+                continue;
+            }
+
             bool tooClose = false;
             foreach (var pos in activePositions)
             {

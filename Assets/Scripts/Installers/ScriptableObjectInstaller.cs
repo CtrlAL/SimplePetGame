@@ -42,5 +42,6 @@ public class ScriptableObjectInstaller : ScriptableObjectInstaller<ScriptableObj
         Container.BindInstance(_kickImpactSettigns);
         Container.BindInstance(_characterVFX);
         Container.BindInstance(_enemyLibrary);
+        Container.BindInstances(_voidZoneSpawnSettings);
     }
 }
