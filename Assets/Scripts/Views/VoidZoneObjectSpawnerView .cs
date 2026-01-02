@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 using Zenject;
 using ScriptableObjects;
+using Unity.VisualScripting;
+using System.Linq;
 
 public class VoidZoneObjectSpawnerView : MonoBehaviour
 {
@@ -10,22 +12,15 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
     [Inject] VoidZoneSpawnSettings _settings;
 
     private List<Vector3> activePositions = new();
-    private Mesh mesh;
-    private Vector3 meshCenterLocal;
-    private Vector3 meshExtentsLocal;
+    private Renderer _renderer;
+    private Bounds _platformWorldBounds;
+    private int _currentCount = 0;
+
 
     private void Start()
     {
-        var meshFilter = GetComponent<MeshFilter>();
-        if (meshFilter == null || meshFilter.sharedMesh == null)
-        {
-            Debug.LogError("Нет MeshFilter или меша!");
-            return;
-        }
-
-        mesh = meshFilter.sharedMesh;
-        meshCenterLocal = mesh.bounds.center;
-        meshExtentsLocal = mesh.bounds.extents;
+        _renderer = GetComponent<Renderer>();
+        _platformWorldBounds = _renderer.bounds;
 
         StartCoroutine(SpawnLoop());
     }
@@ -37,30 +32,24 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
             yield return new WaitForSeconds(_settings.SpawnInterval);
         }
 
-        int spawned = 0;
-        while (spawned < _settings.SpawnCount)
+        while (_currentCount <= _settings.SpawnCount)
         {
-            if (TrySpawnOne()) spawned++;
+            if (TrySpawnOne()) _currentCount++;
             yield return new WaitForSeconds(_settings.SpawnInterval);
         }
     }
-
+    
     private bool TrySpawnOne()
     {
-        float platformTopY = meshCenterLocal.y + meshExtentsLocal.y;
-
-        if (!TryGetPrefabBounds(out Bounds prefabBounds))
-        {
-            Debug.LogError("Не удалось получить габариты префаба!");
-            return false;
-        }
+        float platformTopY = _renderer.bounds.center.y + _renderer.bounds.extents.y;
+        var prefabBounds = GetWorldSize(_settings.Prefub);
 
         Vector3 prefabSize = prefabBounds.size;
         float prefabHalfX = prefabSize.x * 0.5f;
         float prefabHalfZ = prefabSize.z * 0.5f;
 
-        float platformHalfX = meshExtentsLocal.x;
-        float platformHalfZ = meshExtentsLocal.z;
+        float platformHalfX = _renderer.bounds.extents.x;
+        float platformHalfZ = _renderer.bounds.extents.z;
 
         if (prefabHalfX >= platformHalfX || prefabHalfZ >= platformHalfZ)
         {
@@ -76,17 +65,35 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         for (int attempt = 0; attempt < 100; attempt++)
         {
             Vector3 localPoint = new Vector3(
-                meshCenterLocal.x + Random.Range(-spawnRangeX, spawnRangeX),
+                _renderer.bounds.center.x + Random.Range(-spawnRangeX, spawnRangeX),
                 platformTopY,
-                meshCenterLocal.z + Random.Range(-spawnRangeZ, spawnRangeZ)
+                _renderer.bounds.center.z + Random.Range(-spawnRangeZ, spawnRangeZ)
             );
 
-            Vector3 worldPoint = transform.TransformPoint(localPoint) + transform.up * _settings.HeightOffset;
-            IsPrefabInsidePlatform(worldPoint, prefabBounds);
+            var width = prefabBounds.extents.x;
 
-            var objects = Physics.OverlapSphere(worldPoint, prefabBounds.extents.x);
+            Vector3 worldPoint = localPoint + transform.up * _settings.HeightOffset;
 
-            if (objects.Length >= 1)
+            if (!IsPrefabInsidePlatform(worldPoint, prefabBounds))
+            {
+                continue;
+            }
+
+            float checkHalfX = prefabHalfX * 0.3f;
+            float checkHalfZ = prefabHalfZ * 0.3f;
+            Vector3 halfExtents = new Vector3(checkHalfX, 0.1f, checkHalfZ);
+
+            var objects = Physics.OverlapBox(worldPoint, halfExtents, transform.rotation)
+                .DistinctBy(x => x.gameObject)
+                .ToList();
+
+            //foreach (var elem in objects)
+            //{
+            //    Debug.DrawRay(worldPoint, elem.transform.position, Color.green, 5f);
+            //    Debug.DrawRay(worldPoint, worldPoint + Vector3.up * 5, Color.magenta, 5f);
+            //}
+
+            if (objects.Count > 1)
             {
                 continue;
             }
@@ -95,7 +102,7 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
             foreach (var pos in activePositions)
             {
-                if (Vector3.Distance(worldPoint, pos) < prefabBounds.extents.x)
+                if (Vector3.Distance(worldPoint, pos) < width)
                 {
                     tooClose = true;
                     break;
@@ -115,42 +122,26 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         return false;
     }
 
-    private bool TryGetPrefabBounds(out Bounds bounds)
-    {
-        bounds = default;
-
-        var collider = _settings.Prefub.GetComponent<BoxCollider>();
-        if (collider != null)
-        {
-            bounds = collider.bounds;
-            Vector3 lossyScale = _settings.Prefub.transform.lossyScale;
-            Vector3 center = Vector3.Scale(bounds.center, lossyScale);
-            Vector3 size = Vector3.Scale(bounds.size, lossyScale);
-            bounds = new Bounds(center, size);
-            return true;
-        }
-
-        return false;
-    }
-
     private IEnumerator DestroyAfterDelay(GameObject obj, Vector3 pos)
     {
         yield return new WaitForSeconds(_settings.Lifetime);
         if (obj != null) Destroy(obj);
         activePositions.Remove(pos);
+        _currentCount--;
     }
 
     private bool IsPrefabInsidePlatform(Vector3 worldPoint, Bounds prefabBounds)
     {
-        Bounds platformWorldBounds = GetPlatformWorldBounds();
-
-        float prefabHalfX = prefabBounds.extents.x;
-        float prefabHalfZ = prefabBounds.extents.z;
+        float prefabHalfX = prefabBounds.extents.x / transform.lossyScale.x;
+        float prefabHalfZ = prefabBounds.extents.z / transform.lossyScale.z;
 
         float leftEdge = worldPoint.x - prefabHalfX;
         float rightEdge = worldPoint.x + prefabHalfX;
 
-        if (leftEdge < platformWorldBounds.min.x || rightEdge > platformWorldBounds.max.x)
+        float meshMinX = _platformWorldBounds.center.x - _platformWorldBounds.extents.x;
+        float meshMaxX = _platformWorldBounds.center.x + _platformWorldBounds.extents.x;
+
+        if (leftEdge < meshMinX || rightEdge > meshMaxX)
         {
             return false;
         }
@@ -158,7 +149,10 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         float frontEdge = worldPoint.z - prefabHalfZ;
         float backEdge = worldPoint.z + prefabHalfZ;
 
-        if (frontEdge < platformWorldBounds.min.z || backEdge > platformWorldBounds.max.z)
+        float meshMinZ = _platformWorldBounds.center.z - _platformWorldBounds.extents.z;
+        float meshMaxZ = _platformWorldBounds.center.z + _platformWorldBounds.extents.z;
+
+        if (frontEdge < meshMinZ || backEdge > meshMaxZ)
         {
             return false;
         }
@@ -166,16 +160,14 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         return true;
     }
 
-    private Bounds GetPlatformWorldBounds()
+    private Bounds GetWorldSize(GameObject anyObject)
     {
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-        if (meshFilter == null || meshFilter.sharedMesh == null)
-            return new Bounds();
+        GameObject temp = Instantiate(anyObject, Vector3.zero, Quaternion.identity);
+        temp.SetActive(true);
+        Renderer renderer = temp.GetComponentInChildren<Renderer>(true);
 
-        Bounds localBounds = meshFilter.sharedMesh.bounds;
-        Vector3 worldCenter = transform.TransformPoint(localBounds.center);
-        Vector3 worldSize = Vector3.Scale(localBounds.size, transform.lossyScale);
+        Destroy(temp);
 
-        return new Bounds(worldCenter, worldSize);
+        return renderer.bounds;
     }
 }
