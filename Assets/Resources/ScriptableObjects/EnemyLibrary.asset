@@ -16,19 +16,19 @@ MonoBehaviour:
   - _name: Red
     _prefab: {fileID: 4158945627288465341, guid: af0249bd84c805e4e9def291ad4e0586,
       type: 3}
-    _spawnRate: 1
+    _spawnRate: 1e+15
   - _name: Blue
     _prefab: {fileID: 2188407178547373789, guid: 2400b641841ee26489d5cd5cc88333ea,
       type: 3}
-    _spawnRate: 1
+    _spawnRate: 1e+15
   - _name: Green
     _prefab: {fileID: 1766413074148633759, guid: dface1f3c6e5797478d6dd4e5687bd64,
       type: 3}
-    _spawnRate: 1
+    _spawnRate: 1e+15
   - _name: Violet
     _prefab: {fileID: 7798539641985935633, guid: 19be48ab2fee7e0408beea028a139cce,
       type: 3}
-    _spawnRate: 1
+    _spawnRate: 1e+15
   - _name: Purple
     _prefab: {fileID: 187857502822748608, guid: 0f3606918b5887a499b4a00ab66f671e,
       type: 3}
@@ -36,36 +36,36 @@ MonoBehaviour:
   - _name: Cyan
     _prefab: {fileID: 7798539641985935633, guid: 19be48ab2fee7e0408beea028a139cce,
       type: 3}
-    _spawnRate: 1
+    _spawnRate: 1e+15
   - _name: Orange
     _prefab: {fileID: 913691985218808206, guid: 6a375e3dc37ed1d449db5d68ee0c9b1e,
       type: 3}
-    _spawnRate: 1
+    _spawnRate: 1e+15
   - _name: Yallow
     _prefab: {fileID: 5752287232751153000, guid: 91070011e4a94f443a5b5a725f1c8e5c,
       type: 3}
-    _spawnRate: 1
+    _spawnRate: 1e+15
   - _name: BigEnemy 1
     _prefab: {fileID: 4253891739368793122, guid: 1582c4fd15997554994ca158e26df1dc,
       type: 3}
-    _spawnRate: 2
+    _spawnRate: 1
   - _name: BigEnemy 2
     _prefab: {fileID: 4253891739368793122, guid: ca5e9af70ab1f1844814ffeae9adb01c,
       type: 3}
-    _spawnRate: 2
+    _spawnRate: 1
   - _name: BigEnemy 3
     _prefab: {fileID: 4253891739368793122, guid: f0ce14b1079521a428f164ebb8e0da43,
       type: 3}
-    _spawnRate: 2
+    _spawnRate: 1
   - _name: BigEnemy 4
     _prefab: {fileID: 4253891739368793122, guid: 936a5c92a79f07948aa353091e076721,
       type: 3}
-    _spawnRate: 2
+    _spawnRate: 1
   - _name: BigEnemy 5
     _prefab: {fileID: 4253891739368793122, guid: 8951ee79c3091b343a3ac06088f464bb,
       type: 3}
-    _spawnRate: 2
+    _spawnRate: 1
   - _name: BigEnemy 6
     _prefab: {fileID: 4253891739368793122, guid: ad2c546a51050c14e89118d1982110e1,
       type: 3}
-    _spawnRate: 2
+    _spawnRate: 1
