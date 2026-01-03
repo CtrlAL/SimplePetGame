@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEditor.Search;
 
 public class VoidZoneObjectSpawnerView : MonoBehaviour
 {
@@ -19,40 +20,41 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
     private int _currentCount = 0;
     private CancellationTokenSource _spawnCts;
 
+    private float _spawnTimer = 0f;
 
     private void Start()
     {
         _renderer = GetComponent<Renderer>();
         _platformWorldBounds = _renderer.bounds;
-
-        SpawnLoop().Forget();
-    }
-
-    private async UniTask SpawnLoop()
-    {
-        _spawnCts?.Cancel();
         _spawnCts = new CancellationTokenSource();
+    }
 
+    private void FixedUpdate()
+    {
+        if (Time.timeScale == 0 || !_levelSettings.VoidZoneSpawnEnable) return;
 
-        if (Time.timeScale == 0 || !_levelSettings.VoidZoneSpawnEnable)
+        _spawnTimer += Time.fixedDeltaTime;
+        if (_spawnTimer < _settings.SpawnInterval) return;
+
+        _spawnTimer = 0f;
+
+        if (_currentCount <= _settings.SpawnCount)
         {
-            await UniTask.WaitForSeconds(_settings.SpawnInterval);
-        }
-
-        while (_currentCount <= _settings.SpawnCount)
-        {
-            if (await TrySpawnOne(_spawnCts.Token))
-            {
-                _currentCount++;
-            }
-
-            await UniTask.WaitForSeconds(_settings.SpawnInterval);
+            StartSpawnAsync().Forget();
         }
     }
-    
+
+    private async UniTask StartSpawnAsync()
+    {
+        if (await TrySpawnOne(_spawnCts.Token))
+        {
+            _currentCount++;
+        }
+    }
+
     private async UniTask<bool> TrySpawnOne(CancellationToken cancellationToken = default)
     {
-        float platformTopY = _renderer.bounds.center.y + _renderer.bounds.extents.y;
+        float platformTopY = _platformWorldBounds.center.y + _platformWorldBounds.extents.y;
 
         if (!TryGetWorldSize(_settings.Prefub, out var prefabBounds)) 
         {
@@ -63,8 +65,8 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         float prefabHalfX = prefabSize.x * 0.5f;
         float prefabHalfZ = prefabSize.z * 0.5f;
 
-        float platformHalfX = _renderer.bounds.extents.x;
-        float platformHalfZ = _renderer.bounds.extents.z;
+        float platformHalfX = _platformWorldBounds.extents.x;
+        float platformHalfZ = _platformWorldBounds.extents.z;
 
         if (prefabHalfX >= platformHalfX || prefabHalfZ >= platformHalfZ)
         {
@@ -83,9 +85,9 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
                 return false;
 
             Vector3 localPoint = new Vector3(
-                _renderer.bounds.center.x + Random.Range(-spawnRangeX, spawnRangeX),
+                _platformWorldBounds.center.x + Random.Range(-spawnRangeX, spawnRangeX),
                 platformTopY,
-                _renderer.bounds.center.z + Random.Range(-spawnRangeZ, spawnRangeZ)
+                _platformWorldBounds.center.z + Random.Range(-spawnRangeZ, spawnRangeZ)
             );
 
             var width = prefabBounds.extents.x;
@@ -126,9 +128,7 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
 
             await DestroyAfterDelay(_container.InstantiatePrefab(_settings.PreviewVFX, worldPoint, rot, transform), _settings.DelayBeforeSpawn);
-
             activePositions.Add(worldPoint);
-
             await DestroyAfterDelay(_container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, transform), _settings.Lifetime);
             
             RemoveActivePoints(worldPoint);
@@ -146,7 +146,9 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private async UniTask DestroyAfterDelay(GameObject obj, float delay)
     {
-        await UniTask.WaitForSeconds(delay);
+        var fadout = 0.5f;
+        await UniTask.WaitForSeconds(delay - fadout * 2);
+
         if (obj != null) Destroy(obj);
     }
 
@@ -182,6 +184,12 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private bool TryGetWorldSize(GameObject anyObject, out Bounds bounds)
     {
+        if (anyObject == null)
+        {
+            bounds = default;
+            return false;
+        }
+
         GameObject temp = Instantiate(anyObject, Vector3.zero, Quaternion.identity);
         temp.SetActive(true);
 
@@ -200,5 +208,10 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
         Destroy(temp);
         return result;
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("VoidZoneObjectSpawnerView destroyed");
     }
 }

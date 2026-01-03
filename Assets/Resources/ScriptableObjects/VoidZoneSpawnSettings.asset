@@ -15,8 +15,8 @@ MonoBehaviour:
   Prefub: {fileID: 3498300274548025019, guid: be99f938eede8a944b4846a5909e6ce7, type: 3}
   PreviewVFX: {fileID: 28409368897253296, guid: ed0e4e56add40704fb01c630800e29da,
     type: 3}
-  SpawnCount: 10
-  SpawnInterval: 2
+  SpawnCount: 1
+  SpawnInterval: 10
   DelayBeforeSpawn: 2
-  Lifetime: 10
+  Lifetime: 5
   HeightOffset: 0.1
