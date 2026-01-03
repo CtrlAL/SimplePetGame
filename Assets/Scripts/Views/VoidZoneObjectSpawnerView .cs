@@ -146,10 +146,12 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private async UniTask DestroyAfterDelay(GameObject obj, float delay)
     {
+        obj.SetActive(false);
+
         await Hide(obj);
         await Show(obj);
         await UniTask.WaitForSeconds(delay);
-        await Show(obj);
+        await Hide(obj);
 
         if (obj != null) Destroy(obj);
     }
@@ -162,7 +164,6 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private async UniTask Hide(GameObject obj)
     {
-        obj.SetActive(false);
         await SetParticlesAlpha(obj, 0f);
         await UniTask.WaitForSeconds(2f);
     }
