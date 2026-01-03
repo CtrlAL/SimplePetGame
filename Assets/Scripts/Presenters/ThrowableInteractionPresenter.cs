@@ -59,6 +59,11 @@ namespace Presenters
 
         public void FixedTick()
         {
+            if (_model.IsHolding && !_model.PickedObject.Value.IsThrowable())
+            {
+                _interactor.Put(_view.transform);
+            }
+
             CleanupNulls();
         }
 
