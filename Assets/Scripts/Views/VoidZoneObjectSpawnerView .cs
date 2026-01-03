@@ -53,7 +53,11 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
     private async UniTask<bool> TrySpawnOne(CancellationToken cancellationToken = default)
     {
         float platformTopY = _renderer.bounds.center.y + _renderer.bounds.extents.y;
-        var prefabBounds = GetWorldSize(_settings.Prefub);
+
+        if (!TryGetWorldSize(_settings.Prefub, out var prefabBounds)) 
+        {
+            return false;
+        }
 
         Vector3 prefabSize = prefabBounds.size;
         float prefabHalfX = prefabSize.x * 0.5f;
@@ -142,7 +146,7 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private async UniTask DestroyAfterDelay(GameObject obj, float delay)
     {
-        await UniTask.WaitForSeconds(_settings.Lifetime);
+        await UniTask.WaitForSeconds(delay);
         if (obj != null) Destroy(obj);
     }
 
@@ -176,14 +180,25 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         return true;
     }
 
-    private Bounds GetWorldSize(GameObject anyObject)
+    private bool TryGetWorldSize(GameObject anyObject, out Bounds bounds)
     {
         GameObject temp = Instantiate(anyObject, Vector3.zero, Quaternion.identity);
         temp.SetActive(true);
-        Renderer renderer = temp.GetComponentInChildren<Renderer>(true);
+
+        bool result = false;
+
+        try
+        {
+            Renderer renderer = temp.GetComponentInChildren<Renderer>(true);
+            bounds = renderer.bounds;
+            result = true;
+        }
+        catch (System.Exception)
+        {
+            bounds = default;
+        }
 
         Destroy(temp);
-
-        return renderer.bounds;
+        return result;
     }
 }
