@@ -15,7 +15,7 @@ MonoBehaviour:
   _moveSpeed: 25
   _rotationSpeed: 7
   _jumpForce: 3.5
-  _kickPower: 5
+  _kickPower: 15
   _kickRadius: 1.5
   _fatigue: 100
   _fatigueRestoration: 0.5

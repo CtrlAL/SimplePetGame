@@ -1,4 +1,6 @@
 using Enums;
+using Extensions;
+using FSM;
 using Presenters;
 using Services.Sound;
 using System;
@@ -12,6 +14,7 @@ public class EnemyAnimationPresenter : IInitializable, IDisposable
     [Inject] private Animator _animator;
     [Inject] private EnemyKickZoneView _enemyKickZoneView;
     [Inject] private SoundManager _soundManager;
+    [Inject] private CharacterFSM _characterFSM;
 
     private CompositeDisposable _compositeDisposable = new();
 
@@ -25,7 +28,10 @@ public class EnemyAnimationPresenter : IInitializable, IDisposable
     {
         _enemyKickZoneView.KickPerformed.Subscribe(c =>
         {
-            PlayAnimtion();
+            if (_characterFSM.IsIdleState())
+            {
+                PlayAnimtion();
+            }
         })
         .AddTo(_compositeDisposable);
     }

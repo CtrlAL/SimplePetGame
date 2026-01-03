@@ -32,7 +32,7 @@ namespace Presenters
 
         private void KickNeardyEnemies()
         {
-            Collider[] nearbyColliders = Physics.OverlapSphere(_transform.position, _playerStats.KickRadius);
+            Collider[] nearbyColliders = Physics.OverlapSphere(_transform.position, _playerStats.KickRadius * _transform.localScale.z);
 
             bool kickSome = false;
 
