@@ -10,5 +10,8 @@ namespace ScriptableObjects
 
         [Tooltip("Level duration in minutes (automatically converted to seconds)")]
         public float LevelDuration = 15;
+
+        public bool EnableSpawn = true;
+        public bool VoidZoneSpawnEnable = true;
     }
 }

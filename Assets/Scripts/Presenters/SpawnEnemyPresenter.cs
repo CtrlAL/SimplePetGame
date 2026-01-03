@@ -41,6 +41,11 @@ namespace Presenters
 
         public void FixedTick()
         {
+            if (!_levelSettings.EnableSpawn)
+            {
+                return;
+            }
+
             _timer += Time.deltaTime;
 
             if (_timer >= _levelSettings.EnemySpawnRate && _currentCount + _bigCurrentCount < _levelSettings.EnemyMaximumCount + _levelSettings.BigEnemyMaximumCount)

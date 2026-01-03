@@ -9,6 +9,7 @@ using System.Linq;
 public class VoidZoneObjectSpawnerView : MonoBehaviour
 {
     [Inject] DiContainer _container;
+    [Inject] LevelSettings _levelSettings;
     [Inject] VoidZoneSpawnSettings _settings;
 
     private List<Vector3> activePositions = new();
@@ -27,7 +28,7 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private IEnumerator SpawnLoop()
     {
-        if (Time.timeScale == 0)
+        if (Time.timeScale == 0 || !_levelSettings.VoidZoneSpawnEnable)
         {
             yield return new WaitForSeconds(_settings.SpawnInterval);
         }
