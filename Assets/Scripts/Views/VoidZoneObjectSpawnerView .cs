@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using Zenject;
 using ScriptableObjects;
 using Unity.VisualScripting;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class VoidZoneObjectSpawnerView : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
     private Renderer _renderer;
     private Bounds _platformWorldBounds;
     private int _currentCount = 0;
+    private CancellationTokenSource _spawnCts;
 
 
     private void Start()
@@ -23,24 +25,32 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         _renderer = GetComponent<Renderer>();
         _platformWorldBounds = _renderer.bounds;
 
-        StartCoroutine(SpawnLoop());
+        SpawnLoop().Forget();
     }
 
-    private IEnumerator SpawnLoop()
+    private async UniTask SpawnLoop()
     {
+        _spawnCts?.Cancel();
+        _spawnCts = new CancellationTokenSource();
+
+
         if (Time.timeScale == 0 || !_levelSettings.VoidZoneSpawnEnable)
         {
-            yield return new WaitForSeconds(_settings.SpawnInterval);
+            await UniTask.WaitForSeconds(_settings.SpawnInterval);
         }
 
         while (_currentCount <= _settings.SpawnCount)
         {
-            if (TrySpawnOne()) _currentCount++;
-            yield return new WaitForSeconds(_settings.SpawnInterval);
+            if (await TrySpawnOne(_spawnCts.Token))
+            {
+                _currentCount++;
+            }
+
+            await UniTask.WaitForSeconds(_settings.SpawnInterval);
         }
     }
     
-    private bool TrySpawnOne()
+    private async UniTask<bool> TrySpawnOne(CancellationToken cancellationToken = default)
     {
         float platformTopY = _renderer.bounds.center.y + _renderer.bounds.extents.y;
         var prefabBounds = GetWorldSize(_settings.Prefub);
@@ -65,6 +75,9 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
         for (int attempt = 0; attempt < 100; attempt++)
         {
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
             Vector3 localPoint = new Vector3(
                 _renderer.bounds.center.x + Random.Range(-spawnRangeX, spawnRangeX),
                 platformTopY,
@@ -88,12 +101,6 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
                 .DistinctBy(x => x.gameObject)
                 .ToList();
 
-            //foreach (var elem in objects)
-            //{
-            //    Debug.DrawRay(worldPoint, elem.transform.position, Color.green, 5f);
-            //    Debug.DrawRay(worldPoint, worldPoint + Vector3.up * 5, Color.magenta, 5f);
-            //}
-
             if (objects.Count > 1)
             {
                 continue;
@@ -113,22 +120,30 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
             if (tooClose) continue;
 
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
-            GameObject obj = _container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, transform);
+
+            await DestroyAfterDelay(_container.InstantiatePrefab(_settings.PreviewVFX, worldPoint, rot, transform), _settings.DelayBeforeSpawn);
 
             activePositions.Add(worldPoint);
-            StartCoroutine(DestroyAfterDelay(obj, worldPoint));
+
+            await DestroyAfterDelay(_container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, transform), _settings.Lifetime);
+            
+            RemoveActivePoints(worldPoint);
+
             return true;
         }
 
         return false;
     }
 
-    private IEnumerator DestroyAfterDelay(GameObject obj, Vector3 pos)
-    {
-        yield return new WaitForSeconds(_settings.Lifetime);
-        if (obj != null) Destroy(obj);
+    private void RemoveActivePoints(Vector3 pos) {
         activePositions.Remove(pos);
         _currentCount--;
+    }
+
+    private async UniTask DestroyAfterDelay(GameObject obj, float delay)
+    {
+        await UniTask.WaitForSeconds(_settings.Lifetime);
+        if (obj != null) Destroy(obj);
     }
 
     private bool IsPrefabInsidePlatform(Vector3 worldPoint, Bounds prefabBounds)
