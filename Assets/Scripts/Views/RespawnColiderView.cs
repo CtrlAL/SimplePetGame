@@ -7,7 +7,7 @@ namespace Views
     {
         public readonly Subject<Collider> OnCharacterFell = new();
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             OnCharacterFell?.OnNext(other);
         }
