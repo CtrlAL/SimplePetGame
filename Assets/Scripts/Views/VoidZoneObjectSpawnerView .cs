@@ -154,13 +154,13 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
         if (obj != null) Destroy(obj);
     }
 
-    private async System.Threading.Tasks.Task Show(GameObject obj)
+    private async UniTask Show(GameObject obj)
     {
         obj.SetActive(true);
         await SetParticlesAlpha(obj, 1f);
     }
 
-    private async System.Threading.Tasks.Task Hide(GameObject obj)
+    private async UniTask Hide(GameObject obj)
     {
         obj.SetActive(false);
         await SetParticlesAlpha(obj, 0f);
