@@ -146,23 +146,25 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private async UniTask DestroyAfterDelay(GameObject obj, float delay)
     {
+        await Hide(obj);
+        await Show(obj);
+        await UniTask.WaitForSeconds(delay);
+        await Show(obj);
+
+        if (obj != null) Destroy(obj);
+    }
+
+    private async System.Threading.Tasks.Task Show(GameObject obj)
+    {
+        obj.SetActive(true);
+        await SetParticlesAlpha(obj, 1f);
+    }
+
+    private async System.Threading.Tasks.Task Hide(GameObject obj)
+    {
         obj.SetActive(false);
         await SetParticlesAlpha(obj, 0f);
         await UniTask.WaitForSeconds(2f);
-        //Hide
-
-        obj.SetActive(true);
-        await SetParticlesAlpha(obj, 1f);
-        //Show
-
-        await UniTask.WaitForSeconds(delay);
-
-        await SetParticlesAlpha(obj, 0f);
-        await UniTask.WaitForSeconds(2f);
-
-        //Again Hide
-
-        if (obj != null) Destroy(obj);
     }
 
     private bool IsPrefabInsidePlatform(Vector3 worldPoint, Bounds prefabBounds)
