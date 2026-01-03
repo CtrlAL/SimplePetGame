@@ -16,5 +16,5 @@ MonoBehaviour:
   EnemyMaximumCount: 10
   BigEnemyMaximumCount: 3
   LevelDuration: 15
-  EnableSpawn: 0
+  EnableSpawn: 1
   VoidZoneSpawnEnable: 1

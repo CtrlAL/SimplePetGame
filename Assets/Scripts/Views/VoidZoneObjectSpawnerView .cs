@@ -127,8 +127,8 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, transform.up);
 
-            await DestroyAfterDelay(_container.InstantiatePrefab(_settings.PreviewVFX, worldPoint, rot, transform), _settings.DelayBeforeSpawn);
             activePositions.Add(worldPoint);
+            await DestroyAfterDelay(_container.InstantiatePrefab(_settings.PreviewVFX, worldPoint, rot, transform), _settings.DelayBeforeSpawn);
             await DestroyAfterDelay(_container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, transform), _settings.Lifetime);
             
             RemoveActivePoints(worldPoint);
@@ -146,8 +146,21 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
     private async UniTask DestroyAfterDelay(GameObject obj, float delay)
     {
-        var fadout = 0.5f;
-        await UniTask.WaitForSeconds(delay - fadout * 2);
+        obj.SetActive(false);
+        await SetParticlesAlpha(obj, 0f);
+        await UniTask.WaitForSeconds(2f);
+        //Hide
+
+        obj.SetActive(true);
+        await SetParticlesAlpha(obj, 1f);
+        //Show
+
+        await UniTask.WaitForSeconds(delay);
+
+        await SetParticlesAlpha(obj, 0f);
+        await UniTask.WaitForSeconds(2f);
+
+        //Again Hide
 
         if (obj != null) Destroy(obj);
     }
@@ -208,6 +221,33 @@ public class VoidZoneObjectSpawnerView : MonoBehaviour
 
         Destroy(temp);
         return result;
+    }
+
+    private UniTask SetParticlesAlpha(GameObject target, float alpha)
+    {
+        if (target == null) return UniTask.CompletedTask;
+
+        var particles = target.GetComponentsInChildren<ParticleSystem>(true);
+
+        if (particles.Length == 0) return UniTask.CompletedTask;
+
+        foreach (var ps in particles)
+        {
+            if (ps == null) continue;
+
+            var main = ps.main;
+
+            if (main.startColor.mode == ParticleSystemGradientMode.Color)
+            {
+                Color color = main.startColor.color;
+                color.a = alpha;
+
+                var newGradient = new ParticleSystem.MinMaxGradient(color);
+                main.startColor = newGradient;
+            }
+        }
+
+        return UniTask.CompletedTask;
     }
 
     private void OnDestroy()
