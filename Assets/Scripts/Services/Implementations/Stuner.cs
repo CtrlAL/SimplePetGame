@@ -1,4 +1,5 @@
 using Constants;
+using Extensions;
 using Services.Interfaces;
 using UnityEngine;
 
@@ -13,9 +14,12 @@ namespace Services
                 rigidbody.velocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
 
-                string oldTag = target.tag;
-                StunDataStorage.StoreOldTag(target, oldTag);
-                target.tag = EnvironmentTags.Throwable;
+                if (!rigidbody.gameObject.IsBigEnemy())
+                {
+                    string oldTag = target.tag;
+                    StunDataStorage.StoreOldTag(target, oldTag);
+                    target.tag = EnvironmentTags.Throwable;
+                }
             }
         }
 
