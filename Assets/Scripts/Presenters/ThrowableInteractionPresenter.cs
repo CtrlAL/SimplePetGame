@@ -13,6 +13,7 @@ using Enums;
 using Services.Sound;
 using Views;
 using Extensions;
+using Constants;
 
 namespace Presenters
 {
@@ -61,7 +62,10 @@ namespace Presenters
         {
             if (_model.IsHolding && !_model.PickedObject.Value.IsThrowable())
             {
+                var oldTag = _model.PickedObject.Value.tag;
+                _model.PickedObject.Value.tag = EnvironmentTags.Throwable;
                 _interactor.Put(_view.transform);
+                _model.PickedObject.Value.tag = oldTag;
             }
 
             CleanupNulls();

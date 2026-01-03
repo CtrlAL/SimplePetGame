@@ -11,5 +11,10 @@ namespace Views
         {
             OnCharacterFell?.OnNext(other);
         }
+
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    OnCharacterFell?.OnNext(other);
+        //}
     }
 }

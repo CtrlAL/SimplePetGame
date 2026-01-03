@@ -37,9 +37,10 @@ namespace Services
         {
             if (_throwableModel.PickedObject.Value == null || !_throwableModel.PickedObject.Value.TryGetComponent<Rigidbody>(out var rb)) return;
 
-            rb.transform.SetParent(null);
             rb.useGravity = true;
             rb.isKinematic = false;
+
+            rb.transform.SetParent(null);
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
@@ -54,11 +55,12 @@ namespace Services
         {
             if (_throwableModel.PickedObject.Value == null || !_throwableModel.PickedObject.Value.TryGetComponent<Rigidbody>(out var rb)) return;
 
+            rb.useGravity = true;
+            rb.isKinematic = false;
+
             Vector3 dropPosition = ownerTransform.position - ownerTransform.forward * _settings.DropDistance;
             rb.transform.position = dropPosition;
             rb.transform.SetParent(null);
-            rb.useGravity = true;
-            rb.isKinematic = false;
 
             _throwableModel.PickedObject.Value = null;
         }
