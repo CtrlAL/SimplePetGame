@@ -7,6 +7,7 @@ using Views;
 using UniRx;
 using System;
 using Extensions;
+using Services.Sound;
 
 namespace Presenters
 {
@@ -19,6 +20,8 @@ namespace Presenters
         [Inject] private EnemyStats _stats;
 
         [Inject] private IKiker _kicker;
+
+        [Inject] SoundManager _soundManager;
 
         private CompositeDisposable _compositeDisposable = new();
 
@@ -39,6 +42,7 @@ namespace Presenters
             if (other != null && _fsm.IsIdleState())
             {
                 _kicker.Kick(other.gameObject, _stats.KickPower);
+                _soundManager.PlaySound(0.5f, Enums.SoundType.EnemyKick);
             }
         }
     }
