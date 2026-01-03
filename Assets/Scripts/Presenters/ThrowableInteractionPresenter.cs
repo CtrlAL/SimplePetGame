@@ -62,10 +62,11 @@ namespace Presenters
         {
             if (_model.IsHolding && !_model.PickedObject.Value.IsThrowable())
             {
+                var gameObject = _model.PickedObject.Value;
                 var oldTag = _model.PickedObject.Value.tag;
-                _model.PickedObject.Value.tag = EnvironmentTags.Throwable;
+                gameObject.tag = EnvironmentTags.Throwable;
                 _interactor.Put(_view.transform);
-                _model.PickedObject.Value.tag = oldTag;
+                gameObject.tag = oldTag;
             }
 
             CleanupNulls();
