@@ -14,6 +14,7 @@ using Services.Sound;
 using Views;
 using Extensions;
 using Constants;
+using Cysharp.Threading.Tasks;
 
 namespace Presenters
 {
@@ -62,11 +63,7 @@ namespace Presenters
         {
             if (_model.IsHolding && !_model.PickedObject.Value.IsThrowable())
             {
-                var gameObject = _model.PickedObject.Value;
-                var oldTag = _model.PickedObject.Value.tag;
-                gameObject.tag = EnvironmentTags.Throwable;
                 _interactor.Put(_view.transform);
-                gameObject.tag = oldTag;
             }
 
             CleanupNulls();
