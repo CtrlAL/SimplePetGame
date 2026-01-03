@@ -11,19 +11,16 @@ namespace Presenters
     public class CharacterStunPresenter : IInitializable, IDisposable, IFixedTickable
     {
         private readonly Transform _transform;
-        private readonly CharacterFSM _fsm;
         private readonly StunnedState _state;
         private readonly IStunEffectService _view;
         private readonly int _id;
 
         private CompositeDisposable _compositeDisposable = new();
 
-        public CharacterStunPresenter(CharacterFSM fsm,
-            IStunEffectService view, 
+        public CharacterStunPresenter(IStunEffectService view, 
             StunnedState stunnedState,
             Transform transform)
         {
-            _fsm = fsm;
             _state = stunnedState;
             _view = view;
             _transform = transform;

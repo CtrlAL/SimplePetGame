@@ -28,6 +28,11 @@ namespace Presenters
 
         public void FixedTick()
         {
+            if (!_navMeshAgent.enabled)
+            {
+                return;
+            }
+
             var target = PlayerInstanseHandler.Instance.transform.position;
 
             _navMeshAgent.SetDestination(target);
