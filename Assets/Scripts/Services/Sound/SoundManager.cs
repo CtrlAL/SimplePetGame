@@ -16,7 +16,7 @@ namespace Services.Sound
             _soundSource = GetComponent<AudioSource>();
         }
 
-        public void PlaySound(int volume, SoundType soundType)
+        public void PlaySound(float volume, SoundType soundType)
         {
             var clip = _sounds.SoundList[(int)soundType];
             _soundSource.PlayOneShot(clip.sound, volume);

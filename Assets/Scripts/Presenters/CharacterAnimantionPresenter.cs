@@ -15,7 +15,7 @@ public class CharacterAnimantionPresenter : IInitializable, IDisposable
     private void PlayAnimtion(InputAction.CallbackContext context)
     {
         _animator.SetTrigger("Wave");
-        _soundManager.PlaySound(volume: 0, soundType: SoundType.WaveAnimationSound);
+        _soundManager.PlaySound(volume: 0.5f, soundType: SoundType.WaveAnimationSound);
     }
 
     public void Initialize()

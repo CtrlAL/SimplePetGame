@@ -18,7 +18,7 @@ public class EnemyAnimationPresenter : IInitializable, IDisposable
     private void PlayAnimtion()
     {
         _animator.SetTrigger("Wave");
-        _soundManager.PlaySound(volume: 1, soundType: SoundType.WaveAnimationSound);
+        _soundManager.PlaySound(volume: 0.3f, soundType: SoundType.WaveAnimationSound);
     }
 
     public void Initialize()
