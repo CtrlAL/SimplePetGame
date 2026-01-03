@@ -34,13 +34,24 @@ namespace Presenters
         {
             Collider[] nearbyColliders = Physics.OverlapSphere(_transform.position, _playerStats.KickRadius);
 
+            bool kickSome = false;
+
             foreach (var collider in nearbyColliders)
             {
                 if (collider.IsEnemy())
                 {
                     _kiker.Kick(collider.gameObject, _playerStats.KickPower);
-                    OnEnemyKicked();
+
+                    if (!kickSome)
+                    {
+                        kickSome = true;
+                    }
                 }
+            }
+
+            if (kickSome)
+            {
+                OnEnemyKicked();
             }
         }
 
@@ -56,7 +67,7 @@ namespace Presenters
 
         private void PlayKickSound()
         {
-            _soundManager.PlaySound(1, Enums.SoundType.PlayerKick);
+            _soundManager.PlaySound(0.5f, Enums.SoundType.PlayerKick);
         }
     }
 }
