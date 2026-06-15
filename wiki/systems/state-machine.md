@@ -11,7 +11,11 @@ tags:
 Двухслойная:
 
 1. **`StateMachine`** — generic, держит `IState`, `ChangeState`/`Enter`/`Exit`
-2. **`CharacterFSM`** — `IFixedTickable` + `IInitializable` + `IDisposable`. Владеет `Dictionary<CharacterState, IState>` (Idle, Stunned). Таймер стана: `Observable.Timer(4s)` → авто-возврат в Idle.
+2. **`CharacterFSM`** — `IFixedTickable` + `IInitializable` + `IDisposable`. Владеет `Dictionary<CharacterState, IState>` (Idle, Stunned).
+
+Переходы:
+- **Внешние** (force): презентеры дёргают `_fsm.ChangeToState(Stunned/Idle)`
+- **Внутренние**: сам стейт решает когда выходить. `StunnedState` владеет таймером `Observable.Timer(4s)` → авто-возврат в `Idle`
 
 ## States
 

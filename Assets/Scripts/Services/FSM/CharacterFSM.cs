@@ -1,11 +1,10 @@
 using Enums;
 using FSM.States;
 using FSM.States.CharacterStates;
-using System.Collections.Generic;
-using Zenject;
-using UnityEngine;
-using UniRx;
 using System;
+using System.Collections.Generic;
+using UniRx;
+using Zenject;
 
 namespace FSM
 {
@@ -19,11 +18,7 @@ namespace FSM
 
         private Dictionary<CharacterState, IState> _states;
 
-        private readonly CompositeDisposable _compositeDisposable = new();
-
         private readonly Subject<CharacterState> _onStateChanged = new();
-
-        private IDisposable _stunTimer;
 
         public void Initialize()
         {
@@ -38,22 +33,10 @@ namespace FSM
 
         public void ChangeToState(CharacterState state)
         {
-            _stunTimer?.Dispose();
-
             _stateMachine.ChangeState(_states[state]);
-
-            if (state == CharacterState.Stunned)
-            {
-                _stunTimer = Observable.Timer(TimeSpan.FromSeconds(4))
-                    .Subscribe(_ => ChangeToState(CharacterState.Idle))
-                    .AddTo(_compositeDisposable);
-            }
         }
 
-        public IState GetCurrentState()
-        {
-            return _stateMachine.CurrentState;
-        }
+        public IState GetCurrentState() => _stateMachine.CurrentState;
 
         public void FixedTick() => _stateMachine.Update();
 
