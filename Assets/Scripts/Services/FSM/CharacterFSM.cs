@@ -1,10 +1,10 @@
-using Enums;
-using FSM.States;
-using FSM.States.CharacterStates;
 using System;
 using System.Collections.Generic;
 using UniRx;
 using Zenject;
+using Enums;
+using FSM.States;
+using FSM.States.CharacterStates;
 
 namespace FSM
 {
