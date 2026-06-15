@@ -7,7 +7,7 @@ using Zenject;
 
 namespace FSM.States
 {
-    public class StunnedState : ObservableState, IState
+    public class StunnedState : ObservableState, IState, IDisposable
     {
         [Inject] private readonly IStuner _stunService;
 
@@ -40,6 +40,11 @@ namespace FSM.States
                 _stunService.RemoveStun(_rigidbody.gameObject, _rigidbody);
                 _onStateExit.OnNext(Unit.Default);
             }
+        }
+
+        public void Dispose()
+        {
+            _stunDisposable.Dispose();
         }
     }
 }

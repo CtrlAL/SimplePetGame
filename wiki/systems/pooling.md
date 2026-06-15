@@ -22,11 +22,11 @@ Pre-warm в `Initialize()`: до `EnemyPoolSizeLimit + BigEnemyPoolSizeLimit` и
 
 ## DeathEffectPool / StunEffectPool
 
-Спавнят `ParticleSystem` через `DiContainer.InstantiatePrefabForComponent<ParticleSystem>().` `ReturnToPool` проверяет лимит размера.
+Спавнят `ParticleSystem` через `DiContainer.InstantiatePrefabForComponent<ParticleSystem>().` `ReturnToPool` проверяет лимит размера: `_enemies.Count < EnemyPoolSizeLimit`.
 
 ## Reset state
 
-`IPoolableEnemy` / `PoolableEnemyView` — MonoBehaviour на корне врага. Вызывает `ResetState()` при спавне из пула:
+`IPoolableEnemy` / `PoolableEnemyReset` — MonoBehaviour на корне врага в `Components/`. Вызывает `ResetState()` при спавне из пула:
 - `FatigueModel.CurrentFatigue` → 0
 - `ImpactHandlerModel.CurrentWeakHitCount` → 0
 - `CharacterFSM.ChangeToState(Idle)`

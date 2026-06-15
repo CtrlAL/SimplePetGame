@@ -40,7 +40,7 @@ namespace Services
 
         public void ReturnToPool(GameObject gameObject)
         {
-            if (_poolingSettings.EnemyPoolSizeLimit >= _enemies.Count)
+            if (_enemies.Count < _poolingSettings.EnemyPoolSizeLimit)
             {
                 gameObject.gameObject.SetActive(false);
                 _enemies.Enqueue(gameObject);

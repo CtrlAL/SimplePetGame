@@ -5,9 +5,9 @@ using Services.Interfaces;
 using UnityEngine;
 using Zenject;
 
-namespace Views
+namespace Components
 {
-    public class PoolableEnemyView : MonoBehaviour, IPoolableEnemy
+    public class PoolableEnemyReset : MonoBehaviour, IPoolableEnemy
     {
         [Inject] private CharacterFSM _fsm;
 

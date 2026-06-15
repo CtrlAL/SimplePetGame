@@ -1,3 +1,4 @@
+using Components;
 using Presenters;
 using ScriptableObjects;
 using Services.Interfaces;
@@ -26,7 +27,7 @@ namespace Services.Installers
             Container.Bind<Animator>().FromInstance(_animator).AsSingle();
             Container.Bind<NavMeshAgent>().FromComponentOnRoot().AsSingle();
             Container.Bind<EnemyKickZoneView>().FromComponentOnRoot().AsSingle();
-            Container.Bind<IPoolableEnemy>().To<PoolableEnemyView>().FromComponentOnRoot().AsSingle();
+            Container.Bind<IPoolableEnemy>().To<PoolableEnemyReset>().FromComponentOnRoot().AsSingle();
             Container.BindInterfacesAndSelfTo<EnemyAnimationPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<EnemyKickPresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<MoveEnemyPresenter>().AsSingle().NonLazy();

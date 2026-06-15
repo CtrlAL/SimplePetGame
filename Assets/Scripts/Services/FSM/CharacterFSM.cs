@@ -40,7 +40,11 @@ namespace FSM
 
         public void FixedTick() => _stateMachine.Update();
 
-        public void Dispose() => _onStateChanged?.Dispose();
+        public void Dispose()
+        {
+            _stunnedState.Dispose();
+            _onStateChanged?.Dispose();
+        }
     }
 }
 
