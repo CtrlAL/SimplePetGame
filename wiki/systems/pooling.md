@@ -16,13 +16,20 @@ Generic `IObjectPool<T>`: `SpawnObject()` / `ReturnToPool(T)`. Типизиро�
 
 ## EnemyPool
 
-Pre-warm в `Initialize()`: до `EnemyPoolSizeLimit + BigEnemyPoolSizeLimit` копий из `EnemyVariants.GetRandomEnemyPrefab()`.
+Pre-warm в `Initialize()`: до `EnemyPoolSizeLimit + BigEnemyPoolSizeLimit` инстансов через `_diContainer.InstantiatePrefab()`. Созданные объекты сразу деактивируются.
 
-**Баг**: `SpawnObject()` — while-loop опустошает всю очередь, возвращает только последний элемент.
+`SpawnObject()` — честно деактивейт один элемент из очереди. Если очередь пуста или объект убит — создаёт новый.
 
 ## DeathEffectPool / StunEffectPool
 
 Спавнят `ParticleSystem` через `DiContainer.InstantiatePrefabForComponent<ParticleSystem>().` `ReturnToPool` проверяет лимит размера.
+
+## Reset state
+
+`IPoolableEnemy` / `PoolableEnemyView` — MonoBehaviour на корне врага. Вызывает `ResetState()` при спавне из пула:
+- `FatigueModel.CurrentFatigue` → 0
+- `ImpactHandlerModel.CurrentWeakHitCount` → 0
+- `CharacterFSM.ChangeToState(Idle)`
 
 ## Services
 
