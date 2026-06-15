@@ -18,40 +18,26 @@ namespace Services
 
         public void Initialize()
         {
-            for (int i = 0; i < _poolingSettings.EnemyPoolSizeLimit + _poolingSettings.BigEnemyPoolSizeLimit; i++)
+            int poolSize = _poolingSettings.EnemyPoolSizeLimit + _poolingSettings.BigEnemyPoolSizeLimit;
+
+            for (int i = 0; i < poolSize; i++)
             {
-                _enemies.Enqueue(_enemyLibrary.GetRandomEnemyPrefab());
+                var prefab = _enemyLibrary.GetRandomEnemyPrefab();
+                var enemy = _diContainer.InstantiatePrefab(prefab);
+                enemy.SetActive(false);
+                _enemies.Enqueue(enemy);
             }
         }
 
         public GameObject SpawnObject()
         {
-            GameObject enemy = null;
-
-            while (_enemies.Count > 0) 
-            {
-                if (_enemies.TryDequeue(out enemy) && enemy == null)
-                {
-                    continue;
-                }
-            }
-
-            if (enemy != null && enemy.scene.IsValid())
+            if (_enemies.TryDequeue(out var enemy) && enemy != null && enemy.scene.IsValid())
             {
                 return enemy;
             }
-            else
-            {
-                if (enemy == null)
-                {
-                    _enemies.Clear();
-                }
 
-                var prefub = _enemyLibrary.GetRandomEnemyPrefab();
-                enemy = _diContainer.InstantiatePrefab(prefub);
-
-                return enemy;
-            }
+            var prefab = _enemyLibrary.GetRandomEnemyPrefab();
+            return _diContainer.InstantiatePrefab(prefab);
         }
 
         public void ReturnToPool(GameObject gameObject)

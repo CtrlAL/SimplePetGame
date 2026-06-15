@@ -41,6 +41,9 @@ namespace Services
 
             enemy.SetActive(true);
 
+            var poolable = enemy.GetComponent<IPoolableEnemy>();
+            poolable?.ResetState();
+
             return enemy;
         }
     }

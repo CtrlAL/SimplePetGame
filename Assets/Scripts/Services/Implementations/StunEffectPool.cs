@@ -30,6 +30,11 @@ namespace Services
 
         public void ReturnToPool(ParticleSystem particleSystem)
         {
+            if (particleSystem == null)
+            {
+                return;
+            }
+
             if (_poolingSettings.StunEffectPoolSizeLimit >= _particleSystems.Count)
             {
                 particleSystem.Stop();
