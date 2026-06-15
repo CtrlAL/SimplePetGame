@@ -18,9 +18,7 @@ namespace Services
 
         public void Initialize()
         {
-            int poolSize = _poolingSettings.EnemyPoolSizeLimit + _poolingSettings.BigEnemyPoolSizeLimit;
-
-            for (int i = 0; i < poolSize; i++)
+            for (int i = 0; i < _poolingSettings.EnemyPoolSizeLimit; i++)
             {
                 var prefab = _enemyLibrary.GetRandomEnemyPrefab();
                 var enemy = _diContainer.InstantiatePrefab(prefab);
