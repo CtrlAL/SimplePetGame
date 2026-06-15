@@ -1,0 +1,10 @@
+{
+  "alwaysUpdateLinks": true,
+  "attachmentFolderPath": "_raw/attachments",
+  "promptDelete": false,
+  "showFrontmatter": true,
+  "showLineNumber": true,
+  "strictLineBreaks": false,
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative"
+}
