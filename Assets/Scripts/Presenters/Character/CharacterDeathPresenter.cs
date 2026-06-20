@@ -53,7 +53,7 @@ namespace Presenters
 
         private void KillPlayer(UnityEngine.Collider co)
         {
-            _gameOverModel.GameOver.OnNext(default);
+            _gameOverModel.RaiseGameOver();
             _deathEffectView.ShowEffect(co.gameObject);
             co.gameObject.SetActive(false);
         }

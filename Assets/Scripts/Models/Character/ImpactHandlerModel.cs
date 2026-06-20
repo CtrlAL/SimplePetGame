@@ -5,7 +5,9 @@ namespace Models
 {
     public class ImpactHandlerModel : IDisposable
     {
-        public ReactiveProperty<int> CurrentWeakHitCount = new(0);
+        private readonly ReactiveProperty<int> _currentWeakHitCount = new(0);
+
+        public IReactiveProperty<int> CurrentWeakHitCount => _currentWeakHitCount;
 
         private readonly Subject<Unit> _onStrongHit = new();
         private readonly Subject<Unit> _onWeakHit = new();
@@ -21,7 +23,7 @@ namespace Models
 
         public void Dispose()
         {
-            CurrentWeakHitCount?.Dispose();
+            _currentWeakHitCount?.Dispose();
             _onStrongHit?.Dispose();
             _onWeakHit?.Dispose();
             _onThresholdReached?.Dispose();

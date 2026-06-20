@@ -5,11 +5,13 @@ namespace Models
 {
     public class FatigueModel : IDisposable
     {
-        public ReactiveProperty<float> CurrentFatigue = new(0);
+        private readonly ReactiveProperty<float> _currentFatigue = new(0);
+
+        public IReactiveProperty<float> CurrentFatigue => _currentFatigue;
 
         public void Dispose()
         {
-            CurrentFatigue?.Dispose();
+            _currentFatigue?.Dispose();
         }
     }
 }

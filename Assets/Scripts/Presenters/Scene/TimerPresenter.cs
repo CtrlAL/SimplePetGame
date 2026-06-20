@@ -9,15 +9,15 @@ namespace Presenters
 {
     public class TimerPresenter : IInitializable, IDisposable, IFixedTickable
     {
-        [Inject] public LevelSettings LevelSettings;
-        [Inject] public TimerModel TimerModel;
-        [Inject] public TimerView TimerView;
+        [Inject] private LevelSettings _levelSettings;
+        [Inject] private TimerModel _timerModel;
+        [Inject] private TimerView _timerView;
 
         private IDisposable _subscription;
 
         public void Initialize()
         {
-            _subscription = TimerModel.GameTime
+            _subscription = _timerModel.GameTime
                 .Subscribe(OnTimeUpdated);
         }
 
@@ -27,7 +27,7 @@ namespace Presenters
         }
 
         private void OnTimeUpdated(float totalSeconds)
-        {            
+        {
             totalSeconds = Mathf.Max(0f, totalSeconds);
 
             int minutes = (int)(totalSeconds / 60f);
@@ -35,12 +35,12 @@ namespace Presenters
 
             string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
 
-            TimerView.TimerText.text = formattedTime;
+            _timerView.TimerText.text = formattedTime;
         }
 
         public void FixedTick()
         {
-            TimerModel.GameTime.Value += Time.deltaTime;
+            _timerModel.GameTime.Value += Time.deltaTime;
         }
     }
 }

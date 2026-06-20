@@ -1,7 +1,7 @@
 using Enums;
 using Extensions;
 using FSM;
-using Presenters;
+using Models;
 using Services.Sound;
 using System;
 using UniRx;
@@ -11,7 +11,7 @@ using Zenject;
 public class EnemyAnimationPresenter : IInitializable, IDisposable
 {
     [Inject] private Animator _animator;
-    [Inject] private EnemyKickPresenter _enemyKickPresenter;
+    [Inject] private EnemyKickModel _enemyKickModel;
     [Inject] private SoundManager _soundManager;
     [Inject] private CharacterFSM _characterFSM;
 
@@ -25,7 +25,7 @@ public class EnemyAnimationPresenter : IInitializable, IDisposable
 
     public void Initialize()
     {
-        _enemyKickPresenter.OnKickPerformed
+        _enemyKickModel.OnKickPerformed
             .Where(_ => _characterFSM.IsIdleState())
             .Subscribe(_ => PlayAnimtion())
             .AddTo(_compositeDisposable);

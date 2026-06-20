@@ -5,11 +5,13 @@ namespace Models
 {
     public class StatsModel : IDisposable
     {
-        public ReactiveProperty<int> KilledCubes = new(0);
+        private readonly ReactiveProperty<int> _killedCubes = new(0);
+
+        public IReactiveProperty<int> KilledCubes => _killedCubes;
 
         public void Dispose()
         {
-            KilledCubes?.Dispose();
+            _killedCubes?.Dispose();
         }
     }
 }

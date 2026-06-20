@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Extensions;
 using FSM;
+using Models;
 using ScriptableObjects;
 using Services.Interfaces;
 using Services.Sound;
@@ -20,9 +21,7 @@ namespace Presenters
         [Inject] private AbstractStats _stats;
         [Inject] private IKicker _kicker;
         [Inject] private SoundManager _soundManager;
-
-        private readonly Subject<Unit> _onKickPerformed = new();
-        public IObservable<Unit> OnKickPerformed => _onKickPerformed;
+        [Inject] private EnemyKickModel _model;
 
         private readonly CompositeDisposable _compositeDisposable = new();
         private CancellationTokenSource _kickCts;
@@ -43,7 +42,6 @@ namespace Presenters
         public void Dispose()
         {
             CancelKick();
-            _onKickPerformed?.Dispose();
             _compositeDisposable.Dispose();
         }
 
@@ -73,7 +71,7 @@ namespace Presenters
 
                 _kicker.Kick(other.gameObject, _stats.KickPower);
                 _soundManager.PlaySound(0.5f, Enums.SoundType.EnemyKick);
-                _onKickPerformed.OnNext(Unit.Default);
+                _model.RaiseKickPerformed();
             }
             catch (OperationCanceledException)
             {

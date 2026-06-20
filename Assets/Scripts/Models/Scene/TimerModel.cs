@@ -3,10 +3,12 @@ using UniRx;
 
 public class TimerModel : IDisposable
 {
-    public ReactiveProperty<float> GameTime = new(0f);
+    private readonly ReactiveProperty<float> _gameTime = new(0f);
+
+    public IReactiveProperty<float> GameTime => _gameTime;
 
     public void Dispose()
     {
-        GameTime?.Dispose();
+        _gameTime?.Dispose();
     }
 }

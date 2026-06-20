@@ -7,14 +7,18 @@ namespace Models
 {
     public class ThrowableInteractionModel : IDisposable
     {
-        public ReactiveProperty<GameObject> PickedObject = new();
+        private readonly ReactiveProperty<GameObject> _pickedObject = new();
 
-        public HashSet<GameObject> AllowedThrowables = new();
-        public bool IsHolding => PickedObject.Value != null;
+        public IReactiveProperty<GameObject> PickedObject => _pickedObject;
+
+        public HashSet<GameObject> AllowedThrowables { get; } = new();
+
+        public bool IsHolding => _pickedObject.Value != null;
 
         public void Dispose()
         {
-            PickedObject?.Dispose();
+            _pickedObject?.Dispose();
+            AllowedThrowables.Clear();
         }
     }
 }

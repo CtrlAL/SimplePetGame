@@ -5,10 +5,12 @@ namespace Models
 {
     public class MoveCharacterModel
     {
-        [Inject] public BoxCollider BoxCollider { get; set; }
+        [Inject] private BoxCollider _boxCollider;
+        [Inject] private Transform _transform;
+        [Inject] private Rigidbody _rigidbody;
 
-        [Inject] public Transform Transform { get; private set; }
-
-        [Inject] public Rigidbody Rigidbody { get; private set; }
+        public BoxCollider BoxCollider => _boxCollider;
+        public Transform Transform => _transform;
+        public Rigidbody Rigidbody => _rigidbody;
     }
 }
