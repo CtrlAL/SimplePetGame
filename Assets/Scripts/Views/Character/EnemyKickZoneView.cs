@@ -6,7 +6,7 @@ namespace Views
     public class EnemyKickZoneView : MonoBehaviour
     {
         public Subject<Collider> PlayerEntered = new();
-        public Subject<Unit> PlayerExited = new();
+        public Subject<Collider> PlayerExited = new();
 
         private void OnTriggerEnter(Collider other)
         {
@@ -15,7 +15,7 @@ namespace Views
 
         private void OnTriggerExit(Collider other)
         {
-            PlayerExited.OnNext(Unit.Default);
+            PlayerExited.OnNext(other);
         }
 
         private void OnDestroy()

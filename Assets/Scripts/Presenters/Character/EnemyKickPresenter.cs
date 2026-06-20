@@ -29,10 +29,12 @@ namespace Presenters
         public void Initialize()
         {
             _enemyKickView.PlayerEntered
+                .Where(c => c.IsPlayer())
                 .Subscribe(OnPlayerEntered)
                 .AddTo(_compositeDisposable);
 
             _enemyKickView.PlayerExited
+                .Where(c => c.IsPlayer())
                 .Subscribe(_ => CancelKick())
                 .AddTo(_compositeDisposable);
         }
@@ -66,12 +68,11 @@ namespace Presenters
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(_stats.DelayBeforeKick), cancellationToken: token);
 
-                if (other != null)
-                {
-                    _kicker.Kick(other.gameObject, _stats.KickPower);
-                    _soundManager.PlaySound(0.5f, Enums.SoundType.EnemyKick);
-                    OnKickPerformed.OnNext(Unit.Default);
-                }
+                if (other == null || !_fsm.IsIdleState()) return;
+
+                _kicker.Kick(other.gameObject, _stats.KickPower);
+                _soundManager.PlaySound(0.5f, Enums.SoundType.EnemyKick);
+                OnKickPerformed.OnNext(Unit.Default);
             }
             catch (OperationCanceledException)
             {
