@@ -5,12 +5,18 @@ namespace Views
 {
     public class ImpactDetectorView : MonoBehaviour
     {
-        public readonly Subject<float> OnImpactDetected = new();
+        private readonly Subject<float> _onImpactDetected = new();
+        public IObservable<float> OnImpactDetected => _onImpactDetected;
 
         private void OnCollisionEnter(Collision collision)
         {
             float impactForce = collision.relativeVelocity.magnitude;
-            OnImpactDetected.OnNext(impactForce);
+            _onImpactDetected.OnNext(impactForce);
+        }
+
+        private void OnDestroy()
+        {
+            _onImpactDetected?.Dispose();
         }
     }
 }

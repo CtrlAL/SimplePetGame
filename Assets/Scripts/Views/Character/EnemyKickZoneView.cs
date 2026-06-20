@@ -5,23 +5,26 @@ namespace Views
 {
     public class EnemyKickZoneView : MonoBehaviour
     {
-        public Subject<Collider> PlayerEntered = new();
-        public Subject<Collider> PlayerExited = new();
+        private readonly Subject<Collider> _playerEntered = new();
+        private readonly Subject<Collider> _playerExited = new();
+
+        public IObservable<Collider> PlayerEntered => _playerEntered;
+        public IObservable<Collider> PlayerExited => _playerExited;
 
         private void OnTriggerEnter(Collider other)
         {
-            PlayerEntered.OnNext(other);
+            _playerEntered.OnNext(other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            PlayerExited.OnNext(other);
+            _playerExited.OnNext(other);
         }
 
         private void OnDestroy()
         {
-            PlayerEntered?.Dispose();
-            PlayerExited?.Dispose();
+            _playerEntered?.Dispose();
+            _playerExited?.Dispose();
         }
     }
 }

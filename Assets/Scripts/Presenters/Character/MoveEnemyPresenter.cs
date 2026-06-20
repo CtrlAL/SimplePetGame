@@ -2,19 +2,18 @@
 using ScriptableObjects;
 using Services.Helpers;
 using Services.Interfaces;
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
 namespace Presenters
 {
-    public class MoveEnemyPresenter : IFixedTickable, IInitializable, IDisposable
+    public class MoveEnemyPresenter : IFixedTickable, IInitializable
     {
         [Inject] private MoveCharacterModel _moveCharacterModel;
         [Inject] private IMover _mover;
         [Inject] private NavMeshAgent _navMeshAgent;
-        [Inject] private EnemyStats _stats;
+        [Inject] private AbstractStats _stats;
         [Inject] private IPlayerProvider _playerProvider;
 
         public void Initialize()
@@ -46,10 +45,6 @@ namespace Presenters
             }
 
             _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

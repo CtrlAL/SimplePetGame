@@ -7,17 +7,28 @@ namespace Views
     {
         public GameObject ThrowablesSlot;
 
-        public Subject<GameObject> OnObjectEnteredRange = new();
-        public Subject<GameObject> OnObjectStayedInRange = new();
-        public Subject<GameObject> OnObjectExitedRange = new();
+        private readonly Subject<GameObject> _onObjectEnteredRange = new();
+        private readonly Subject<GameObject> _onObjectStayedInRange = new();
+        private readonly Subject<GameObject> _onObjectExitedRange = new();
+
+        public IObservable<GameObject> OnObjectEnteredRange => _onObjectEnteredRange;
+        public IObservable<GameObject> OnObjectStayedInRange => _onObjectStayedInRange;
+        public IObservable<GameObject> OnObjectExitedRange => _onObjectExitedRange;
 
         private void OnTriggerEnter(Collider other) =>
-            OnObjectEnteredRange?.OnNext(other.gameObject);
+            _onObjectEnteredRange?.OnNext(other.gameObject);
 
         private void OnTriggerStay(Collider other) =>
-            OnObjectStayedInRange?.OnNext(other.gameObject);
+            _onObjectStayedInRange?.OnNext(other.gameObject);
 
         private void OnTriggerExit(Collider other) =>
-            OnObjectExitedRange?.OnNext(other.gameObject);
+            _onObjectExitedRange?.OnNext(other.gameObject);
+
+        private void OnDestroy()
+        {
+            _onObjectEnteredRange?.Dispose();
+            _onObjectStayedInRange?.Dispose();
+            _onObjectExitedRange?.Dispose();
+        }
     }
 }

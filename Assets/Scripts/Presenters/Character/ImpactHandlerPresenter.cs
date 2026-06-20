@@ -30,7 +30,7 @@ namespace Presenters
 
             _model.CurrentWeakHitCount
                 .Where(count => count >= _settings.WeakHitCountNeeded)
-                .Subscribe(_ => _model.OnThresholdReached.OnNext(Unit.Default))
+                .Subscribe(_ => _model.RaiseThresholdReached())
                 .AddTo(_compositeDisposable);
         }
 
@@ -38,12 +38,12 @@ namespace Presenters
         {
             if (impactForce > _settings.MinStrongImpact)
             {
-                _model.OnStrongHit.OnNext(Unit.Default);
+                _model.RaiseStrongHit();
                 ApplyStrongHit();
             }
             else if (impactForce > _settings.MinWeakImpact)
             {
-                _model.OnWeakHit.OnNext(Unit.Default);
+                _model.RaiseWeakHit();
                 ApplyWeakHit();
             }
         }

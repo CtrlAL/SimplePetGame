@@ -50,6 +50,7 @@ namespace Presenters
         public void Dispose()
         {
             _compositeDisposable?.Dispose();
+            Time.timeScale = 1;
             _resultMenuView.RestartButton.onClick.RemoveListener(Restart);
             _resultMenuView.ExitButton.onClick.RemoveListener(Exit);
             _resultMenuView.BackButton.onClick.RemoveListener(_resultMenuView.HideScore);
@@ -69,6 +70,7 @@ namespace Presenters
 
         private void Restart()
         {
+            Time.timeScale = 1;
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
         }

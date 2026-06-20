@@ -10,5 +10,6 @@ namespace ScriptableObjects
         public abstract float KickPower { get; }
         public abstract float Fatigue { get; }
         public abstract float FatigueRestoration { get; }
+        public abstract float DelayBeforeKick { get; }
     }
 }

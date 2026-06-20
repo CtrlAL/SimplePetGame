@@ -5,16 +5,17 @@ namespace Views
 {
     public class RespawnColliderView : MonoBehaviour
     {
-        public readonly Subject<Collider> OnCharacterFell = new();
+        private readonly Subject<Collider> _onCharacterFell = new();
+        public IObservable<Collider> OnCharacterFell => _onCharacterFell;
 
         private void OnTriggerExit(Collider other)
         {
-            OnCharacterFell?.OnNext(other);
+            _onCharacterFell?.OnNext(other);
         }
 
-        //private void OnTriggerEnter(Collider other)
-        //{
-        //    OnCharacterFell?.OnNext(other);
-        //}
+        private void OnDestroy()
+        {
+            _onCharacterFell?.Dispose();
+        }
     }
 }

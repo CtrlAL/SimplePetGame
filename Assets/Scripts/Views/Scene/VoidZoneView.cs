@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class VoidZoneView : MonoBehaviour
 {
-    public Subject<Collider> KillPerformed = new();
+    private readonly Subject<Collider> _killPerformed = new();
+    public IObservable<Collider> KillPerformed => _killPerformed;
 
     public void OnTriggerEnter(Collider other)
     {
-        KillPerformed.OnNext(other);
+        _killPerformed.OnNext(other);
+    }
+
+    private void OnDestroy()
+    {
+        _killPerformed?.Dispose();
     }
 }

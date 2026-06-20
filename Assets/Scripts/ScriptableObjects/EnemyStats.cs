@@ -19,6 +19,6 @@ namespace ScriptableObjects
         public override float KickPower => _kickPower;
         public override float Fatigue => _fatigue;
         public override float FatigueRestoration => _fatigueRestoration;
-        public float DelayBeforeKick => _delayBeforeKick;
+        public override float DelayBeforeKick => _delayBeforeKick;
     }
 }

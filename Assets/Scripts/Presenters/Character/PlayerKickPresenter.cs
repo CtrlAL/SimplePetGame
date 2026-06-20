@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Presenters
 {
-    public class PlayerKickPresenter : IFixedTickable, IDisposable
+    public class PlayerKickPresenter : IFixedTickable
     {
         [Inject] IPlayerInputProvider _playerInputProvider;
 
@@ -69,10 +69,6 @@ namespace Presenters
         private void PlayKickSound()
         {
             _soundManager.PlaySound(0.5f, Enums.SoundType.PlayerKick);
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

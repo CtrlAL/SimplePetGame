@@ -17,11 +17,12 @@ namespace Presenters
     {
         [Inject] private CharacterFSM _fsm;
         [Inject] private EnemyKickZoneView _enemyKickView;
-        [Inject] private EnemyStats _stats;
+        [Inject] private AbstractStats _stats;
         [Inject] private IKicker _kicker;
         [Inject] private SoundManager _soundManager;
 
-        public readonly Subject<Unit> OnKickPerformed = new();
+        private readonly Subject<Unit> _onKickPerformed = new();
+        public IObservable<Unit> OnKickPerformed => _onKickPerformed;
 
         private readonly CompositeDisposable _compositeDisposable = new();
         private CancellationTokenSource _kickCts;

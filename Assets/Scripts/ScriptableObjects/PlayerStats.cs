@@ -20,5 +20,6 @@ namespace ScriptableObjects
         public float KickRadius => _kickRadius;
         public override float Fatigue => _fatigue;
         public override float FatigueRestoration => _fatigueRestoration;
+        public override float DelayBeforeKick => 0f;
     }
 }

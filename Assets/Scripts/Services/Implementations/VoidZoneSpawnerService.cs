@@ -46,8 +46,9 @@ namespace Services
 
             _spawnTimer = 0f;
 
-            if (_currentCount <= _settings.SpawnCount)
+            if (_currentCount < _settings.SpawnCount)
             {
+                _currentCount++;
                 TrySpawnAsync(_spawnCts.Token).Forget();
             }
         }
@@ -66,9 +67,10 @@ namespace Services
 
         private async UniTask TrySpawnAsync(CancellationToken token)
         {
-            if (await TrySpawnOne(token))
+            bool success = await TrySpawnOne(token);
+            if (!success)
             {
-                _currentCount++;
+                _currentCount--;
             }
         }
 
