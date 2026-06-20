@@ -21,6 +21,8 @@ namespace Presenters
         [Inject] private IKicker _kicker;
         [Inject] private SoundManager _soundManager;
 
+        public readonly Subject<Unit> OnKickPerformed = new();
+
         private readonly CompositeDisposable _compositeDisposable = new();
         private CancellationTokenSource _kickCts;
 
@@ -38,6 +40,7 @@ namespace Presenters
         public void Dispose()
         {
             CancelKick();
+            OnKickPerformed?.Dispose();
             _compositeDisposable.Dispose();
         }
 
@@ -67,6 +70,7 @@ namespace Presenters
                 {
                     _kicker.Kick(other.gameObject, _stats.KickPower);
                     _soundManager.PlaySound(0.5f, Enums.SoundType.EnemyKick);
+                    OnKickPerformed.OnNext(Unit.Default);
                 }
             }
             catch (OperationCanceledException)

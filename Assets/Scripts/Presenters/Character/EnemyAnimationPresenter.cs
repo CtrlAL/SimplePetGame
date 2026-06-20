@@ -6,13 +6,12 @@ using Services.Sound;
 using System;
 using UniRx;
 using UnityEngine;
-using Views;
 using Zenject;
 
 public class EnemyAnimationPresenter : IInitializable, IDisposable
 {
     [Inject] private Animator _animator;
-    [Inject] private EnemyKickZoneView _enemyKickZoneView;
+    [Inject] private EnemyKickPresenter _enemyKickPresenter;
     [Inject] private SoundManager _soundManager;
     [Inject] private CharacterFSM _characterFSM;
 
@@ -26,14 +25,10 @@ public class EnemyAnimationPresenter : IInitializable, IDisposable
 
     public void Initialize()
     {
-        _enemyKickZoneView.KickPerformed.Subscribe(c =>
-        {
-            if (_characterFSM.IsIdleState())
-            {
-                PlayAnimtion();
-            }
-        })
-        .AddTo(_compositeDisposable);
+        _enemyKickPresenter.OnKickPerformed
+            .Where(_ => _characterFSM.IsIdleState())
+            .Subscribe(_ => PlayAnimtion())
+            .AddTo(_compositeDisposable);
     }
 
     public void Dispose()

@@ -112,10 +112,10 @@ namespace Services
                 float checkHalfZ = prefabHalfZ * 0.3f;
                 Vector3 halfExtents = new Vector3(checkHalfX, 0.1f, checkHalfZ);
 
-                var objects = Physics.OverlapBox(worldPoint, halfExtents, _parent.rotation)
-                    .DistinctBy(x => x.gameObject);
+                var colliders = Physics.OverlapBox(worldPoint, halfExtents, _parent.rotation);
+                var uniqueObjects = new HashSet<GameObject>(colliders.Select(c => c.gameObject));
 
-                if (objects.Count() > 1) continue;
+                if (uniqueObjects.Count > 1) continue;
 
                 float width = prefabBounds.extents.x;
                 bool tooClose = false;
