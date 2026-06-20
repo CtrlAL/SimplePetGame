@@ -30,6 +30,7 @@ namespace Services.Installers
             Container.Bind<IStunEffectPool>().To<StunEffectPool>().AsSingle();
             Container.BindInterfacesTo<EnemyFactory>().AsSingle().NonLazy();
             Container.BindInterfacesTo<VoidZoneSpawnerService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerProvider>().AsSingle();
         }
 
         private void InstallPlayerInputs()
@@ -57,6 +58,7 @@ namespace Services.Installers
             Container.Bind<TimerView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerSpawnPointView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RespawnColliderView>().FromComponentsInHierarchy().AsSingle();
+            Container.Bind<VoidZoneObjectSpawnerView>().FromComponentInHierarchy().AsSingle();
         }
 
         private void InstallUIViews()

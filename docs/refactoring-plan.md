@@ -7,7 +7,7 @@ Based on MVP review. Each file changed **exactly once**, ordered by dependency.
 | File | Action |
 |------|--------|
 | `IPlayerProvider.cs` | **NEW** — interface with `GameObject Instance { get; }` |
-| `PlayerProvider.cs` | **NEW** — MonoBehaviour on Player root. `Container.Bind<IPlayerProvider>().To<PlayerProvider>().FromComponentOnRoot().AsSingle()`. Method: `return gameObject;` |
+| `PlayerProvider.cs` | **NEW** — plain C# class implementing `IPlayerProvider, IInitializable`. Finds Player by tag in `Initialize()`. Bound at **scene level** (not in Player sub-container) because Player and Enemy live in separate `GameObjectContext` sub-containers and siblings can't see each other's bindings. |
 
 ## Phase 2: Business logic out of Views (→ Services / Presenters)
 
@@ -56,8 +56,7 @@ Strip View of all business logic BEFORE deleting statics (avoids dead-reference 
 
 | File | Action |
 |------|--------|
-| `PlayerInstaller.cs` | Add `Container.Bind<IPlayerProvider>().To<PlayerProvider>().FromComponentOnRoot().AsSingle()` |
-| `GameSceneInstaller.cs` | Add `Container.BindInterfacesTo<VoidZoneSpawnerService>().AsSingle().NonLazy()` |
+| `GameSceneInstaller.cs` | Bind `VoidZoneSpawnerService` (interfaces, single). Bind `PlayerProvider` at **scene level** via `BindInterfacesAndSelfTo<PlayerProvider>().AsSingle()` (IInitializable hook requires interfaces binding). Bind `VoidZoneObjectSpawnerView.FromComponentInHierarchy()` so `[Inject]` on the View is resolved. |
 
 ## Phase 7: Renames
 
@@ -97,7 +96,7 @@ Scripts/
 │
 ├── Views/
 │   ├── Scene/       VoidZoneView, VoidZoneObjectSpawnerView, TimerView, PlayerSpawnPointView
-│   ├── Character/   EnemyKickZoneView, ImpactDetectorView, RespawnColliderView, ThrowableInteractionView, PlayerProvider
+│   ├── Character/   EnemyKickZoneView, ImpactDetectorView, RespawnColliderView, ThrowableInteractionView
 │   └── UI/          FatigueBarView, PauseMenuView, ResultMenuView
 │
 ├── Presenters/
@@ -134,3 +133,32 @@ Deleted:  PlayerInstanseHandler.cs, StunDataStorage.cs
 All phases implemented. All typo files renamed. All static singletons removed.
 All Views stripped of business logic. All Presenters/Models implement IDisposable.
 Subjects moved to Model. New services bound in installers.
+
+---
+
+## Corrections applied during implementation
+
+These deviate from the original plan above — they were discovered while fixing runtime errors after the initial refactor:
+
+1. **PlayerProvider: MonoBehaviour → plain C# class.** Original plan put it as MonoBehaviour on Player root inside PlayerInstaller's sub-container. This failed at runtime: `MoveEnemyPresenter` lives in Enemy's `GameObjectContext` sub-container and could not resolve `IPlayerProvider` from a sibling sub-container. Fix: moved to scene-level DI, finds Player via `GameObject.FindWithTag(CharacterTags.Player)` in `IInitializable.Initialize()`.
+
+2. **PlayerProvider binding: PlayerInstaller → GameSceneInstaller.** Same root cause as above.
+
+3. **VoidZoneObjectSpawnerView must be bound.** The View has `[Inject] IVoidZoneSpawnerService` but wasn't registered in any installer, causing NullReferenceException in FixedUpdate. Added `FromComponentInHierarchy()` binding in `GameSceneInstaller.InstallViews()`.
+
+4. **Use `BindInterfacesAndSelfTo<T>` for `IInitializable` hooks.** `Bind<IPlayerProvider>().To<PlayerProvider>()` does NOT call `IInitializable.Initialize()` — only `BindInterfacesAndSelfTo` includes the `IInitializable` interface so Zenject's `InitializableManager` picks it up.
+
+---
+
+## Manual Unity Editor steps (REQUIRED)
+
+After pulling these changes, in Unity Editor:
+
+1. Open `Assets/Resources/Prefubs/Characters/Character.prefab`
+2. The `PlayerProvider` component shows as **"Missing Script"** (the MonoBehaviour was deleted) → **Remove Component**
+3. Verify the prefab root has **Tag = Player** (needed for `FindWithTag`)
+4. Open `FirstScene.unity`, enter Play Mode, verify:
+   - Player movement works
+   - Kick works
+   - Enemies follow player
+   - Game over UI shows

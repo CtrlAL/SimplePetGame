@@ -28,6 +28,7 @@ tags:
 ## Разработка
 
 - [[conventions/coding-standards|Coding Standards]]
+- [[decisions/refactoring-followup-plan|Refactoring Followup Plan]] — план доработок после первичного рефакторинга
 - [[reference/links|External References]]
 
 ## Быстрый доступ
