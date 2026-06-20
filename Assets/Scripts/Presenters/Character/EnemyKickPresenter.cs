@@ -43,7 +43,7 @@ namespace Presenters
         public void Dispose()
         {
             CancelKick();
-            OnKickPerformed?.Dispose();
+            _onKickPerformed?.Dispose();
             _compositeDisposable.Dispose();
         }
 
@@ -73,7 +73,7 @@ namespace Presenters
 
                 _kicker.Kick(other.gameObject, _stats.KickPower);
                 _soundManager.PlaySound(0.5f, Enums.SoundType.EnemyKick);
-                OnKickPerformed.OnNext(Unit.Default);
+                _onKickPerformed.OnNext(Unit.Default);
             }
             catch (OperationCanceledException)
             {

@@ -134,8 +134,8 @@ namespace Services
                 Quaternion rot = Quaternion.FromToRotation(Vector3.up, _parent.up);
 
                 _activePositions.Add(worldPoint);
-                await DestroyAfterDelay(_container.InstantiatePrefab(_settings.PreviewVFX, worldPoint, rot, _parent), _settings.DelayBeforeSpawn);
-                await DestroyAfterDelay(_container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, _parent), _settings.Lifetime);
+                await DestroyAfterDelay(_container.InstantiatePrefab(_settings.PreviewVFX, worldPoint, rot, _parent), _settings.DelayBeforeSpawn, token);
+                await DestroyAfterDelay(_container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, _parent), _settings.Lifetime, token);
 
                 _activePositions.Remove(worldPoint);
                 _currentCount--;
@@ -146,27 +146,33 @@ namespace Services
             return false;
         }
 
-        private async UniTask DestroyAfterDelay(GameObject obj, float delay)
+        private async UniTask DestroyAfterDelay(GameObject obj, float delay, CancellationToken token)
         {
+            if (obj == null) return;
             obj.SetActive(false);
-            await Hide(obj);
-            await Show(obj);
-            await UniTask.WaitForSeconds(delay);
-            await Hide(obj);
-
+            await Hide(obj, token);
+            if (token.IsCancellationRequested || obj == null) return;
+            await Show(obj, token);
+            if (token.IsCancellationRequested || obj == null) return;
+            await UniTask.WaitForSeconds(delay, cancellationToken: token);
+            if (token.IsCancellationRequested || obj == null) return;
+            await Hide(obj, token);
             if (obj != null) UnityEngine.Object.Destroy(obj);
         }
 
-        private async UniTask Show(GameObject obj)
+        private async UniTask Show(GameObject obj, CancellationToken token)
         {
+            if (obj == null || token.IsCancellationRequested) return;
             obj.SetActive(true);
             await SetParticlesAlpha(obj, 1f);
         }
 
-        private async UniTask Hide(GameObject obj)
+        private async UniTask Hide(GameObject obj, CancellationToken token)
         {
+            if (obj == null || token.IsCancellationRequested) return;
             await SetParticlesAlpha(obj, 0f);
-            await UniTask.WaitForSeconds(2f);
+            if (token.IsCancellationRequested) return;
+            await UniTask.WaitForSeconds(2f, cancellationToken: token);
         }
 
         private bool IsPrefabInsidePlatform(Vector3 worldPoint, Bounds prefabBounds)

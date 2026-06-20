@@ -40,9 +40,14 @@ namespace Services
 
         public void ReturnToPool(GameObject gameObject)
         {
+            if (gameObject == null) return;
+
+            var poolable = gameObject.GetComponent<IPoolableEnemy>();
+            poolable?.ResetState();
+
             if (_enemies.Count < _poolingSettings.EnemyPoolSizeLimit)
             {
-                gameObject.gameObject.SetActive(false);
+                gameObject.SetActive(false);
                 _enemies.Enqueue(gameObject);
             }
             else
