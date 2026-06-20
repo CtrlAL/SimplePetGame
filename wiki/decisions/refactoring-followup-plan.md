@@ -25,7 +25,7 @@ tags:
 
 ### A.1 Закоммитить незакоммиченные правки
 
-- [ ] Закоммитить:
+- [x] Закоммитить:
   - `Assets/Scripts/Installers/GameSceneInstaller.cs` (+ PlayerProvider binding, + VoidZoneObjectSpawnerView binding)
   - `Assets/Scripts/Installers/Character/PlayerInstaller.cs` (− IPlayerProvider binding)
   - `Assets/Scripts/Services/Implementations/PlayerProvider.cs` (новый plain C# класс)
@@ -35,8 +35,8 @@ tags:
 
 ### A.2 Восстановить фильтр IsPlayer() в EnemyKickPresenter
 
-- [ ] В `EnemyKickPresenter.cs` добавить проверку `if (!other.IsPlayer()) return;` в `OnPlayerEntered(Collider)`
-- [ ] Проверить `OnPlayerExited` — должен фильтровать тоже (или View должен передавать collider)
+- [x] В `EnemyKickPresenter.cs` добавить проверку `if (!other.IsPlayer()) return;` в `OnPlayerEntered(Collider)`
+- [x] Проверить `OnPlayerExited` — должен фильтровать тоже (или View должен передавать collider)
 - [ ] Протестировать в Play Mode: враг рядом с throwables/другими врагами не должен их кикать
 
 **Причина:** При strip View (Phase 2) фильтр вырезали, но в Presenter не перенесли. Сейчас враг кикает всё подряд.
@@ -45,7 +45,7 @@ tags:
 
 ### A.3 Re-check IsIdleState после delay в EnemyKickPresenter
 
-- [ ] В `StartKickDelayed`, после `await UniTask.Delay(...)` добавить: `if (other == null || !_fsm.IsIdleState()) return;`
+- [x] В `StartKickDelayed`, после `await UniTask.Delay(...)` добавить: `if (other == null || !_fsm.IsIdleState()) return;`
 - [ ] Протестировать: оглушить врага во время delay → кик не должен сработать
 
 **Причина:** Сейчас проверка только перед delay → stunned-враг продолжает кикать.
@@ -58,8 +58,8 @@ tags:
 
 ### B.1 Сброс Time.timeScale при Restart
 
-- [ ] В `EndLevelPresenter.Restart()` добавить `Time.timeScale = 1;` перед `SceneManager.LoadScene()`
-- [ ] Дополнительно: добавить `Time.timeScale = 1;` в `Dispose()` как страховку
+- [x] В `EndLevelPresenter.Restart()` добавить `Time.timeScale = 1;` перед `SceneManager.LoadScene()`
+- [x] Дополнительно: добавить `Time.timeScale = 1;` в `Dispose()` как страховку
 - [ ] Протестировать: Game Over → Restart → игра не заморожена
 
 **Причина:** `ShowResultView` ставит `timeScale = 0`, но нигде не сбрасывается. После рестарта сцена зависает.
@@ -68,9 +68,9 @@ tags:
 
 ### B.2 Заменить EnemyStats на AbstractStats в Enemy презентерах
 
-- [ ] `EnemyKickPresenter.cs:20` — `[Inject] private AbstractStats _stats;` (вместо `EnemyStats`)
-- [ ] `MoveEnemyPresenter.cs:17` — то же самое
-- [ ] Если где-то используется `EnemyStats.DelayBeforeKick` — переместить поле в `AbstractStats` или `EnemyStats` через приведение типов с проверкой
+- [x] `EnemyKickPresenter.cs:20` — `[Inject] private AbstractStats _stats;` (вместо `EnemyStats`)
+- [x] `MoveEnemyPresenter.cs:17` — то же самое
+- [x] Если где-то используется `EnemyStats.DelayBeforeKick` — переместить поле в `AbstractStats` или `EnemyStats` через приведение типов с проверкой
 - [ ] Протестировать: BigEnemy префаб спавнится и работает
 
 **Причина:** `EnemyInstaller` биндит `AbstractStats → EnemyStats | BigEnemyStats` полиморфно. Конкретный `[Inject] EnemyStats` ломается для BigEnemy. Zenject падает.
@@ -79,8 +79,8 @@ tags:
 
 ### B.3 Исправить инкремент/декремент в VoidZoneSpawnerService
 
-- [ ] В `TrySpawnAsync`: инкрементировать `_currentCount++` **сразу после успешного спавна** (до `DestroyAfterDelay`)
-- [ ] В конце lifecycle (после `DestroyAfterDelay`): `_currentCount--`
+- [x] В `TrySpawnAsync`: инкрементировать `_currentCount++` **сразу после успешного спавна** (до `DestroyAfterDelay`)
+- [x] В конце lifecycle (после `DestroyAfterDelay`): `_currentCount--`
 - [ ] Протестировать: при `SpawnCount = 3` одновременно не больше 3 void zones
 
 **Причина:** Текущая логика декрементирует в конце → cap не работает → бесконечный спавн. Bug pre-existing, но скопирован при экстракции.
@@ -89,28 +89,28 @@ tags:
 
 ### B.4 Добавить OnDestroy disposal в Views с Subject
 
-- [ ] `ImpactDetectorView.cs` — `OnDestroy() => OnImpactDetected?.Dispose();`
-- [ ] `RespawnColliderView.cs` — то же для `OnCharacterFell`
-- [ ] `VoidZoneView.cs` — для `KillPerformed`
-- [ ] `ThrowableInteractionView.cs` — для всех Subject в файле
-- [ ] `EnemyKickZoneView.cs` — проверить, уже ли добавлено (по плану должно быть)
+- [x] `ImpactDetectorView.cs` — `OnDestroy() => OnImpactDetected?.Dispose();`
+- [x] `RespawnColliderView.cs` — то же для `OnCharacterFell`
+- [x] `VoidZoneView.cs` — для `KillPerformed`
+- [x] `ThrowableInteractionView.cs` — для всех Subject в файле
+- [x] `EnemyKickZoneView.cs` — проверить, уже ли добавлено (по плану должно быть)
 
 **Причина:** Subject удерживают ссылки, при reload сцены утекают в GC. MVP(Viewer) — презентер не должен владеть lifetime.
 
 ### B.5 Скрыть Subject как IObservable
 
-- [ ] `EnemyKickPresenter.cs:24` — `private readonly Subject<Unit> _onKickPerformed = new(); public IObservable<Unit> OnKickPerformed => _onKickPerformed;`
-- [ ] `ImpactHandlerModel.cs:10-12` — то же для `OnStrongHit`, `OnWeakHit`, `OnThresholdReached`
-- [ ] `EnemyKickZoneView.cs`, `ImpactDetectorView.cs`, `RespawnColliderView.cs`, `VoidZoneView.cs`, `ThrowableInteractionView.cs` — все Subject → `private` + `public IObservable`
-- [ ] Обновить всех подписчиков (Presenter'ы) — изменения не нужны, подписка через `.Subscribe` работает с `IObservable`
+- [x] `EnemyKickPresenter.cs:24` — `private readonly Subject<Unit> _onKickPerformed = new(); public IObservable<Unit> OnKickPerformed => _onKickPerformed;`
+- [x] `ImpactHandlerModel.cs:10-12` — то же для `OnStrongHit`, `OnWeakHit`, `OnThresholdReached`
+- [x] `EnemyKickZoneView.cs`, `ImpactDetectorView.cs`, `RespawnColliderView.cs`, `VoidZoneView.cs`, `ThrowableInteractionView.cs` — все Subject → `private` + `public IObservable`
+- [x] Обновить всех подписчиков (Presenter'ы) — изменения не нужны, подписка через `.Subscribe` работает с `IObservable`
 
 **Причина:** Любой класс может вызвать `OnNext` на чужом Subject → обратный поток данных. Нарушает инкапсуляцию и data flow direction.
 
 ### B.6 Убрать пустые Dispose()
 
-- [ ] `MoveEnemyPresenter.cs` — убрать `: IDisposable` и пустой `Dispose()`
-- [ ] `PlayerKickPresenter.cs` — то же самое
-- [ ] Проверить, не сломаются ли Zenject bindings (не должны — эти классы уже регистрируются через `IFixedTickable`)
+- [x] `MoveEnemyPresenter.cs` — убрать `: IDisposable` и пустой `Dispose()`
+- [x] `PlayerKickPresenter.cs` — то же самое
+- [x] Проверить, не сломаются ли Zenject bindings (не должны — эти классы уже регистрируются через `IFixedTickable`)
 
 **Причина:** Пустые Dispose дают ложный сигнал в аудите IDisposable. Они не используют `CompositeDisposable` или `CancellationTokenSource`.
 
