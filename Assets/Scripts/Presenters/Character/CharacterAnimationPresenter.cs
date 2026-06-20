@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-public class CharacterAnimantionPresenter : IInitializable, IDisposable
+public class CharacterAnimationPresenter : IInitializable, IDisposable
 {
     [Inject] private IPlayerInputProvider _playerInputProvider;
     [Inject] private Animator _animator;

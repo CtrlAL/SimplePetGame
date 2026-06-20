@@ -15,7 +15,7 @@ namespace Presenters
     {
         [Inject] private IEnemyFactory _enemyFactory;
         [Inject] private LevelSettings _levelSettings;
-        [Inject] private List<RespawnColiderView> _respawnColiderViews;
+        [Inject] private List<RespawnColliderView> _respawnColiderViews;
 
         private float _timer = 0f;
         private float _currentCount = 0f;

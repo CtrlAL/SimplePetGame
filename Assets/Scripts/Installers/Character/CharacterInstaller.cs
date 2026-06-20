@@ -24,7 +24,7 @@ namespace Services.Installers
             Container.Bind<IMover>().To<Mover>().AsSingle();
             Container.BindInterfacesAndSelfTo<MoveCharacterModel>().AsSingle();
 
-            Container.Bind<IKiker>().To<Kicker>().AsSingle();
+            Container.Bind<IKicker>().To<Kicker>().AsSingle();
             Container.Bind<ImpactDetectorView>().FromComponentOnRoot().AsSingle();
             Container.BindInterfacesAndSelfTo<ImpactHandlerModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ImpactHandlerPresenter>().AsSingle().NonLazy();

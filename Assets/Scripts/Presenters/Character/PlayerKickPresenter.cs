@@ -8,11 +8,11 @@ using Services.Sound;
 
 namespace Presenters
 {
-    public class PlayerKickPresenter : IFixedTickable
+    public class PlayerKickPresenter : IFixedTickable, IDisposable
     {
         [Inject] IPlayerInputProvider _playerInputProvider;
 
-        [Inject] IKiker _kiker;
+        [Inject] IKicker _kicker;
 
         [Inject] SoundManager _soundManager;
 
@@ -40,7 +40,7 @@ namespace Presenters
             {
                 if (collider.IsEnemy())
                 {
-                    _kiker.Kick(collider.gameObject, _playerStats.KickPower);
+                    _kicker.Kick(collider.gameObject, _playerStats.KickPower);
 
                     if (!kickSome)
                     {
@@ -68,6 +68,10 @@ namespace Presenters
         private void PlayKickSound()
         {
             _soundManager.PlaySound(0.5f, Enums.SoundType.PlayerKick);
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

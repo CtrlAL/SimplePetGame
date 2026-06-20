@@ -1,6 +1,6 @@
 using Helpers;
 using Models;
-using Services;
+using Services.Interfaces;
 using System;
 using System.Linq;
 using UniRx;
@@ -14,6 +14,7 @@ namespace Presenters
     {
         [Inject] private readonly ThrowableInteractionModel _interactionModel;
         [Inject] private readonly ThrowableInteractionView _view;
+        [Inject] private IPlayerProvider _playerProvider;
         private readonly CompositeDisposable _compositeDisposable = new();
 
         public void Initialize()
@@ -24,7 +25,7 @@ namespace Presenters
 
         public void FixedTick()
         {
-            var position = PlayerInstanseHandler.Instance.transform.position;
+            var position = _playerProvider.Instance.transform.position;
             var listObjects = _interactionModel.AllowedThrowables.ToList();
             var closest = _interactionModel.AllowedThrowables
                 .Where(go => go != null && GameHelpers.IsGrounded(go))

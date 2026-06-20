@@ -21,7 +21,7 @@ public class ScriptableObjectInstaller : ScriptableObjectInstaller<ScriptableObj
 
     [SerializeField] private InteractionSettings _throwableInteractionSettingsSO;
 
-    [SerializeField] private KickImpactSettigns _kickImpactSettigns;
+    [SerializeField] private KickImpactSettings _kickImpactSettigns;
 
     [SerializeField] private CharacterVFX _characterVFX;
 

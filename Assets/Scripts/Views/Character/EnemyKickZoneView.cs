@@ -1,61 +1,27 @@
-﻿using Cysharp.Threading.Tasks;
-using ScriptableObjects;
-using Services;
-using System;
-using System.Threading;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
-using Zenject;
 
 namespace Views
 {
     public class EnemyKickZoneView : MonoBehaviour
     {
-        [Inject] private EnemyStats _enemyStatsSO;
-
-        public Subject<Collider> KickPerformed = new();
-
-        private CancellationTokenSource _cancellationTokenSource = new();
+        public Subject<Collider> PlayerEntered = new();
+        public Subject<Unit> PlayerExited = new();
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject != PlayerInstanseHandler.Instance) return;
-
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
-
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            StartKickDelay(other, _cancellationTokenSource.Token).Forget();
-        }
-
-        private async UniTaskVoid StartKickDelay(Collider other, CancellationToken token)
-        {
-            try
-            {
-                await UniTask.Delay(TimeSpan.FromSeconds(_enemyStatsSO.DelayBeforeKick), cancellationToken: token);
-
-                KickPerformed.OnNext(other);
-            }
-            catch (OperationCanceledException)
-            {
-
-            }
+            PlayerEntered.OnNext(other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject == PlayerInstanseHandler.Instance)
-            {
-                _cancellationTokenSource?.Cancel();
-            }
+            PlayerExited.OnNext(Unit.Default);
         }
 
         private void OnDestroy()
         {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
-            KickPerformed?.Dispose();
+            PlayerEntered?.Dispose();
+            PlayerExited?.Dispose();
         }
     }
 }

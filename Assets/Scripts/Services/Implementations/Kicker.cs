@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Services
 {
-    public class Kicker : IKiker
+    public class Kicker : IKicker
     {
         [Inject] private Transform _transform;
 

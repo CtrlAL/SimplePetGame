@@ -15,7 +15,7 @@ namespace Presenters
         [Inject] private GameOverModel _gameOverModel;
         [Inject] private StatsModel _statsModel;
         [Inject] private IEnemyFactory _enemyFactory;
-        [Inject] private List<RespawnColiderView> _respawnColiderViews;
+        [Inject] private List<RespawnColliderView> _respawnColiderViews;
         [Inject] private IDeathEffectService _deathEffectView;
 
         private CompositeDisposable _compositeDisposable;

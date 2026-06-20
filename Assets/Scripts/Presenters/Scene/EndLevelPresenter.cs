@@ -4,12 +4,13 @@ using Services.Interfaces;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Views.UI;
 using Zenject;
 
 namespace Presenters
 {
-    public class EndLevelPresenter : IInitializable, IFixedTickable
+    public class EndLevelPresenter : IInitializable, IFixedTickable, IDisposable
     {
         [Inject] private GameOverModel _gameOverModel;
         [Inject] private IPlayerInputProvider _playerInputProvider;
@@ -18,7 +19,8 @@ namespace Presenters
         [Inject] private LevelSettings _levelSettings;
         [Inject] private ResultMenuView _resultMenuView;
 
-        private CompositeDisposable _compositeDisposable = new();
+        private readonly CompositeDisposable _compositeDisposable = new();
+        private bool _resultShown;
 
         public void Initialize()
         {
@@ -28,15 +30,14 @@ namespace Presenters
             _resultMenuView.ScoreButton.onClick.AddListener(_resultMenuView.ShowScore);
 
             _gameOverModel.GameOver
-                .Subscribe(_ =>
-                {
-                    ShowResultView();
-                })
+                .Subscribe(_ => ShowResultView())
                 .AddTo(_compositeDisposable);
         }
 
         public void FixedTick()
         {
+            if (_resultShown) return;
+
             float minutes = (float)(_timerModel.GameTime.Value / 60f);
 
             if (minutes >= _levelSettings.LevelDuration)
@@ -45,8 +46,20 @@ namespace Presenters
             }
         }
 
+        public void Dispose()
+        {
+            _compositeDisposable?.Dispose();
+            _resultMenuView.RestartButton.onClick.RemoveListener(Restart);
+            _resultMenuView.ExitButton.onClick.RemoveListener(Exit);
+            _resultMenuView.BackButton.onClick.RemoveListener(_resultMenuView.HideScore);
+            _resultMenuView.ScoreButton.onClick.RemoveListener(_resultMenuView.ShowScore);
+        }
+
         private void ShowResultView()
         {
+            if (_resultShown) return;
+            _resultShown = true;
+
             Time.timeScale = 0;
             _playerInputProvider.Inputs.Disable();
             _resultMenuView.InItScore(_statsModel.KilledCubes.Value, _timerModel.GameTime.Value);

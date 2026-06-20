@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewKickImpactSettigns", menuName = "KickImpactSettigns")]
-public class KickImpactSettigns : ScriptableObject
+[CreateAssetMenu(fileName = "NewKickImpactSettings", menuName = "KickImpactSettings")]
+public class KickImpactSettings : ScriptableObject
 {
     public float MinStrongImpact = 100f;
 

@@ -1,12 +1,15 @@
 using Constants;
 using Extensions;
 using Services.Interfaces;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Services
 {
     public class Stuner : IStuner
     {
+        private Dictionary<int, string> _storedTags = new();
+
         public void ApplyStun(GameObject target, Rigidbody rigidbody)
         {
             if (rigidbody != null)
@@ -16,8 +19,7 @@ namespace Services
 
                 if (!rigidbody.gameObject.IsBigEnemy())
                 {
-                    string oldTag = target.tag;
-                    StunDataStorage.StoreOldTag(target, oldTag);
+                    _storedTags[target.GetInstanceID()] = target.tag;
                     target.tag = EnvironmentTags.Throwable;
                 }
             }
@@ -27,10 +29,11 @@ namespace Services
         {
             if (rigidbody != null)
             {
-                if (StunDataStorage.TryGetOldTag(target, out string oldTag))
+                int id = target.GetInstanceID();
+                if (_storedTags.TryGetValue(id, out string oldTag))
                 {
                     target.tag = oldTag;
-                    StunDataStorage.RemoveOldTag(target);
+                    _storedTags.Remove(id);
                 }
             }
         }

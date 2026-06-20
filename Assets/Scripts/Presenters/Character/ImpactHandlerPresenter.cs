@@ -1,27 +1,18 @@
-using FSM;
-using System;
-using UniRx;
-using Zenject;
+using Constants;
 using Enums;
+using FSM;
 using FSM.States.CharacterStates;
 using Models;
-using Constants;
 using Services.Interfaces;
+using UniRx;
 using Views;
+using Zenject;
 
 namespace Presenters
 {
     public class ImpactHandlerPresenter : IInitializable, IDisposable
     {
-        private readonly Subject<Unit> _onStrongHit = new();
-        private readonly Subject<Unit> _onWeakHit = new();
-
-        private readonly Subject<Unit> _onThresholdReached = new();
-        public IObservable<Unit> OnStrongHit => _onStrongHit;
-        public IObservable<Unit> OnWeakHit => _onWeakHit;
-        public IObservable<Unit> OnThresholdReached => _onThresholdReached;
-
-        [Inject] private KickImpactSettigns _settings;
+        [Inject] private KickImpactSettings _settings;
         [Inject] private ImpactDetectorView _impactHandler;
         [Inject] private ImpactHandlerModel _model;
         [Inject] private CharacterFSM _characterFSM;
@@ -38,7 +29,7 @@ namespace Presenters
 
             _model.CurrentWeakHitCount
                 .Where(count => count >= _settings.WeakHitCountNeeded)
-                .Subscribe(_ => _onThresholdReached.OnNext(Unit.Default))
+                .Subscribe(_ => _model.OnThresholdReached.OnNext(Unit.Default))
                 .AddTo(_compositeDisposable);
         }
 
@@ -46,12 +37,12 @@ namespace Presenters
         {
             if (impactForce > _settings.MinStrongImpact)
             {
-                _onStrongHit.OnNext(Unit.Default);
+                _model.OnStrongHit.OnNext(Unit.Default);
                 ApplyStrongHit();
             }
             else if (impactForce > _settings.MinWeakImpact)
             {
-                _onWeakHit.OnNext(Unit.Default);
+                _model.OnWeakHit.OnNext(Unit.Default);
                 ApplyWeakHit();
             }
         }
@@ -77,9 +68,6 @@ namespace Presenters
         public void Dispose()
         {
             _compositeDisposable?.Dispose();
-            _onStrongHit?.Dispose();
-            _onWeakHit?.Dispose();
-            _onThresholdReached?.Dispose();
         }
     }
 }

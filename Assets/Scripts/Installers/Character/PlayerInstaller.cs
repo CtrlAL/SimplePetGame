@@ -26,8 +26,10 @@ namespace Services.Installers
 
             Container.BindInterfacesAndSelfTo<MovePlayerPresenter>().AsSingle().NonLazy();
 
-            Container.BindInterfacesAndSelfTo<CharacterAnimantionPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CharacterAnimationPresenter>().AsSingle();
             Container.Bind<Animator>().ToSelf().FromInstance(_animator).AsSingle();
+
+            Container.Bind<IPlayerProvider>().To<PlayerProvider>().FromComponentOnRoot().AsSingle();
 
             Container.BindInterfacesAndSelfTo<FatigueBarPresenter>().AsSingle();
 

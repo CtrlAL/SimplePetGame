@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Views
 {
-    public class RespawnColiderView : MonoBehaviour
+    public class RespawnColliderView : MonoBehaviour
     {
         public readonly Subject<Collider> OnCharacterFell = new();
 

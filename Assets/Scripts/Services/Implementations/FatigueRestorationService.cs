@@ -3,7 +3,7 @@ using ScriptableObjects;
 using UnityEngine;
 using Zenject;
 
-namespace Presenters
+namespace Services
 {
     public class FatigueRestorationService : IFixedTickable
     {

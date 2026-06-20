@@ -1,24 +1,20 @@
 ﻿using Models;
 using ScriptableObjects;
-using Services;
 using Services.Helpers;
 using Services.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 using Zenject;
 
 namespace Presenters
 {
-    public class MoveEnemyPresenter : IFixedTickable, IInitializable
+    public class MoveEnemyPresenter : IFixedTickable, IInitializable, IDisposable
     {
         [Inject] private MoveCharacterModel _moveCharacterModel;
-
         [Inject] private IMover _mover;
-
         [Inject] private NavMeshAgent _navMeshAgent;
-
         [Inject] private EnemyStats _stats;
+        [Inject] private IPlayerProvider _playerProvider;
 
         public void Initialize()
         {
@@ -28,12 +24,9 @@ namespace Presenters
 
         public void FixedTick()
         {
-            if (!_navMeshAgent.enabled)
-            {
-                return;
-            }
+            if (!_navMeshAgent.enabled) return;
 
-            var target = PlayerInstanseHandler.Instance.transform.position;
+            var target = _playerProvider.Instance.transform.position;
 
             _navMeshAgent.SetDestination(target);
 
@@ -52,6 +45,10 @@ namespace Presenters
             }
 
             _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
