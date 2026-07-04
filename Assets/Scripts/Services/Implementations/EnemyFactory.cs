@@ -32,14 +32,16 @@ namespace Services
             enemy.transform.position = spawnPoint.position;
             enemy.transform.rotation = spawnPoint.rotation;
 
-            var navMesh = enemy.GetComponent<NavMeshAgent>();
-            navMesh.nextPosition = spawnPoint.transform.position;
-
             var rb = enemy.GetComponent<Rigidbody>();
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
             enemy.SetActive(true);
+
+            var navMesh = enemy.GetComponent<NavMeshAgent>();
+            navMesh.nextPosition = spawnPoint.position;
+            navMesh.ResetPath();
+            navMesh.velocity = Vector3.zero;
 
             var poolable = enemy.GetComponent<IPoolableEnemy>();
             poolable?.ResetState();

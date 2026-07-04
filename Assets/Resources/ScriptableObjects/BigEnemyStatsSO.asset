@@ -15,7 +15,7 @@ MonoBehaviour:
   _delayBeforeKick: 0.1
   _moveSpeed: 15
   _rotationSpeed: 3
-  _jumpForce: 10
+  _jumpForce: 6
   _kickPower: 50
   _fatigue: 200
   _fatigueRestoration: 3
