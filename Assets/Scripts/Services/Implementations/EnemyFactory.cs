@@ -12,6 +12,10 @@ namespace Services
 
         private Transform[] _spawnPoints;
 
+        private int _activeCount;
+
+        public int TotalActive => _activeCount;
+
         public EnemyFactory(IEnemyPool enemyPool)
         {
             _pool = enemyPool;
@@ -23,6 +27,7 @@ namespace Services
         public void DestroyEnemy(GameObject args)
         {
             _pool.ReturnToPool(args);
+            _activeCount = Mathf.Max(0, _activeCount - 1);
         }
 
         public GameObject CreateEnemy()
@@ -39,12 +44,14 @@ namespace Services
             enemy.SetActive(true);
 
             var navMesh = enemy.GetComponent<NavMeshAgent>();
-            navMesh.nextPosition = spawnPoint.position;
+            navMesh.Warp(spawnPoint.position);
             navMesh.ResetPath();
             navMesh.velocity = Vector3.zero;
 
             var poolable = enemy.GetComponent<IPoolableEnemy>();
             poolable?.ResetState();
+
+            _activeCount++;
 
             return enemy;
         }

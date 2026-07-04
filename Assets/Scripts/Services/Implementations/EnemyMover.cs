@@ -89,7 +89,10 @@ namespace Services
                 var targetY = hit.position.y + halfHeight;
                 var p = rb.position;
                 if (Mathf.Abs(p.y - targetY) < NavMeshSnapMaxDelta)
+                {
                     rb.position = new Vector3(p.x, targetY, p.z);
+                    rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+                }
             }
         }
     }
