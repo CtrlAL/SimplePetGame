@@ -5,15 +5,6 @@ namespace Helpers
 {
     public static class GameHelpers
     {
-        private static Vector3[] _ofsets = new Vector3[]
-        {
-            Vector3.zero,
-            new Vector3(0.3f, 0, 0.3f),
-            new Vector3(-0.3f, 0, 0.3f),
-            new Vector3(0.3f, 0, -0.3f),
-            new Vector3(-0.3f, 0, -0.3f),
-        };
-
         public static bool IsThrowable(GameObject other)
         {
             return other.CompareTag(EnvironmentTags.Throwable);
@@ -21,17 +12,13 @@ namespace Helpers
 
         public static bool IsGrounded(GameObject gameObject)
         {
-            foreach (var offset in _ofsets)
-            {
-                Vector3 origin = gameObject.transform.position + offset;
+            if (!gameObject.TryGetComponent<Collider>(out var collider))
+                return false;
 
-                if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 0.3f))
-                {
-                    return true;
-                }
-            }
+            float halfHeight = collider.bounds.extents.y;
+            Vector3 origin = gameObject.transform.position + Vector3.up * 0.05f;
 
-            return false;
+            return Physics.Raycast(origin, Vector3.down, halfHeight + 0.15f);
         }
     }
 }

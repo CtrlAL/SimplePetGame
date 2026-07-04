@@ -24,6 +24,8 @@ namespace Services.Installers
 
         public override void InstallBindings()
         {
+            Container.Bind<IMover>().To<EnemyMover>().AsSingle();
+
             BindStats();
             Container.Bind<Animator>().FromInstance(_animator).AsSingle();
             Container.Bind<NavMeshAgent>().FromComponentOnRoot().AsSingle();

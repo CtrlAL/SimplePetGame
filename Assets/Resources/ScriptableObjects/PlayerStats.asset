@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958c7596a25eecc419993c6ceae837ee, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  _moveSpeed: 25
+  _moveSpeed: 5
   _rotationSpeed: 7
-  _jumpForce: 3.5
+  _jumpForce: 5
   _kickPower: 15
   _kickRadius: 1.5
   _fatigue: 100

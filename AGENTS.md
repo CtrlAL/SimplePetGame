@@ -31,7 +31,8 @@ Unity **2022.3.62f3** — URP, single-scene build (`FirstScene.unity`, `NavMeshT
 
 ## Patterns
 
-- **Character hierarchy**: `CharacterInstaller` (base, assumes `BoxCollider` on root) → `PlayerInstaller` / `EnemyInstaller`. Both call `base.InstallBindings()` last.
+- **Prefer interfaces over abstract classes**: when creating multiple implementations of a contract (`IMover` → `PlayerMover`/`EnemyMover`, etc.), write standalone classes that implement the interface. Do NOT share code via an abstract base class. Minor duplication across implementations is acceptable and preferred over inheritance.
+- **Character hierarchy**: `CharacterInstaller` (base, assumes `BoxCollider` on root) → `PlayerInstaller` / `EnemyInstaller`. Both call `base.InstallBindings()` last. Subclass installers bind their own `IMover` (`PlayerMover` / `EnemyMover`) **before** calling `base.InstallBindings()`; the base class does NOT bind `IMover`.
 - **FSM**: `StateMachine` + `CharacterFSM` manages `IState` implementations (`IdleState`, `StunnedState`)
 - **Object pools**: `EnemyPool`, `DeathEffectPool`, `StunEffectPool` — Zenject-singletons implementing `IObjectPool<T>`
 - **Tags**: Use `CompareTag()` with `CharacterTags.*` / `EnvironmentTags.*` constants (not raw strings)

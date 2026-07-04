@@ -1,6 +1,5 @@
 ﻿using Models;
 using ScriptableObjects;
-using Services.Helpers;
 using Services.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,41 +15,61 @@ namespace Presenters
         [Inject] private AbstractStats _stats;
         [Inject] private IPlayerProvider _playerProvider;
 
-        private float _jumpCooldown;
-        private const float JumpCooldownSeconds = 0.5f;
+        private const float RepathInterval = 0.25f;
+        private const float CornerReachThresholdSqr = 0.0625f;
+
+        private float _repathTimer;
+        private int _cornerIndex;
 
         public void Initialize()
         {
             _navMeshAgent.updatePosition = false;
             _navMeshAgent.updateRotation = true;
+            _cornerIndex = 1;
         }
 
         public void FixedTick()
         {
             if (!_navMeshAgent.enabled) return;
 
-            _jumpCooldown -= Time.fixedDeltaTime;
-
-            var target = _playerProvider.Instance.transform.position;
-
-            _navMeshAgent.SetDestination(target);
-
-            var desiredVelocity = _navMeshAgent.desiredVelocity;
-
-            var input = new Vector2(desiredVelocity.x, desiredVelocity.z);
-
-            var nextPositionHeight = _navMeshAgent.nextPosition.y - _moveCharacterModel.Transform.position.y;
-            var jumpHeight = PositionHelper.CalculateJumpHeight(_stats.JumpForce, _moveCharacterModel.Rigidbody.mass);
-
-            if (_jumpCooldown <= 0f && 0 < nextPositionHeight && nextPositionHeight <= jumpHeight)
+            _repathTimer -= Time.fixedDeltaTime;
+            if (_repathTimer <= 0f)
             {
-                _mover.Jump(_stats.JumpForce);
-                _jumpCooldown = JumpCooldownSeconds;
+                _navMeshAgent.SetDestination(_playerProvider.Instance.transform.position);
+                _repathTimer = RepathInterval;
+                _cornerIndex = 1;
+            }
+
+            var path = _navMeshAgent.path;
+            if (path == null || path.status != NavMeshPathStatus.PathComplete)
+            {
+                _mover.Move(Vector2.zero, 0f, _stats.RotationSpeed);
+                _navMeshAgent.nextPosition = _moveCharacterModel.Transform.position;
+                return;
+            }
+
+            var corners = path.corners;
+            _cornerIndex = Mathf.Clamp(_cornerIndex, 1, Mathf.Max(1, corners.Length - 1));
+
+            var pos = _moveCharacterModel.Transform.position;
+            while (_cornerIndex < corners.Length &&
+                   (pos - corners[_cornerIndex]).sqrMagnitude < CornerReachThresholdSqr)
+            {
+                _cornerIndex++;
+            }
+
+            if (_cornerIndex >= corners.Length)
+            {
+                _mover.Move(Vector2.zero, 0f, _stats.RotationSpeed);
+            }
+            else
+            {
+                var dir = corners[_cornerIndex] - pos;
+                var input = new Vector2(dir.x, dir.z).normalized;
+                _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
             }
 
             _navMeshAgent.nextPosition = _moveCharacterModel.Transform.position;
-
-            _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
         }
     }
 }

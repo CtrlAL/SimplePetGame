@@ -12,6 +12,9 @@ namespace Services
 {
     public class VoidZoneSpawnerService : IVoidZoneSpawnerService, IDisposable
     {
+        private const float FadeDuration = 0.5f;
+        private const float TriggerDelayAfterAppear = 0.5f;
+
         private readonly DiContainer _container;
         private readonly VoidZoneSpawnSettings _settings;
         private readonly LevelSettings _levelSettings;
@@ -22,6 +25,9 @@ namespace Services
         private int _currentCount;
         private float _spawnTimer;
         private CancellationTokenSource _spawnCts;
+
+        private Bounds _prefabBounds;
+        private bool _prefabBoundsValid;
 
         public VoidZoneSpawnerService(DiContainer container, VoidZoneSpawnSettings settings, LevelSettings levelSettings)
         {
@@ -35,6 +41,7 @@ namespace Services
             _platformBounds = platformBounds;
             _parent = parent;
             _spawnCts = new CancellationTokenSource();
+            _prefabBoundsValid = TryGetWorldSize(_settings.Prefub, out _prefabBounds);
         }
 
         public void Tick()
@@ -78,12 +85,9 @@ namespace Services
         {
             float platformTopY = _platformBounds.center.y + _platformBounds.extents.y;
 
-            if (!TryGetWorldSize(_settings.Prefub, out var prefabBounds))
-            {
-                return false;
-            }
+            if (!_prefabBoundsValid) return false;
 
-            Vector3 prefabSize = prefabBounds.size;
+            Vector3 prefabSize = _prefabBounds.size;
             float prefabHalfX = prefabSize.x * 0.5f;
             float prefabHalfZ = prefabSize.z * 0.5f;
 
@@ -91,9 +95,7 @@ namespace Services
             float platformHalfZ = _platformBounds.extents.z;
 
             if (prefabHalfX >= platformHalfX || prefabHalfZ >= platformHalfZ)
-            {
                 Debug.LogWarning("Prefab too large for platform! Spawn may exceed bounds.");
-            }
 
             float spawnRangeX = Mathf.Max(platformHalfX - prefabHalfX, 0f);
             float spawnRangeZ = Mathf.Max(platformHalfZ - prefabHalfZ, 0f);
@@ -108,7 +110,7 @@ namespace Services
                     _platformBounds.center.z + UnityEngine.Random.Range(-spawnRangeZ, spawnRangeZ)
                 );
 
-                if (!IsPrefabInsidePlatform(worldPoint, prefabBounds)) continue;
+                if (!IsPrefabInsidePlatform(worldPoint, _prefabBounds)) continue;
 
                 float checkHalfX = prefabHalfX * 0.3f;
                 float checkHalfZ = prefabHalfZ * 0.3f;
@@ -119,7 +121,7 @@ namespace Services
 
                 if (uniqueObjects.Count > 1) continue;
 
-                float width = prefabBounds.extents.x;
+                float width = _prefabBounds.extents.x;
                 bool tooClose = false;
                 foreach (var pos in _activePositions)
                 {
@@ -134,45 +136,126 @@ namespace Services
                 Quaternion rot = Quaternion.FromToRotation(Vector3.up, _parent.up);
 
                 _activePositions.Add(worldPoint);
-                await DestroyAfterDelay(_container.InstantiatePrefab(_settings.PreviewVFX, worldPoint, rot, _parent), _settings.DelayBeforeSpawn, token);
-                await DestroyAfterDelay(_container.InstantiatePrefab(_settings.Prefub, worldPoint, rot, _parent), _settings.Lifetime, token);
+
+                await ShowPreviewAsync(worldPoint, rot, token);
+                if (token.IsCancellationRequested)
+                {
+                    _activePositions.Remove(worldPoint);
+                    _currentCount--;
+                    return false;
+                }
+
+                await ShowVoidZoneAsync(worldPoint, rot, token);
 
                 _activePositions.Remove(worldPoint);
                 _currentCount--;
-
                 return true;
             }
 
             return false;
         }
 
-        private async UniTask DestroyAfterDelay(GameObject obj, float delay, CancellationToken token)
+        private async UniTask ShowPreviewAsync(Vector3 pos, Quaternion rot, CancellationToken token)
         {
-            if (obj == null) return;
-            obj.SetActive(false);
-            await Hide(obj, token);
-            if (token.IsCancellationRequested || obj == null) return;
-            await Show(obj, token);
-            if (token.IsCancellationRequested || obj == null) return;
-            await UniTask.WaitForSeconds(delay, cancellationToken: token);
-            if (token.IsCancellationRequested || obj == null) return;
-            await Hide(obj, token);
-            if (obj != null) UnityEngine.Object.Destroy(obj);
+            var preview = _container.InstantiatePrefab(_settings.PreviewVFX, pos, rot, _parent);
+
+            SetParticlesAlphaInstant(preview, 0f);
+            preview.SetActive(true);
+
+            await FadeParticlesAlpha(preview, 0f, 1f, token);
+            if (token.IsCancellationRequested || preview == null) return;
+
+            await UniTask.WaitForSeconds(_settings.DelayBeforeSpawn, cancellationToken: token);
+            if (token.IsCancellationRequested || preview == null) return;
+
+            await FadeParticlesAlpha(preview, 1f, 0f, token);
+            if (token.IsCancellationRequested || preview == null) return;
+
+            await UniTask.WaitForSeconds(FadeDuration, cancellationToken: token);
+
+            if (preview != null) UnityEngine.Object.Destroy(preview);
         }
 
-        private async UniTask Show(GameObject obj, CancellationToken token)
+        private async UniTask ShowVoidZoneAsync(Vector3 pos, Quaternion rot, CancellationToken token)
         {
-            if (obj == null || token.IsCancellationRequested) return;
-            obj.SetActive(true);
-            await SetParticlesAlpha(obj, 1f);
+            var voidZone = _container.InstantiatePrefab(_settings.Prefub, pos, rot, _parent);
+            var collider = voidZone.GetComponent<Collider>();
+            if (collider != null) collider.enabled = false;
+
+            SetParticlesAlphaInstant(voidZone, 0f);
+            voidZone.SetActive(true);
+
+            await FadeParticlesAlpha(voidZone, 0f, 1f, token);
+            if (token.IsCancellationRequested || voidZone == null) return;
+
+            await UniTask.WaitForSeconds(TriggerDelayAfterAppear, cancellationToken: token);
+            if (token.IsCancellationRequested || voidZone == null) return;
+
+            if (collider != null) collider.enabled = true;
+
+            float remainingLifetime = Mathf.Max(_settings.Lifetime - FadeDuration - TriggerDelayAfterAppear, 0f);
+            await UniTask.WaitForSeconds(remainingLifetime, cancellationToken: token);
+            if (token.IsCancellationRequested || voidZone == null) return;
+
+            if (collider != null) collider.enabled = false;
+
+            await FadeParticlesAlpha(voidZone, 1f, 0f, token);
+            if (token.IsCancellationRequested || voidZone == null) return;
+
+            await UniTask.WaitForSeconds(FadeDuration, cancellationToken: token);
+
+            if (voidZone != null) UnityEngine.Object.Destroy(voidZone);
         }
 
-        private async UniTask Hide(GameObject obj, CancellationToken token)
+        private async UniTask FadeParticlesAlpha(GameObject target, float from, float to, CancellationToken token)
         {
-            if (obj == null || token.IsCancellationRequested) return;
-            await SetParticlesAlpha(obj, 0f);
-            if (token.IsCancellationRequested) return;
-            await UniTask.WaitForSeconds(2f, cancellationToken: token);
+            if (target == null) return;
+
+            var particles = target.GetComponentsInChildren<ParticleSystem>(true);
+            if (particles.Length == 0) return;
+
+            float elapsed = 0f;
+
+            while (elapsed < FadeDuration)
+            {
+                if (target == null || token.IsCancellationRequested) return;
+
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / FadeDuration);
+                float currentAlpha = Mathf.Lerp(from, to, t);
+
+                foreach (var ps in particles)
+                {
+                    if (ps == null) continue;
+                    var main = ps.main;
+                    if (main.startColor.mode == ParticleSystemGradientMode.Color)
+                    {
+                        Color color = main.startColor.color;
+                        color.a = currentAlpha;
+                        main.startColor = new ParticleSystem.MinMaxGradient(color);
+                    }
+                }
+
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+        }
+
+        private void SetParticlesAlphaInstant(GameObject target, float alpha)
+        {
+            if (target == null) return;
+
+            var particles = target.GetComponentsInChildren<ParticleSystem>(true);
+            foreach (var ps in particles)
+            {
+                if (ps == null) continue;
+                var main = ps.main;
+                if (main.startColor.mode == ParticleSystemGradientMode.Color)
+                {
+                    Color color = main.startColor.color;
+                    color.a = alpha;
+                    main.startColor = new ParticleSystem.MinMaxGradient(color);
+                }
+            }
         }
 
         private bool IsPrefabInsidePlatform(Vector3 worldPoint, Bounds prefabBounds)
@@ -223,28 +306,6 @@ namespace Services
             {
                 UnityEngine.Object.Destroy(temp);
             }
-        }
-
-        private UniTask SetParticlesAlpha(GameObject target, float alpha)
-        {
-            if (target == null) return UniTask.CompletedTask;
-
-            var particles = target.GetComponentsInChildren<ParticleSystem>(true);
-            if (particles.Length == 0) return UniTask.CompletedTask;
-
-            foreach (var ps in particles)
-            {
-                if (ps == null) continue;
-                var main = ps.main;
-                if (main.startColor.mode == ParticleSystemGradientMode.Color)
-                {
-                    Color color = main.startColor.color;
-                    color.a = alpha;
-                    main.startColor = new ParticleSystem.MinMaxGradient(color);
-                }
-            }
-
-            return UniTask.CompletedTask;
         }
     }
 }

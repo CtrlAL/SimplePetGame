@@ -21,7 +21,6 @@ namespace Services.Installers
             Container.Bind<StateMachine>().ToSelf().AsSingle();
 
 
-            Container.Bind<IMover>().To<Mover>().AsSingle();
             Container.BindInterfacesAndSelfTo<MoveCharacterModel>().AsSingle();
 
             Container.Bind<IKicker>().To<Kicker>().AsSingle();

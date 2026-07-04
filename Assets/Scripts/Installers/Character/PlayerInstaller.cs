@@ -13,6 +13,8 @@ namespace Services.Installers
 
         public override void InstallBindings()
         {
+            Container.Bind<IMover>().To<PlayerMover>().AsSingle();
+
             Container.Bind<AbstractStats>().To<PlayerStats>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<PlayerKickPresenter>().AsSingle();
