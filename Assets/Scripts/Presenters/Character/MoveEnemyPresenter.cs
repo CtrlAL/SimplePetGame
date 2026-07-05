@@ -19,13 +19,15 @@ namespace Presenters
         private const float CornerReachThresholdSqr = 0.0625f;
         private const float LinkTraversalDuration = 0.6f;
         private const float LinkArcHeight = 1.5f;
+        private const float LinkYThreshold = 0.5f;
+        private const float LinkXYThreshold = 1.5f;
 
         private float _repathTimer;
         private int _cornerIndex;
 
         private bool _traversingLink;
-        private OffMeshLinkData _currentLink;
         private Vector3 _linkStartPos;
+        private Vector3 _linkEndPos;
         private float _linkTimer;
 
         public void Initialize()
@@ -46,6 +48,8 @@ namespace Presenters
                 return;
             }
 
+            _navMeshAgent.nextPosition = _moveCharacterModel.Transform.position;
+
             _repathTimer -= Time.fixedDeltaTime;
             if (_repathTimer <= 0f)
             {
@@ -56,14 +60,14 @@ namespace Presenters
 
             if (_navMeshAgent.isOnOffMeshLink)
             {
-                StartLinkTraversal(_navMeshAgent.currentOffMeshLinkData);
+                var linkData = _navMeshAgent.currentOffMeshLinkData;
+                StartLinkTraversal(linkData.startPos, linkData.endPos);
                 return;
             }
 
             var path = _navMeshAgent.path;
             if (path == null || path.status != NavMeshPathStatus.PathComplete)
             {
-                _navMeshAgent.nextPosition = _moveCharacterModel.Transform.position;
                 return;
             }
 
@@ -80,28 +84,33 @@ namespace Presenters
             if (_cornerIndex >= corners.Length)
             {
                 _mover.Move(Vector2.zero, 0f, _stats.RotationSpeed);
-            }
-            else
-            {
-                var dir = corners[_cornerIndex] - pos;
-                var input = new Vector2(dir.x, dir.z).normalized;
-                _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
+                return;
             }
 
-            _navMeshAgent.nextPosition = _moveCharacterModel.Transform.position;
+            var nextCorner = corners[_cornerIndex];
+            var toCorner = nextCorner - pos;
+            if (Mathf.Abs(toCorner.y) > LinkYThreshold
+                && new Vector2(toCorner.x, toCorner.z).sqrMagnitude < LinkXYThreshold * LinkXYThreshold)
+            {
+                StartLinkTraversal(pos, nextCorner);
+                return;
+            }
+
+            var input = new Vector2(toCorner.x, toCorner.z).normalized;
+            _mover.Move(input, _stats.MoveSpeed, _stats.RotationSpeed);
         }
 
-        private void StartLinkTraversal(OffMeshLinkData link)
+        private void StartLinkTraversal(Vector3 startPos, Vector3 endPos)
         {
-            _currentLink = link;
-            _linkStartPos = _moveCharacterModel.Transform.position;
+            _linkStartPos = startPos;
+            _linkEndPos = endPos;
             _traversingLink = true;
             _linkTimer = 0f;
 
             var rb = _moveCharacterModel.Rigidbody;
             rb.velocity = Vector3.zero;
 
-            var dir = link.endPos - _linkStartPos;
+            var dir = endPos - startPos;
             dir.y = 0f;
             if (dir.sqrMagnitude > 0.001f)
             {
@@ -115,7 +124,7 @@ namespace Presenters
             var t = Mathf.Clamp01(_linkTimer / LinkTraversalDuration);
 
             var rb = _moveCharacterModel.Rigidbody;
-            var pos = Vector3.Lerp(_linkStartPos, _currentLink.endPos, t);
+            var pos = Vector3.Lerp(_linkStartPos, _linkEndPos, t);
             pos.y += Mathf.Sin(t * Mathf.PI) * LinkArcHeight;
 
             rb.velocity = Vector3.zero;
@@ -123,9 +132,11 @@ namespace Presenters
 
             if (t >= 1f)
             {
-                _navMeshAgent.CompleteOffMeshLink();
+                if (_navMeshAgent.isOnOffMeshLink)
+                    _navMeshAgent.CompleteOffMeshLink();
                 _traversingLink = false;
-                _navMeshAgent.nextPosition = _currentLink.endPos;
+                _cornerIndex++;
+                _navMeshAgent.nextPosition = _linkEndPos;
             }
         }
     }

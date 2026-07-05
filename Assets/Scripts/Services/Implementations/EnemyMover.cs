@@ -3,6 +3,7 @@ using FSM;
 using Helpers;
 using Models;
 using ScriptableObjects;
+using Services.Helpers;
 using Services.Interfaces;
 using System;
 using UniRx;
@@ -20,6 +21,9 @@ namespace Services
 
         private const float NavMeshSnapSearchRadius = 1.0f;
         private const float NavMeshSnapMaxDelta = 0.6f;
+        private const float GroundCheckDistance = 1f;
+        private const float ForwardRampDistance = 1f;
+        private const float MaxSlopeAngle = 60f;
 
         public Subject<MoveCharacterModel> _onJumped = new();
         public Subject<MoveCharacterModel> _onMoved = new();
@@ -33,20 +37,45 @@ namespace Services
                 return;
 
             var rb = _moveCharacterModel.Rigidbody;
+            var tr = _moveCharacterModel.Transform;
             var maxDelta = _stats.Acceleration * Time.fixedDeltaTime;
 
-            var desired = new Vector3(input.x, 0f, input.y);
-            if (desired.sqrMagnitude > 1f) desired.Normalize();
-            desired *= speed;
+            var movement = new Vector3(input.x, 0f, input.y);
+            if (movement.sqrMagnitude > 1f) movement.Normalize();
 
-            var current = rb.velocity;
-            var target = new Vector3(desired.x, current.y, desired.z);
-            rb.velocity = Vector3.MoveTowards(current, target, maxDelta);
+            var groundHit = GroundChecker.TryGetSurfaceNormal(
+                tr.position, GroundCheckDistance, out var normal, true);
 
-            if (desired.sqrMagnitude > 0.001f)
+            var forwardHit = GroundChecker.TryGetForwardNormal(
+                movement, tr, ForwardRampDistance, MaxSlopeAngle, out var forwardNormal);
+
+            if (forwardHit)
+                normal = forwardNormal;
+
+            var onSlope = (GroundChecker.IsCompletelyOffPlatform(_moveCharacterModel.BoxCollider, tr)
+                          || forwardHit) && groundHit;
+
+            var moveDir = onSlope
+                ? Vector3.ProjectOnPlane(movement, normal)
+                : movement;
+
+            if (onSlope)
+            {
+                var target = moveDir * speed;
+                rb.velocity = Vector3.MoveTowards(rb.velocity, target, maxDelta);
+            }
+            else
+            {
+                var current = rb.velocity;
+                var target = new Vector3(moveDir.x * speed, current.y, moveDir.z * speed);
+                rb.velocity = Vector3.MoveTowards(current, target, maxDelta);
+            }
+
+            if (movement.sqrMagnitude > 0.001f)
                 Rotation(new Vector3(input.x, 0f, input.y), rotationSpeed);
 
-            SnapToNavMeshSurface(rb);
+            if (!onSlope)
+                SnapToNavMeshSurface(rb);
 
             _onMoved.OnNext(_moveCharacterModel);
         }
