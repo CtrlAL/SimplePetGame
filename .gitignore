@@ -84,6 +84,9 @@ crashlytics-build.properties
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
+# Git worktrees
+.worktrees/
+
 # Obsidian workspace (auto-generated, machine-specific)
 wiki/.obsidian/workspace.json
 wiki/.obsidian/workspace-mobile.json
