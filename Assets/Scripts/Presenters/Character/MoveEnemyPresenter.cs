@@ -17,8 +17,12 @@ namespace Presenters
 
         private const float RepathInterval = 0.25f;
         private const float CornerReachThresholdSqr = 0.0625f;
-        private const float LinkTraversalDuration = 0.6f;
-        private const float LinkArcHeight = 1.5f;
+        private const float MinLinkTraversalDuration = 0.2f;
+        private const float MaxLinkTraversalDuration = 0.8f;
+        private const float MinLinkArcHeight = 0.2f;
+        private const float MaxLinkArcHeight = 2f;
+        private const float ArcHeightPadding = 0.2f;
+        private const float DurationPerDistance = 0.4f;
         private const float LinkYThreshold = 0.5f;
         private const float LinkXYThreshold = 1.5f;
 
@@ -29,6 +33,8 @@ namespace Presenters
         private Vector3 _linkStartPos;
         private Vector3 _linkEndPos;
         private float _linkTimer;
+        private float _linkDuration;
+        private float _linkArcHeight;
 
         public void Initialize()
         {
@@ -107,6 +113,11 @@ namespace Presenters
             _traversingLink = true;
             _linkTimer = 0f;
 
+            var distance = Vector3.Distance(startPos, endPos);
+            var heightDiff = Mathf.Abs(endPos.y - startPos.y);
+            _linkDuration = Mathf.Clamp(distance * DurationPerDistance, MinLinkTraversalDuration, MaxLinkTraversalDuration);
+            _linkArcHeight = Mathf.Clamp(heightDiff + ArcHeightPadding, MinLinkArcHeight, MaxLinkArcHeight);
+
             var rb = _moveCharacterModel.Rigidbody;
             rb.velocity = Vector3.zero;
 
@@ -121,11 +132,11 @@ namespace Presenters
         private void UpdateLinkTraversal()
         {
             _linkTimer += Time.fixedDeltaTime;
-            var t = Mathf.Clamp01(_linkTimer / LinkTraversalDuration);
+            var t = Mathf.Clamp01(_linkTimer / _linkDuration);
 
             var rb = _moveCharacterModel.Rigidbody;
             var pos = Vector3.Lerp(_linkStartPos, _linkEndPos, t);
-            pos.y += Mathf.Sin(t * Mathf.PI) * LinkArcHeight;
+            pos.y += Mathf.Sin(t * Mathf.PI) * _linkArcHeight;
 
             rb.velocity = Vector3.zero;
             rb.MovePosition(pos);
